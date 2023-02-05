@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import Logo from './Accu Sign.png'
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
@@ -56,7 +57,7 @@ const Client = (props) => {
                 routes={routes}
                 logo={{
                     innerLink: "/admin/index",
-                    imgSrc: require("../assets/img/brand/argon-react.png"),
+                    imgSrc:Logo,
                     imgAlt: "..."
                 }}
             />

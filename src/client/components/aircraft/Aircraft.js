@@ -1,6 +1,7 @@
 import React from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import AircraftModal from 'components/Modals/AircraftModal';
 const Clientaircraft = () => {
     return (
         <div>
@@ -15,7 +16,7 @@ const Clientaircraft = () => {
                         </Link>
                     </Col>
                     <Col xl={6}>
-                        <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }} >+ ADD AIRCRAFT</Button>
+                       <AircraftModal/>
                     </Col>
                 </Row>
                 <Row className="mt-4">

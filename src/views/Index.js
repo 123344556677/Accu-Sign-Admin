@@ -149,7 +149,7 @@ const Index = (props) => {
                             />
                           </span>
                         </Col>
-                        <Col xl={5}>
+                    <Col xl={5} className="ml-1">
                           <h3>Jessica</h3>
                           <span className="text-nowrap" style={{ fontSize: "13px" }}>Pilot
                           
@@ -198,7 +198,7 @@ const Index = (props) => {
                               />
                             </span>
                           </Col>
-                          <Col xl={5}>
+                          <Col xl={5} className="">
                             <h5>Jessica</h5>
                             <span className="text-nowrap" style={{ fontSize: "13px" }}>Pilot  Flight Crew</span>
                           </Col>

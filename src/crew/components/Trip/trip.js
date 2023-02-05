@@ -15,7 +15,7 @@ const CrewTrip = () => {
                       </Link>
                   </Col>
                   <Col xl={6}>
-                      <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }} >+ CREATE NEW TRIP</Button>
+                     
                   </Col>
               </Row>
               <Row className="mt-4">

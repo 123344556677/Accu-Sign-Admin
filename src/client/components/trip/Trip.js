@@ -1,6 +1,7 @@
 import React from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import TripModal from 'components/Modals/TripModal';
 const ClientTrip = () => {
     return (
         <div>
@@ -15,7 +16,7 @@ const ClientTrip = () => {
                         </Link>
                     </Col>
                     <Col xl={6}>
-                        <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }} >+ REQUEST NEW TRIP</Button>
+                        <TripModal/>
                     </Col>
                 </Row>
                 <Row className="mt-4">

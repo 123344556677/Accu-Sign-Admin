@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import Logo from './Accu Sign.png'
 // reactstrap components
 import { Container, Row, Col } from "reactstrap";
 

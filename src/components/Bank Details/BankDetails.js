@@ -1,6 +1,7 @@
 import React from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { HashRouter, Link } from 'react-router-dom';
+import BankModal from 'components/Modals/BankModal';
 const BankDetails = () => {
   return (
       <div>
@@ -15,7 +16,7 @@ const BankDetails = () => {
                       </Link>
                   </Col>
                   <Col xl={6}>
-                      <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }} >+ ADD NEW BANK DETAIL</Button>
+                      <BankModal/>
                   </Col>
               </Row>
               <Row className="mt-4">
@@ -117,6 +118,7 @@ const BankDetails = () => {
               </Row>
 
           </Container>
+          
       </div>
   )
 }

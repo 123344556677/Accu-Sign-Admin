@@ -1,6 +1,7 @@
 import React from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import CrewModal from 'components/Modals/CrewModal';
 const Crew = () => {
   return (
       <div>
@@ -15,7 +16,7 @@ const Crew = () => {
                       </Link>
                   </Col>
                   <Col xl={6}>
-                      <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }} >+ CREATE CREW</Button>
+                      <CrewModal/>
                   </Col>
               </Row>
               <Row className="mt-4">

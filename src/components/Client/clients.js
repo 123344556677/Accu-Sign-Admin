@@ -3,6 +3,7 @@ import React from 'react'
 // import { Table } from 'react-bootstrap';
 import { CardBody, Container, Table,Card,Row,Col,Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import ClientModal from 'components/Modals/ClientModal';
 
 
 
@@ -20,7 +21,7 @@ const Clients = () => {
               </Link>
                   </Col>
                   <Col xl={6}>   
-              <Button color="secondary" size="lg" className="mt-1 mr-3" style={{float:"right"}} >+ CREATE CLIENT</Button>
+              <ClientModal/>
                       </Col>
               </Row>
               <Row className="mt-4">

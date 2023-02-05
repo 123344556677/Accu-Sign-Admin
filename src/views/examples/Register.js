@@ -1,22 +1,4 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
+import React,{ useState } from "react";
 import {
   Button,
   Card,
@@ -31,8 +13,43 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import { register } from "Api/api";
 
 const Register = () => {
+const [values,setValues]=useState('')
+ const reg=async()=>{
+  console.log(values,"==========>regValues")
+   const { email, password, name, phoneNumber, role } = values;
+   console.log(email, password, name, role, phoneNumber, "======>exValues")
+   if (email && password && name && role  && phoneNumber) {
+    
+     await register(values)
+       .then((res) => {
+        
+         if (res.data.message ==="Email already exist") {
+          // console.log(res, "regResponse========>");
+          alert("Email already exist"); 
+          // {
+          //    position: "top-center"
+          //  })
+         }
+         else {
+           alert("Registered Successfully");
+          //    {
+          //    position: "top-center"
+          //  })
+         }
+       });
+   }
+   else {
+     alert("Please Complete all fields")
+   }
+ }
+  const handleRegValues=(e)=>{
+    setValues({ ...values, [e.target.name]: e.target.value });
+    console.log(values,"====>values");
+  }
   return (
     <>
       <Col lg="6" md="8">
@@ -55,7 +72,7 @@ const Register = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Name" type="text" />
+                  <Input placeholder="Name" name="name" onChange={handleRegValues} type="text" />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -69,6 +86,8 @@ const Register = () => {
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    name="email"
+                    onChange={handleRegValues}
                   />
                 </InputGroup>
               </FormGroup>
@@ -83,12 +102,48 @@ const Register = () => {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    onChange={handleRegValues}
+                    name="password"
                   />
+                </InputGroup>
+              </FormGroup> <FormGroup>
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="fa fa-phone" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder="Phone Number"
+                    type="number"
+                    autoComplete="new-password"
+                    onChange={handleRegValues}
+                    name="phoneNumber"
+                  />
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="fa fa-user" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder="Role"
+                    type="select"
+                    autoComplete=""
+                    name="role"
+                    onChange={handleRegValues}
+                  ><option value="crew">Crew Member</option>
+                    <option value="client">Client</option>
+                    <option value="admin">Admin</option>
+                  </Input>
                 </InputGroup>
               </FormGroup>
              
               <div className="text-center">
-                <Button className="mt-4" color="dark" type="button">
+                <Button className="mt-4" color="dark" type="button" onClick={reg}>
                   Create account
                 </Button>
               </div>
@@ -96,6 +151,7 @@ const Register = () => {
           </CardBody>
         </Card>
       </Col>
+      <ToastContainer />
     </>
   );
 };

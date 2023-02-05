@@ -60,7 +60,7 @@ const Clientdocument = () => {
                                         }} >
                                             <img className="card-img-top mt-3 ml-2" src={dummy} alt="Card image"
 
-                                                style={{ width: "200px" }} />
+                                                style={{ width: "270px" }} />
                                             <div className="card-body">
                                                 <h4 className="card-title">Service Agreement LOl</h4>
                                                 <hr />
@@ -85,7 +85,7 @@ const Clientdocument = () => {
                                                         }}>DOWNLOAD</button>
                                                     </Col>
                                                     <Col xl={5}>
-                                                        <button type="button" className="btn  pr-3 pl-5" style={{
+                                                        <button type="button" className="btn  pr-5 ml-4" style={{
                                                             backgroundColor: "white",
                                                             color: "#adad85",
                                                             borderRadius: "0%"
@@ -105,7 +105,7 @@ const Clientdocument = () => {
                                         }} >
                                             <img className="card-img-top mt-3 ml-2" src={dummy} alt="Card image"
 
-                                                style={{ width: "200px" }} />
+                                                style={{ width: "270px" }} />
                                             <div className="card-body">
                                                 <h4 className="card-title">Service Agreement LOl</h4>
                                                 <hr />
@@ -130,7 +130,7 @@ const Clientdocument = () => {
                                                         }}>DOWNLOAD</button>
                                                     </Col>
                                                     <Col xl={5}>
-                                                        <button type="button" className="btn  pr-3 " style={{
+                                                        <button type="button" className="btn  pr-5 ml-4 " style={{
                                                             backgroundColor: "white",
                                                             color: "#adad85",
                                                             borderRadius: "0%"
