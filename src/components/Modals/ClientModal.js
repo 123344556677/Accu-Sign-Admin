@@ -1,3 +1,4 @@
+import { createClient } from 'Api/api';
 import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input,FormGroup } from 'reactstrap';
@@ -7,6 +8,36 @@ const ClientModal = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+      const [values,setValues]=useState();
+    const handleClientValues=(e)=>{
+        setValues({ ...values, [e.target.name]: e.target.value });
+        console.log(values);
+    }
+    const client= async () => {
+        console.log(values, "==========>regValues")
+        const { firstName, lastName, phoneNumber, email, registrationNumber } = values;
+        console.log(firstName, lastName, phoneNumber, email, registrationNumber,"======>exValues")
+        if (firstName, lastName, phoneNumber, email, registrationNumber) {
+
+            await createClient(values)
+                .then((res) => {
+
+                    if (res.data.message === "Email already exist") {
+                        
+                        alert("Email already exist");
+                        
+                    }
+                    else {
+                        alert("Client created");
+                        handleClose();
+                        
+                    }
+                });
+        }
+        else {
+            alert("Please Complete all fields")
+        }
+    }
   return (
     <div>
           <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }}
@@ -29,25 +60,25 @@ const ClientModal = () => {
                       <Form inline>
                           
                               
-                              <Input type="text" name="firstName" id="exampleEmail" placeholder="First name" />
+                              <Input type="text" name="firstName" id="exampleEmail" placeholder="First name" onChange={handleClientValues} />
                         
                               
-                              <Input type="text" className='ml-3' name="lastName" id="examplePassword" placeholder="Last name" />
+                          <Input type="text" className='ml-3' name="lastName" id="examplePassword" placeholder="Last name" onChange={handleClientValues} />
                               
                               
 
                           
                       </Form>
-                      <Input type="number" name="phoneNumber" id="" className='mt-3' placeholder="Phone Number" />
-                      <Input type="email" name="email" id="" className='mt-3' placeholder="Email" />
-                      <Input type="number" name="registrationNumber" id="" className='mt-3' placeholder="Registration Number" />
+                      <Input type="number" name="phoneNumber" id="" className='mt-3' placeholder="Phone Number" onChange={handleClientValues} />
+                      <Input type="email" name="email" id="" className='mt-3' placeholder="Email" onChange={handleClientValues} />
+                      <Input type="number" name="registrationNumber" id="" className='mt-3' placeholder="Registration Number" onChange={handleClientValues} />
                       
                      
                   </Form>
               </Modal.Body>
               <Modal.Footer className="justify-content-between px-4">
                   <Button className="" color="dark" type="button"
-                      onClick={handleClose}>
+                      onClick={client}>
                       CREATE
                   </Button>
                   <button

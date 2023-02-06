@@ -52,12 +52,23 @@ const history=useHistory();
            alert("Login Successful");
             // localStorage.setItem("key", JSON.stringify({  }));
             if (res.data.data.role==="admin"){
+              const role = res.data.data.role;
+              const id = res.data.data._id;
+              // localStorage.setItem("id", JSON.stringify({ id }));
+              localStorage.setItem("keys", JSON.stringify({role,id}));
+             
               history.push('/admin/index');
             }
             if (res.data.data.role === "crew") {
+              const role = res.data.data.role;
+              const id = res.data.data._id;
+              localStorage.setItem("keys", JSON.stringify({ role, id }));
               history.push('/crew/crewIndex');
             }
             if (res.data.data.role === "client") {
+              const role = res.data.data.role;
+              const id = res.data.data._id;
+              localStorage.setItem("keys", JSON.stringify({ role, id }));
               history.push('/client/clientIndex');
             }
           }

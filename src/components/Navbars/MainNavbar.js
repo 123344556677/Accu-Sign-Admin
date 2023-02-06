@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
     DropdownMenu,
     DropdownItem,
@@ -16,7 +16,14 @@ import {
     Container,
     Media
 } from "reactstrap";
+
 const MainNavbar = () => {
+    const history = useHistory();
+    const logOut = () => {
+        localStorage.clear();
+        history.push('/auth/login');
+      
+    }
   return (
       <div className='' style={{justifyContent:"end"}}>
       
@@ -44,22 +51,12 @@ const MainNavbar = () => {
                           <i className="ni ni-single-02" />
                           <span>My profile</span>
                       </DropdownItem>
-                      <DropdownItem to="/admin/user-profile" tag={Link}>
-                          <i className="ni ni-settings-gear-65" />
-                          <span>Settings</span>
-                      </DropdownItem>
-                      <DropdownItem to="/admin/user-profile" tag={Link}>
-                          <i className="ni ni-calendar-grid-58" />
-                          <span>Activity</span>
-                      </DropdownItem>
-                      <DropdownItem to="/admin/user-profile" tag={Link}>
-                          <i className="ni ni-support-16" />
-                          <span>Support</span>
-                      </DropdownItem>
+                    
                       <DropdownItem divider />
-                      <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                          <DropdownItem href="" onClick={logOut}>
                           <i className="ni ni-user-run" />
-                          <span>Logout</span>
+                          <span >Logout</span>
+
                       </DropdownItem>
                   </DropdownMenu>
               </UncontrolledDropdown>

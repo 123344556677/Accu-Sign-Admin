@@ -9,8 +9,7 @@ import Index from "views/Index.js"
 // import Index from "views/Index.js";
 // import Profile from "views/examples/Profile.js";
 // import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
-import Login from "views/examples/Login.js";
+
 import Document from "components/Document/document";
 import Dashboard from "client/components/dashboard/Dashboard";
 import ClientTrip from "client/components/trip/Trip";
@@ -71,19 +70,6 @@ var routes = [
     layout: "/admin"
   },
   
-  {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-key-25 text-info",
-    component: Login,
-    layout: "/auth"
-  },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth"
-  }
+  
 ];
 export default routes;

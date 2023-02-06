@@ -1,3 +1,4 @@
+import { createCrew } from 'Api/api';
 import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input, FormGroup } from 'reactstrap';
@@ -8,6 +9,37 @@ const CrewModal = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [values, setValues] = useState();
+    const handleCrewValues = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+        console.log(values);
+    }
+    const crew = async () => {
+        console.log(values, "==========>regValues")
+        const { firstName, lastName, phoneNumber, email, bank } = values;
+        console.log(firstName, lastName, phoneNumber, email, bank, "======>exValues")
+        if (firstName, lastName, phoneNumber, email, bank) {
+
+            await createCrew(values)
+                .then((res) => {
+
+                    if (res.data.message === "Email already exist") {
+
+                        alert("Email already exist");
+
+                    }
+                    else {
+                        alert("Crew member created");
+                        handleClose();
+
+                    }
+                });
+        }
+        else {
+            alert("Please Complete all fields")
+        }
+    }
   return (
     <div>
           <div>
@@ -32,24 +64,26 @@ const CrewModal = () => {
                           <Form inline>
 
 
-                              <Input type="text" name="firstName" id="exampleEmail" placeholder="First name" />
+                              <Input type="text" name="firstName"
+                               id="exampleEmail" placeholder="First name" onChange={handleCrewValues} />
 
 
-                              <Input type="text" className='ml-3' name="lastName" id="examplePassword" placeholder="Last name" />
+                              <Input type="text" className='ml-3' name="lastName" 
+                                  id="examplePassword" placeholder="Last name" onChange={handleCrewValues} />
 
 
 
 
                           </Form>
-                          <Input type="select" name="bank" id="" className='mt-3' placeholder="Bank" >
+                          <Input type="select" name="bank" id="" className='mt-3' placeholder="Bank" onChange={handleCrewValues} >
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
                               <option>4</option>
                               <option>5</option>
                           </Input>
-                          <Input type="number" name="phoneNumber" id="" className='mt-3' placeholder="Phone Number" />
-                          <Input type="email" name="email" id="" className='mt-3' placeholder="Email" />
+                          <Input type="number" name="phoneNumber" id="" className='mt-3' placeholder="Phone Number" onChange={handleCrewValues} />
+                          <Input type="email" name="email" id="" className='mt-3' placeholder="Email" onChange={handleCrewValues} />
                           
 
 
@@ -57,7 +91,7 @@ const CrewModal = () => {
                   </Modal.Body>
                   <Modal.Footer className="justify-content-between px-4">
                       <Button className="" color="dark" type="button"
-                          onClick={handleClose}>
+                          onClick={crew}>
                           CREATE
                       </Button>
                       <button

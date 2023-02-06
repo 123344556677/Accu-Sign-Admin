@@ -1,3 +1,4 @@
+import { addBankDetails } from 'Api/api';
 import React,{useState} from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input } from 'reactstrap';
@@ -10,7 +11,30 @@ const BankModal = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-   
+    const [values, setValues] = useState();
+    const handleBankDetailValues = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+        console.log(values);
+    }
+    const details = async () => {
+        console.log(values, "==========>regValues")
+        const { title,bank,accountNumber,iban,bic,address } = values;
+        console.log(title, bank, accountNumber, iban, bic, address, "======>exValues")
+        if (title, bank, accountNumber, iban, bic, address) {
+
+            await addBankDetails(values)
+                .then((res) => {
+
+                    alert("Details added");
+                        handleClose();
+
+                    
+                });
+        }
+        else {
+            alert("Please Complete all fields")
+        }
+    }
   
     return (
       <div>
@@ -31,23 +55,29 @@ const BankModal = () => {
                 </div>
                 <Modal.Body className="px-4">
                    <Form>
-                        <Input type="email" name="title" id="" className='mt-3' placeholder="Title" />
-                        <Input type="select" name="bank" id="" className='mt-3' placeholder="Bank" >
+                        <Input type="email" name="title" id="" className='mt-3' placeholder="Title" 
+                        onChange={handleBankDetailValues}
+                         />
+                        <Input type="select" name="bank" id="" className='mt-3' placeholder="Bank" onChange={handleBankDetailValues} >
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                         <option>4</option>
                         <option>5</option>
                         </Input>
-                        <Input type="number" name="accountNumber" className='mt-3' id="" placeholder="Account Number" />
-                        <Input type="number" name="iban" id="" className='mt-3' placeholder="IBAN" />
-                        <Input type="number" name="bic" id="" className='mt-3' placeholder="BIC Code" />
-                        <Input type="text" name="address" className='mt-3' id="" placeholder="Address" />
+                        <Input type="number" name="accountNumber" className='mt-3'
+                        onChange={handleBankDetailValues} id="" placeholder="Account Number" />
+                        <Input type="number" name="iban" id="" className='mt-3'
+                        onChange={handleBankDetailValues} placeholder="IBAN" />
+                        <Input type="number" name="bic" id="" className='mt-3'
+                        onChange={handleBankDetailValues} placeholder="BIC Code" />
+                        <Input type="text" name="address" className='mt-3' id=""
+                        onChange={handleBankDetailValues} placeholder="Address" />
                    </Form> 
                 </Modal.Body>
                 <Modal.Footer className="justify-content-between px-4">
                     <Button className="" color="dark" type="button"
-                        onClick={handleClose}>
+                        onClick={details}>
                         CREATE
                     </Button>
                     <button
