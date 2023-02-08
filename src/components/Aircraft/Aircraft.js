@@ -1,8 +1,18 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AircraftModal from 'components/Modals/AircraftModal';
+import { getAllAircraft } from 'Api/api';
 const Aircraft = () => {
+    const [aircraftData, setAircratData] = useState([]);
+    useEffect(() => {
+        getAllAircraft()
+            .then((res) => {
+                console.log(res, "======>airtabletData")
+                setAircratData(res.data)
+            })
+
+    }, [])
   return (
       <div>
           <Container fluid>
@@ -38,51 +48,39 @@ const Aircraft = () => {
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td>
-                                              <span className="avatar avatar-sm rounded-circle">
-                                                  <img
-                                                      alt="..."
-                                                      src={require("../../assets/img/theme/team-4-800x800.jpg")}
-                                                  />
-                                              </span>
-                                          </td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>Otto</td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
 
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <span className="avatar avatar-sm rounded-circle">
-                                                  <img
-                                                      alt="..."
-                                                      src={require("../../assets/img/theme/team-4-800x800.jpg")}
-                                                  />
-                                              </span>
-                                          </td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>Otto</td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                {
+                                    aircraftData?.map((data,index)=>(
+                                        <tr>
+                                            <td>
+                                                <span className="avatar avatar-sm rounded-circle">
+                                                    <img
+                                                        alt="..."
+                                                        src={data.aircraftPic? data.aircraftPic: require
+                                                            ("../../assets/img/theme/team-4-800x800.jpg")}
+                                                    />
+                                                </span>
+                                            </td>
+                                            
+                                            <td>{data.aircraftClient ? data.aircraftClient:"empty"}</td>
+                                            <td>{data.aircraftOwner}</td>
+                                            <td>{data.aircraftOperator}</td>
+                                            <td>{data.registrationNumber}</td>
+                                            <td>{data.type}</td>
+                                            <td>{data.registrationNumber}</td>
+                                            <td><i className="fa fa-trash"
+                                       style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                       {
+                            // <i className="fa fa-ellipsis-v ml-3"
+                            //  style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                       }
 
-                                          </td>
-
-
-
-                                      </tr>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                                      
+                                     
 
 
                                   </tbody>

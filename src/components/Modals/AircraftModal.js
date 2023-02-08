@@ -2,13 +2,54 @@ import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input } from 'reactstrap';
 import FileBase64 from "react-file-base64";
+import { addaicraftDetails } from 'Api/api';
 
 const AircraftModal = () => {
     const [show, setShow] = useState(false);
-    const [currPPic, setPPic] = useState();
+    const [aircraftPic, setAircraftPic] = useState();
+    const [values, setValues] = useState();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleAircraftValues = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+        console.log(values);
+    }
+    const handleAircraftPic=(e)=>{
+        setAircraftPic(e.selectedFile.base64);
+        // console.log(e.selectedFile.base64);
+    }
+
+    const aircraftValues = {
+        values: values,
+        aircraftPic: aircraftPic
+    }
+    const aircraftDetails = async () => {
+       
+        console.log(aircraftValues, "==========>aircraft")
+        const { aircraftOwner, aircraftOperator, type,
+            registrationNumber } = aircraftValues.values;
+        const { aircraftPic } = aircraftValues;
+
+        console.log(aircraftOwner, aircraftOperator, type,
+            registrationNumber, aircraftPic, "======>exValues")
+
+        if (aircraftOwner, aircraftOperator, type,
+            registrationNumber, aircraftPic) {
+
+            await addaicraftDetails(aircraftValues)
+                .then((res) => {
+
+                    alert("Details added");
+                    handleClose();
+
+
+                });
+        }
+        else {
+            alert("Please Complete all fields")
+        }
+    }
   return (
     <div>
           <div>
@@ -29,21 +70,26 @@ const AircraftModal = () => {
                   </div>
                   <Modal.Body className="px-4">
                       <Form>
-                          <Input type="email" name="title" id="" className='mt-3' placeholder="Aircraft Owner" />
+                          <Input type="email" name="aircraftOwner" id="" className='mt-3'
+                           placeholder="Aircraft Owner" onChange={handleAircraftValues}  />
                           
-                          <Input type="number" name="accountNumber" className='mt-3' id="" placeholder="Aircraft Operator" />
-                          <Input type="select" name="bank" id="" className='mt-3' placeholder="Type" >
+                          <Input type="number" name="aircraftOperator" className='mt-3' id=""
+                            onChange={handleAircraftValues} placeholder="Aircraft Operator" />
+                          <Input type="select" name="type" id=""
+                            onChange={handleAircraftValues} className='mt-3' placeholder="Type" >
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
                               <option>4</option>
                               <option>5</option>
                           </Input>
-                          <Input type="number" name="iban" id="" className='mt-3' placeholder="Registration Number" />
+                          <Input type="number" name="registrationNumber" id="" className='mt-3'
+                            onChange={handleAircraftValues} placeholder="Registration Number" />
                           <div className="mt-3">
                           <FileBase64
                               type="file"
-                              onDone={(base64) => setPPic({ selectedFile: base64 })}
+                              
+                              onDone={(base64) => handleAircraftPic({ selectedFile: base64 })}
                               
 
                           />
@@ -52,7 +98,7 @@ const AircraftModal = () => {
                   </Modal.Body>
                   <Modal.Footer className="justify-content-between px-4">
                       <Button className="" color="dark" type="button"
-                          onClick={handleClose}>
+                          onClick={aircraftDetails}>
                           CREATE
                       </Button>
                       <button

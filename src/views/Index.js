@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
@@ -36,11 +36,15 @@ import {
 import {BsDot} from "react-icons/bs"
 
 import Header from "components/Headers/Header.js";
+import { getAllAircraft } from "Api/api";
+import { getAllClient } from "Api/api";
 
 
 const Index = (props) => {
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
+  const[aircraftData,setAircratData]=useState([]);
+  const [clientData, setClientData] = useState([])
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -51,6 +55,22 @@ const Index = (props) => {
     setActiveNav(index);
     setChartExample1Data("data" + index);
   };
+  useEffect(() => {
+    getAllAircraft()
+      .then((res) => {
+        console.log(res, "======>clientData")
+        setAircratData(res.data)
+      })
+
+  }, [])
+  useEffect(() => {
+    getAllClient()
+      .then((res) => {
+        console.log(res, "======>clientData")
+        setClientData(res.data)
+      })
+
+  }, [])
   return (
     <>
       <Link
@@ -139,7 +159,7 @@ const Index = (props) => {
             
                 <div className="chart">
                 {
-                ["first","second","third","Fourth"].map((data,index)=>(
+                clientData?.map((data,index)=>(
                       <Row key={index} className="mt-3">
                         <Col xl={3} >
                           <span className="avatar avatar-lg rounded-circle">
@@ -150,7 +170,7 @@ const Index = (props) => {
                           </span>
                         </Col>
                     <Col xl={5} className="ml-1">
-                          <h3>Jessica</h3>
+                          <h3>{data?.firstName}</h3>
                           <span className="text-nowrap" style={{ fontSize: "13px" }}>Pilot
                           
                           Flight Crew</span>
@@ -186,20 +206,25 @@ const Index = (props) => {
               <div className="chart">
                 <Row>
                   {
-                    ["first", "second", "third"].map((data, index) => (
+                    aircraftData?.map((data, index) => (
                       <Col xl={4} key={index}>
 
                         <Row className="mt-3">
                           <Col xl={4} >
-                            <span className="avatar avatar-md rounded-circle">
-                              <img
-                                alt="..."
-                                src={require("../assets/img/theme/team-4-800x800.jpg")}
-                              />
+                        
+                              
+                              <span className="avatar avatar-md rounded-circle">
+                                <img
+                                  alt="..."
+                                src={data.aircraftPic ?  data.aircraftPic 
+                                :require("../assets/img/theme/team-4-800x800.jpg")}
+                                />
                             </span>
+                            
+                          
                           </Col>
                           <Col xl={5} className="">
-                            <h5>Jessica</h5>
+                            <h5>{data.aircraftOwner}</h5>
                             <span className="text-nowrap" style={{ fontSize: "13px" }}>Pilot  Flight Crew</span>
                           </Col>
 

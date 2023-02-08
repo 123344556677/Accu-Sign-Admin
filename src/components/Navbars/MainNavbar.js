@@ -27,10 +27,10 @@ const MainNavbar = () => {
   return (
       <div className='' style={{justifyContent:"end"}}>
       
-      <nav class="navbar navbar-expand-sm bg-white  ">
+          <nav class="navbar navbar-expand-sm bg-white" >
 
           
-          <Nav className="align-items-center d-none d-md-flex" navbar>
+              <Nav className="align-items-center d-none d-md-flex" navbar style={{ color: "black" }}>
               <UncontrolledDropdown nav>
                   <DropdownToggle className="pr-0" nav>
                       <Media className="align-items-center">
@@ -43,7 +43,7 @@ const MainNavbar = () => {
                           
                       </Media>
                   </DropdownToggle>
-                  <DropdownMenu className="dropdown-menu-arrow" right>
+                  <DropdownMenu className="dropdown-menu-arrow" right >
                       <DropdownItem className="noti-title" header tag="div">
                           <h6 className="text-overflow m-0">Welcome!</h6>
                       </DropdownItem>

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
@@ -36,11 +36,13 @@ import {
 import { BsDot } from "react-icons/bs"
 
 import Header from "../Headers/Header.js";
+import { getAllAircraft } from "Api/api.js";
 
 
 const Dashboard = () => {
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
+     const [aircratData, setAircraftData] = useState([])
 
     if (window.Chart) {
         parseOptions(Chart, chartOptions());
@@ -51,6 +53,15 @@ const Dashboard = () => {
         setActiveNav(index);
         setChartExample1Data("data" + index);
     };
+
+     useEffect(() => {
+    getAllAircraft()
+      .then((res) => {
+        console.log(res, "======>clientData")
+        setAircraftData(res.data)
+      })
+
+  }, [])
     return (
         <>
             <Link
@@ -117,23 +128,21 @@ const Dashboard = () => {
 
                                     <div className="chart">
                                         {
-                                            ["first", "second", "third"].map((data, index) => (
+                                            aircratData?.map((data, index) => (
                                                 <Row key={index} className="mt-3">
                                                     <Col xl={3} >
                                                         <span className="avatar avatar-lg rounded">
                                                             <img
                                                                 alt="..."
-                                                                src={require("../../../assets/img/theme/team-4-800x800.jpg")
-                                                            
-                                                            }
-                                                                style={{ height: "" }}
+                                                                src={data.aircraftPic ? data.aircraftPic
+                                                                    : require("../../../assets/img/theme/team-4-800x800.jpg")}
                                                             />
                                                         </span>
                                                     </Col>
                                                     <Col xl={5} className="ml-3">
-                                                        <h4 className="">Name</h4>
-                                                        <h5 style={{ fontWeight: "600", fontSize: "12px" }}>Type</h5>
-                                                        <h6 style={{ fontWeight: "600", fontSize: "10px" }}>Registration</h6>
+                                                        <h4 className="">{data.aircraftOwner}</h4>
+                                                        <h5 style={{ fontWeight: "600", fontSize: "12px" }}>{data.type}</h5>
+                                                        <h6 style={{ fontWeight: "600", fontSize: "10px" }}>{data.registrationNumber}</h6>
                                                     </Col>
 
                                                 </Row>

@@ -1,13 +1,24 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 // import Tables from 'views/examples/Tables';
 // import { Table } from 'react-bootstrap';
 import { CardBody, Container, Table,Card,Row,Col,Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ClientModal from 'components/Modals/ClientModal';
+import { getAllClient } from 'Api/api';
 
 
 
 const Clients = () => {
+    const [clientData, setClientData] = useState([])
+
+    useEffect(() => {
+        getAllClient()
+            .then((res) => {
+                console.log(res, "======>clientData")
+                setClientData(res.data)
+            })
+
+    }, [])
   return (
     <div>
     <Container fluid>
@@ -42,35 +53,25 @@ const Clients = () => {
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                  {
+                                    clientData?.map((data,index=1)=>(
+                                        <tr>
+                                            <td>{index}</td>
+                                            <td>{data.firstName}</td>
+                                            <td>{data.companyName?data.companyName:"empty"}</td>
+                                            <td>{data.companyName ? data.companyNumber: "empty"}</td>
+                                            <td>{data.phoneNumber}</td>
+                                            <td>{data.email}</td>
+                                            <td><i className="fa fa-trash"
+                                                style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                              
 
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              
-                                              </td>
-                                              
-                                              
-                                          
-                                      </tr>
+                                            </td>
+                                        </tr>
+                                    ))
+                                  }
+                                      
+                                    
                                      
                                       
                                   </tbody>

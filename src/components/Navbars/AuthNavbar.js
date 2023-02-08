@@ -14,10 +14,10 @@ import {
   Col
 } from "reactstrap";
 
-const AdminNavbar = () => {
+const AuthNavbar = () => {
   return (
     <>
-      <Navbar className=" navbar-horizontal " expand="md">
+      <Navbar className=" navbar-horizontal " expand="md" >
         <Container className="px-4">
           <NavbarBrand to="/" tag={Link}>
             <img
@@ -26,7 +26,7 @@ const AdminNavbar = () => {
             />
           </NavbarBrand>
           <button className="navbar-toggler " id="navbar-collapse-main">
-            <span className="navbar-toggler-icon" />
+            <i className="navbar-toggler-icon fa fa-bars" />
           </button>
           <UncontrolledCollapse navbar toggler="#navbar-collapse-main">
             <div className="navbar-collapse-header d-md-none">
@@ -39,15 +39,15 @@ const AdminNavbar = () => {
                     />
                   </Link>
                 </Col>
-                <Col className="collapse-close" xs="6">
-                  <button className="navbar-toggler" id="navbar-collapse-main">
+                <Col className="collapse-close" xs="6" >
+                  <button className="navbar-toggler " id="navbar-collapse-main" >
                     <span />
                     <span />
                   </button>
                 </Col>
               </Row>
             </div>
-            <Nav className="ml-auto" navbar>
+            <Nav className="ml-auto" >
              
               <NavItem>
                 <NavLink
@@ -74,4 +74,4 @@ const AdminNavbar = () => {
   );
 };
 
-export default AdminNavbar;
+export default AuthNavbar;

@@ -1,7 +1,39 @@
-
+import React, { useEffect,useState } from "react";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+
 import { Link } from "react-router-dom";
+import { getAllClient } from "Api/api";
+import { getAllCrew } from "Api/api";
 const Header = () => {
+ const[clientData,setClientData]=useState([])
+//  const [aircratData, setAircrafttData] = useState([])
+ const [crewData, setCrewData] = useState([])
+
+  useEffect(() => {
+    getAllClient()
+    .then((res)=>{
+     console.log(res,"======>clientData")
+     setClientData(res.data)
+    })
+
+  },[] )
+  // useEffect(() => {
+  //   getAllAircraft()
+  //     .then((res) => {
+  //       console.log(res, "======>clientData")
+  //       setAircratData(res.data)
+  //     })
+
+  // }, [])
+  useEffect(() => {
+    getAllCrew()
+      .then((res) => {
+        console.log(res, "======>clientData")
+        setCrewData(res.data)
+      })
+
+  }, [])
+
   return (
     <>
       <div className="header bg-white pb-8 pt-5 ">
@@ -21,8 +53,9 @@ const Header = () => {
                         >
                           Clients
                         </CardTitle>
+                        
                         <p className="h2 font-weight-bold mt-4" >
-                          350,897
+                          {clientData?.length}
                         </p>
                       </div>
                       <Col className="col-auto">
@@ -69,7 +102,7 @@ const Header = () => {
                         >
                           Crew Members
                         </CardTitle>
-                        <p className="h2 mt-4 font-weight-bold ">924</p>
+                        <p className="h2 mt-4 font-weight-bold ">{crewData?.length}</p>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-dark text-white rounded-circle shadow">

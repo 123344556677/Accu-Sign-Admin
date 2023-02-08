@@ -142,37 +142,44 @@ const history=useHistory();
               >
                 <small style={{ color: "black" }}>Forgot password?</small>
               </a>
+
+              <Link ><Button className="" color="dark" type="button"
+                onClick={log} style={{float:"right"}}>
+                LOGIN
+              </Button></Link>
              
             </Form>
           </CardBody>
         </Card>
-        <Row className="mt-3">
-          <Col xs="3">
-            <Link ><Button className="" color="dark" type="button"
-            onClick={log}>
-              ADMIN
-            </Button></Link>
+        {
+        //   <Row className="mt-3">
+        //   <Col xs="3">
+        //     <Link ><Button className="" color="dark" type="button"
+        //     onClick={log}>
+        //       ADMIN
+        //     </Button></Link>
 
-          </Col>
-          <Col className="text-right" xs="3">
+        //   </Col>
+        //   <Col className="text-right" xs="3">
          
-            <Link >  <Button className="ml-4" color="dark" type="button"
-              onClick={log}>
-             CLIENT
-            </Button></Link>
+        //     <Link >  <Button className="ml-4" color="dark" type="button"
+        //       onClick={log}>
+        //      CLIENT
+        //     </Button></Link>
          
-          </Col>
-          <Col className="text-right" xs="6">
+        //   </Col>
+        //   <Col className="text-right" xs="6">
           
-            <Link> <Button className="" color="dark" type="button"
-              onClick={log}>
-              CREW MEMBER
-            </Button>
-            </Link>
+        //     <Link> <Button className="" color="dark" type="button"
+        //       onClick={log}>
+        //       CREW MEMBER
+        //     </Button>
+        //     </Link>
 
             
-          </Col>
-        </Row>
+        //   </Col>
+        // </Row>
+      }
       </Col>
     </>
   );

@@ -1,8 +1,19 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import CrewModal from 'components/Modals/CrewModal';
+import { getAllCrew } from 'Api/api';
 const Crew = () => {
+    const [crewData, setCrewData] = useState([])
+
+    useEffect(() => {
+        getAllCrew()
+            .then((res) => {
+                console.log(res, "======>crewtableData")
+                setCrewData(res.data)
+            })
+
+    }, [])
   return (
       <div>
           <Container fluid>
@@ -36,35 +47,27 @@ const Crew = () => {
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>@mdo</td>
-                                          
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                  {
+                                    crewData?.map((data,index)=>(
+                                        <tr >
+                                            <td>{index}</td>
+                                            <td>{data.firstName}</td>
+                                            <td>{data.crewType?data.crewType:"empty"}</td>
+                                            <td>{data.phoneNumber}</td>
+                                            <td>{data.email}</td>
 
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          
-                                          <td>Otto</td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                            <td><i className="fa fa-trash"
+                                                style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                              {  // <i className="fa fa-ellipsis-v ml-3" 
+                                                // style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                            }
 
-                                          </td>
-
-
-
-                                      </tr>
+                                            </td>
+                                        </tr>
+                                    ))
+                                  }
+                                      
+                                     
 
 
                                   </tbody>
