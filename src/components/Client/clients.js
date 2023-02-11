@@ -5,6 +5,7 @@ import { CardBody, Container, Table,Card,Row,Col,Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ClientModal from 'components/Modals/ClientModal';
 import { getAllClient } from 'Api/api';
+import { deleteClient } from 'Api/api';
 
 
 
@@ -19,6 +20,20 @@ const Clients = () => {
             })
 
     }, [])
+
+    const deleteClientById=async(e)=>{
+   
+        await deleteClient({e})
+        .then((res)=>{
+            if (res.data.message === "client deleted") {
+                alert("client deleted");
+                window.location.reload();
+            }
+            else {
+                alert("client not deleted");
+            }
+        })
+    }
   return (
     <div>
     <Container fluid>
@@ -63,7 +78,8 @@ const Clients = () => {
                                             <td>{data.phoneNumber}</td>
                                             <td>{data.email}</td>
                                             <td><i className="fa fa-trash"
-                                                style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                                onClick={(e)=>deleteClientById(data._id)}
+                                                style={{ fontSize: "20px",cursor:"pointer" }} aria-hidden="true"></i>
                                               
 
                                             </td>

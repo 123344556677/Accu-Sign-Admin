@@ -3,6 +3,7 @@ import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AircraftModal from 'components/Modals/AircraftModal';
 import { getAllAircraft } from 'Api/api';
+import { deleteAircraft } from 'Api/api';
 const Aircraft = () => {
     const [aircraftData, setAircratData] = useState([]);
     useEffect(() => {
@@ -13,6 +14,19 @@ const Aircraft = () => {
             })
 
     }, [])
+    const deleteAircraftById = async (e) => {
+
+        await deleteAircraft({ e })
+            .then((res) => {
+                if (res.data.message === "aircraft deleted") {
+                    alert("aircraft deleted");
+                    window.location.reload();
+                }
+                else {
+                    alert("aircraft not deleted");
+                }
+            })
+    }
   return (
       <div>
           <Container fluid>
@@ -69,7 +83,8 @@ const Aircraft = () => {
                                             <td>{data.type}</td>
                                             <td>{data.registrationNumber}</td>
                                             <td><i className="fa fa-trash"
-                                       style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                                onClick={(e) => deleteAircraftById(data._id)}
+                                                style={{ fontSize: "20px", cursor: "pointer" }} aria-hidden="true"></i>
                                        {
                             // <i className="fa fa-ellipsis-v ml-3"
                             //  style={{ fontSize: "20px" }} aria-hidden="true"></i>

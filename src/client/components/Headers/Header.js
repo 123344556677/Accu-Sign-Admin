@@ -4,10 +4,12 @@ import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { getAllClient } from "Api/api";
 import { getAllCrew } from "Api/api";
+import { getAllTrips } from "Api/api";
 const Header = () => {
   const [clientData, setClientData] = useState([])
   //  const [aircratData, setAircrafttData] = useState([])
   const [crewData, setCrewData] = useState([])
+  const [TripsData, setTripsData] = useState([]);
 
   useEffect(() => {
     getAllClient()
@@ -17,14 +19,16 @@ const Header = () => {
       })
 
   }, [])
-  // useEffect(() => {
-  //   getAllAircraft()
-  //     .then((res) => {
-  //       console.log(res, "======>clientData")
-  //       setAircratData(res.data)
-  //     })
 
-  // }, [])
+  useEffect(() => {
+    getAllTrips()
+      .then((res) => {
+        console.log(res, "======>Trips data")
+        setTripsData(res.data)
+      })
+
+  }, [])
+
   useEffect(() => {
     getAllCrew()
       .then((res) => {
@@ -79,7 +83,7 @@ const Header = () => {
                         >
                           Trips
                         </CardTitle>
-                        <p className="h2 mt-4 font-weight-bold ">2,356</p>
+                        <p className="h2 mt-4 font-weight-bold ">{TripsData?.length}</p>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-dark text-white rounded-circle shadow">

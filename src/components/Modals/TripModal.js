@@ -1,3 +1,4 @@
+import { addtripDetails } from 'Api/api';
 import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Link } from 'react-router-dom';
@@ -21,6 +22,42 @@ const TripModal = () => {
         setBar("aircraft")
     }
     const handleCrewBar = () => {
+        setBar("crew")
+    }
+    const [values, setValues] = useState();
+    const handleTripValues = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+        console.log(values);
+    }
+    const trip=async()=>{
+        const { tripName,client,fee,
+            percentage,description,destinationTo,destinationFrom,
+            startDate,endDate,aircraftType,selectAircraft,hotelType, airlineTravel } = values;
+        console.log(tripName, client, fee,
+            percentage, description, destinationTo, destinationFrom,
+            startDate, endDate, aircraftType, selectAircraft, hotelType, airlineTravel, "======>exValues")
+        if (tripName, client, fee,
+            percentage, description, destinationTo, destinationFrom,
+            startDate, endDate, aircraftType, selectAircraft, hotelType, airlineTravel) {
+        await addtripDetails(values)
+            .then((res) => {
+
+                alert("Details added");
+                setValues('')
+
+            });
+        }
+        else {
+            alert("Please Complete all fields")
+        }
+    }
+   const handleBasicBarAgain=()=>{
+       setBar("route")
+    }
+    const handleRouteBarAgain = () => {
+        setBar("aircraft")
+    }
+    const handleAircraftBarAgain = () => {
         setBar("crew")
     }
   return (
@@ -64,25 +101,25 @@ const TripModal = () => {
                   </Row> 
                   {bar==="bank"&&
                       <Form>
-                          <Input type="text" name="tripName" id="" className='mt-3' placeholder="Trip name" />
-                          <Input type="select" name="client" id="" className='mt-3' placeholder="Client" >
+                          <Input type="text" name="tripName" id="" className='mt-3' onChange={handleTripValues} placeholder="Trip name" />
+                          <Input type="select" name="client" id="" className='mt-3' onChange={handleTripValues} placeholder="Client" >
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
                               <option>4</option>
                               <option>5</option>
                           </Input>
-                          <Input type="text" name="client" id="" className='mt-3' placeholder="Email" />
+                          
                           <Form inline className='mt-3'>
 
 
-                              <Input type="number" name="Fee" id="exampleEmail" placeholder="Fee" />
+                              <Input type="number" name="Fee" id="exampleEmail" onChange={handleTripValues} placeholder="Fee" />
 
 
-                              <Input type="text" className='ml-3' name="percentage" id="examplePassword" placeholder="Percentage" />
+                              <Input type="text" className='ml-3' name="percentage" onChange={handleTripValues} id="examplePassword" placeholder="Percentage" />
                           </Form>
                           <div className="md-form mt-3">
-                              <textarea id="form7" className="md-textarea form-control" rows="3" placeholder=''></textarea>
+                              <textarea id="form7" className="md-textarea form-control" onChange={handleTripValues} name="description" rows="3" placeholder=''></textarea>
 
                           </div>
 
@@ -100,7 +137,7 @@ const TripModal = () => {
                 <Form inline className='mt-3'>
                 <Row>
                 <Col>
-                <Input type="select" name="destinationFrom" id="" className='mt-3'  placeholder="Destination from" >
+                    <Input type="select" name="destinationFrom" onChange={handleTripValues} id="" className='mt-3'  placeholder="Destination from" >
                    <option>Destination from</option>
                     <option>2</option>
                     <option>3</option>
@@ -109,7 +146,7 @@ const TripModal = () => {
                 </Input>
                 </Col>
                 <Col> 
-                <Input type="select" name="destinationTo" id="" className='mt-3 ml-5' placeholder="Destination to" >
+                    <Input type="select" name="destinationTo" onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
                     <option>Destination to</option>
                     <option>2</option>
                     <option>3</option>
@@ -126,13 +163,13 @@ const TripModal = () => {
         
         <FormGroup>
         <Label for="exampleDate">Start Date</Label>
-        <Input type="date" name="start-date" id="exampleDate" placeholder="Start" className='mt-1' />
+        <Input type="date" name="startDate" onChange={handleTripValues} id="exampleDate" placeholder="Start" className='mt-1' />
         </FormGroup>
         </Col>
         <Col>
         <FormGroup>
         <Label for="exampleDate">End Date</Label>
-        <Input type="date" name="end-date" id="exampleDate" placeholder="End" className='mt-1' />
+        <Input type="date" name="endDate" onChange={handleTripValues} id="exampleDate" placeholder="End" className='mt-1' />
         </FormGroup>
        </Col>
             </Row>
@@ -150,7 +187,8 @@ const TripModal = () => {
                     <Form>
                       <Form inline className='mt-3'>
                           
-                                  <Input type="select" name="destinationFrom" id="" className='mt-3' placeholder="Destination from" >
+                                  <Input type="select" name="aircraftType" 
+                                      onChange={handleTripValues} id="" className='mt-3' placeholder="Destination from" >
                                       <option>Aircraft Type</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -158,7 +196,8 @@ const TripModal = () => {
                                       <option>5</option>
                                   </Input>
                              
-                                  <Input type="select" name="destinationTo" id="" className='mt-3 ml-5' placeholder="Destination to" >
+                                  <Input type="select" name="selectAircraft"
+                                    onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
                                       <option>Select aircraft</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -170,7 +209,8 @@ const TripModal = () => {
                       </Form>
                               <Form inline className='mt-3'>
 
-                                  <Input type="select" name="destinationFrom" id="" className='mt-3' placeholder="Destination from" >
+                                  <Input type="select" name="hotelType"
+                                    onChange={handleTripValues} id="" className='mt-3' placeholder="Destination from" >
                                       <option>Hotel type</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -178,7 +218,8 @@ const TripModal = () => {
                                       <option>5</option>
                                   </Input>
 
-                                  <Input type="select" name="destinationTo" id="" className='mt-3 ml-5' placeholder="Destination to" >
+                                  <Input type="select" name="airlineTravel" 
+                                    onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
                                       <option>Airline travel class</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -255,10 +296,10 @@ const TripModal = () => {
               <Modal.Footer className="justify-content-between px-4">
               {
                 
-                      bar === "route" || bar === "aircraft"?
+                      bar === "route"&&
                           <>
                   <Button className="" color="dark" type="button"
-                      onClick={handleClose}>
+                      onClick={handleRouteBarAgain}>
                       SAVE
                   </Button>
                   <button
@@ -269,10 +310,28 @@ const TripModal = () => {
                       Close
                   </button>
                   </>
-                  :
+              }
+                  {
+
+                      bar === "aircraft" &&
+                      <>
+                          <Button className="" color="dark" type="button"
+                              onClick={handleAircraftBarAgain}>
+                              SAVE
+                          </Button>
+                          <button
+                              className="btn btn-danger"
+                              variant="danger"
+                              onClick={handleClose}
+                          >
+                              Close
+                          </button>
+                      </>
+                  }
+                  {bar === "bank"&&
                   <>
                   <Button className="" color="dark" type="button"
-                      onClick={handleClose}>
+                      onClick={handleBasicBarAgain}>
                       CREATE
                   </Button>
                   <button
@@ -284,6 +343,21 @@ const TripModal = () => {
                   </button>
                       </>
               }
+                  {bar === "crew" &&
+                      <>
+                          <Button className="" color="dark" type="button"
+                              onClick={trip}>
+                              CREATE
+                          </Button>
+                          <button
+                              className="btn btn-danger"
+                              variant="danger"
+                              onClick={handleClose}
+                          >
+                              Close
+                          </button>
+                      </>
+                  }
               </Modal.Footer>
           </Modal></div>
   )

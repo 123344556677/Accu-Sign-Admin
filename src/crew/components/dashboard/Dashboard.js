@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 // node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
@@ -36,6 +36,7 @@ import {
 import { BsDot } from "react-icons/bs"
 
 import Header from "../Headers/Header.js";
+import { getAllTrips } from "Api/api.js";
 
 
 const Dashboard = () => {
@@ -51,6 +52,8 @@ const Dashboard = () => {
         setActiveNav(index);
         setChartExample1Data("data" + index);
     };
+
+   
     return (
         <>
             <Link

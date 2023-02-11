@@ -1,8 +1,34 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import TripModal from 'components/Modals/TripModal';
+import { getAllTrips } from 'Api/api';
+import { deleteTrip } from 'Api/api';
 const Trip = () => {
+    const [TripsData, setTripsData] = useState([]);
+
+    useEffect(() => {
+        getAllTrips()
+            .then((res) => {
+                console.log(res, "======>Trips data")
+                setTripsData(res.data)
+            })
+
+    }, [])
+    const deleteTripById = async (e) => {
+
+        await deleteTrip({ e })
+            .then((res) => {
+                if (res.data.message === "trip deleted") {
+                    alert("trip deleted");
+                    window.location.reload();
+                }
+                else {
+                    alert("trip not deleted");
+                }
+            })
+    }
+
   return (
       <div>
           <Container fluid>
@@ -37,38 +63,16 @@ const Trip = () => {
                                       </tr>
                                   </thead>
                                   <tbody>
+                                  {
+                                  TripsData?.map((data,index)=>(
                                       <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
+                                          <td>{index}</td>
+                                          <td>{data?.tripName}</td>
                                           <td>Otto</td>
-                                          <td>@mdo</td>
+                                          <td>{data?.destinationTo ? data?.destinationTo:"empty"}</td>
                                           <td>@mdo</td>
                                           <td>  <UncontrolledDropdown setActiveFromChild>
                                               <DropdownToggle tag="a" className="nav-link" caret>
-                                                  Active
-                                              </DropdownToggle>
-                                              <DropdownMenu>
-                                                  <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
-                                              </DropdownMenu>
-                                          </UncontrolledDropdown>
-                                              Pending <i className="fa fa-circle ml-1 mb-5" 
-                                              style={{fontSize:"5px"}} aria-hidden="true"></i>
-                                              <span className="ml-2">  Date </span>
-                                          </td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
-
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>2</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>@mdo</td>
-                                          <td>  <UncontrolledDropdown setActiveFromChild>
-                                              <DropdownToggle tag="a" className="nav-link" >
                                                   Active
                                               </DropdownToggle>
                                               <DropdownMenu>
@@ -80,14 +84,18 @@ const Trip = () => {
                                               <span className="ml-2">  Date </span>
                                           </td>
                                           <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                              onClick={(e) => deleteTripById(data._id)}
+                                              style={{ fontSize: "20px", cursor: "pointer" }} aria-hidden="true"></i>
+                                           { 
+                                            //   <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                        }
 
                                           </td>
-
-
-
                                       </tr>
+                                  ))
+                                     
+                                  }
+                                      
 
 
                                   </tbody>

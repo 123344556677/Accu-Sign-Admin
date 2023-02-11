@@ -3,6 +3,7 @@ import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import CrewModal from 'components/Modals/CrewModal';
 import { getAllCrew } from 'Api/api';
+import { deleteCrew } from 'Api/api';
 const Crew = () => {
     const [crewData, setCrewData] = useState([])
 
@@ -14,6 +15,19 @@ const Crew = () => {
             })
 
     }, [])
+    const deleteCrewById = async (e) => {
+
+        await deleteCrew({ e })
+            .then((res) => {
+                if (res.data.message === "crew deleted") {
+                    alert("crew deleted");
+                    window.location.reload();
+                }
+                else {
+                    alert("crew not deleted");
+                }
+            })
+    }
   return (
       <div>
           <Container fluid>
@@ -57,7 +71,8 @@ const Crew = () => {
                                             <td>{data.email}</td>
 
                                             <td><i className="fa fa-trash"
-                                                style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                                style={{ fontSize: "20px", cursor: "pointer" }} aria-hidden="true"
+                                                onClick={(e) => deleteCrewById(data._id)}></i>
                                               {  // <i className="fa fa-ellipsis-v ml-3" 
                                                 // style={{ fontSize: "20px" }} aria-hidden="true"></i>
                                             }

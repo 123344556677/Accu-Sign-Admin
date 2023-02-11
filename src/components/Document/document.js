@@ -1,10 +1,16 @@
-import React,{useState}  from 'react'
+import React,{useState,useEffect}  from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import dummy from './avatrOne.png'
-
+import dummy from './avatrOne.png';
+import FileBase64 from "react-file-base64";
+import './document.css'
+import { addDocument } from 'Api/api';
+import DocumentModal from 'components/Modals/DocumentModal';
+import { getAllDocument } from 'Api/api';
 const Document = () => {
 const [upload,setUpload]=useState(true);
+const [documents,setDocuments]=useState([])
+
 // const [trip, setTrip] = useState('');
     const handleBar = () => {
         setUpload(!upload)
@@ -17,6 +23,15 @@ const [upload,setUpload]=useState(true);
         //     setTrip('trip');
         // }
     }
+useEffect(async() => {
+    
+    await getAllDocument()
+    .then((res)=>{
+   setDocuments(res.data);
+    })
+}, [])
+console.log(documents,"========>documents")
+  
   return (
       <div>
       <Container fluid>
@@ -30,7 +45,9 @@ const [upload,setUpload]=useState(true);
                       </Link>
                   </Col>
                   <Col xl={6}>
-                      <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }} >UPLOAD</Button>
+                      <DocumentModal/>
+                     
+                      
                   </Col>
               </Row>
               <Card className="card-stats mb-4 mb-xl-0 mt-4" style={{ }}>
@@ -52,30 +69,31 @@ const [upload,setUpload]=useState(true);
           <Row>
           {
             upload?
-            ["one","two","three","four"].map((data)=>(
+            documents?.map((data)=>(
                 <Col xl={4} key={data}>
                     <div className="card mt-3 " style={{
                         backgroundColor: "#e9ecef", border: "none",
                         borderRadius: "0%"
                     }} >
-                        <img className="card-img-top mt-3 ml-2" src={dummy} alt="Card image"
+                        <img className="card-img-top mt-3 ml-2" src={data.documentPic? data.documentPic:dummy} alt="Card image"
 
                             style={{ width: "270px" }} />
                         <div className="card-body">
-                            <h4 className="card-title">Service Agreement LOl</h4>
+                            <h4 className="card-title">{data.title ? data.title:"No Title"}</h4>
                             <hr />
-
-                            <div className="custom-control custom-switch ml-1">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customSwitches"
-                                />
-                                <label className="custom-control-label" for="customSwitches" style={{fontSize:"15px"}}>
-                                    Auto Attach with all trips
-                                </label>
-                            </div>
-                            <hr />
+{
+                            // <div className="custom-control custom-switch ml-1">
+                            //     <input
+                            //         type="checkbox"
+                            //         className="custom-control-input"
+                            //         id="customSwitches"
+                            //     />
+                            //     <label className="custom-control-label" for="customSwitches" style={{fontSize:"15px"}}>
+                            //         Auto Attach with all trips
+                            //     </label>
+                            // </div>
+                            // <hr />
+                        }
                             <Row>
                                 <Col xl={5}>
                                     <button type="button" className="btn" style={{
@@ -97,50 +115,51 @@ const [upload,setUpload]=useState(true);
                 </Col>
             ))
             :
-                ["one", "two", "three", "four"].map((data) => (
-                    <Col xl={4} key={data}>
-                        <div className="card  mt-3" style={{
-                            backgroundColor: "#e9ecef", border: "none",
-                            borderRadius: "0%"
-                        }} >
-                            <img className="card-img-top mt-3 ml-2" src={dummy} alt="Card image"
+                              documents?.map((data) => (
+                                  <Col xl={4} key={data}>
+                                      <div className="card mt-3 " style={{
+                                          backgroundColor: "#e9ecef", border: "none",
+                                          borderRadius: "0%"
+                                      }} >
+                                          <img className="card-img-top mt-3 ml-2" src={data.documentPic ? data.documentPic : dummy} alt="Card image"
 
-                                style={{ width: "270px" }} />
-                            <div className="card-body">
-                                <h4 className="card-title">Service Agreement LOl</h4>
-                                <hr />
-
-                                <div className="custom-control custom-switch ml-1">
-                                    <input
-                                        type="checkbox"
-                                        className="custom-control-input"
-                                        id="customSwitches"
-                                    />
-                                    <label className="custom-control-label" for="customSwitches" style={{fontSize:"15px"}}>
-                                        Auto Attach with all trips
-                                    </label>
-                                </div>
-                                <hr />
-                                <Row>
-                                    <Col xl={5}>
-                                        <button type="button" className="btn" style={{
-                                            backgroundColor: "white",
-                                            color: "#adad85",
-                                            borderRadius: "0%"
-                                        }}>DOWNLOAD</button>
-                                    </Col>
-                                    <Col xl={5}>
-                                        <button type="button" className="btn pr-5 ml-4 " style={{
-                                            backgroundColor: "white",
-                                            color: "#adad85",
-                                            borderRadius: "0%"
-                                        }}>OPEN</button>
-                                    </Col>
-                                </Row>
-                            </div>
-                        </div>
-                    </Col>
-                ))
+                                              style={{ width: "270px" }} />
+                                          <div className="card-body">
+                                              <h4 className="card-title">{data.title ? data.title : "No Title"}</h4>
+                                              <hr />
+                                              {
+                                                  // <div className="custom-control custom-switch ml-1">
+                                                  //     <input
+                                                  //         type="checkbox"
+                                                  //         className="custom-control-input"
+                                                  //         id="customSwitches"
+                                                  //     />
+                                                  //     <label className="custom-control-label" for="customSwitches" style={{fontSize:"15px"}}>
+                                                  //         Auto Attach with all trips
+                                                  //     </label>
+                                                  // </div>
+                                                  // <hr />
+                                              }
+                                              <Row>
+                                                  <Col xl={5}>
+                                                      <button type="button" className="btn" style={{
+                                                          backgroundColor: "white",
+                                                          color: "#adad85",
+                                                          borderRadius: "0%"
+                                                      }}>DOWNLOAD</button>
+                                                  </Col>
+                                                  <Col xl={5}>
+                                                      <button type="button" className="btn  pr-5 ml-4 " style={{
+                                                          backgroundColor: "white",
+                                                          color: "#adad85",
+                                                          borderRadius: "0%"
+                                                      }}>OPEN</button>
+                                                  </Col>
+                                              </Row>
+                                          </div>
+                                      </div>
+                                  </Col>
+                              ))
           }
           
           

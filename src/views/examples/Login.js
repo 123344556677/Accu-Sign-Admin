@@ -136,9 +136,9 @@ const history=useHistory();
               </FormGroup>
               <a
                 className="text-light"
-                href="#pablo"
+                href=""
                
-                onClick={(e) => e.preventDefault()}
+                onClick={() => history.push('/auth/forgetPasswordLink')}
               >
                 <small style={{ color: "black" }}>Forgot password?</small>
               </a>

@@ -38,6 +38,7 @@ import {BsDot} from "react-icons/bs"
 import Header from "components/Headers/Header.js";
 import { getAllAircraft } from "Api/api";
 import { getAllClient } from "Api/api";
+import { getAllTrips } from "Api/api";
 
 
 const Index = (props) => {
@@ -45,6 +46,7 @@ const Index = (props) => {
   const [chartExample1Data, setChartExample1Data] = useState("data1");
   const[aircraftData,setAircratData]=useState([]);
   const [clientData, setClientData] = useState([])
+  const [TripsData,setTripsData]=useState([]);
 
   if (window.Chart) {
     parseOptions(Chart, chartOptions());
@@ -71,6 +73,7 @@ const Index = (props) => {
       })
 
   }, [])
+ 
   return (
     <>
       <Link

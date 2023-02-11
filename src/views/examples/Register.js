@@ -20,9 +20,9 @@ const Register = () => {
 const [values,setValues]=useState('')
  const reg=async()=>{
   console.log(values,"==========>regValues")
-   const { email, password, name, phoneNumber, role } = values;
-   console.log(email, password, name, role, phoneNumber, "======>exValues")
-   if (email && password && name && role  && phoneNumber) {
+   const { email, password, firstName, phoneNumber, role } = values;
+   console.log(email, password,firstName, role, phoneNumber, "======>exValues")
+   if (email && password && firstName && role  && phoneNumber) {
     
      await register(values)
        .then((res) => {
@@ -72,7 +72,7 @@ const [values,setValues]=useState('')
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Name" name="name" onChange={handleRegValues} type="text" />
+                  <Input placeholder="Name" name="firstName" onChange={handleRegValues} type="text" />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -137,7 +137,7 @@ const [values,setValues]=useState('')
                     onChange={handleRegValues}
                   ><option value="crew">Crew Member</option>
                     <option value="client">Client</option>
-                    <option value="admin">Admin</option>
+                  
                   </Input>
                 </InputGroup>
               </FormGroup>

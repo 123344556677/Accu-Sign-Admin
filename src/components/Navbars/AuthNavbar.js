@@ -1,5 +1,5 @@
-
-import { Link } from "react-router-dom";
+import React,{useState} from 'react'
+import { Link, useHistory } from "react-router-dom";
 import logo from './Accu Sign.png'
 // reactstrap components
 import {
@@ -15,6 +15,24 @@ import {
 } from "reactstrap";
 
 const AuthNavbar = () => {
+  const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
+  const history = useHistory();
+const backToHome=()=>{
+  if (role.role === "admin") {
+    
+
+    history.push('/admin/index');
+  }
+  if (role.role === "crew") {
+    
+    history.push('/crew/crewIndex');
+  }
+  if (role.role === "client") {
+   
+    history.push('/client/clientIndex');
+  }
+}
+
   return (
     <>
       <Navbar className=" navbar-horizontal " expand="md" >
@@ -48,7 +66,17 @@ const AuthNavbar = () => {
               </Row>
             </div>
             <Nav className="ml-auto" >
-             
+              <NavItem>
+                <NavLink
+                  className="nav-link-icon"
+                 
+                  tag={Link}
+                  onClick={backToHome}
+                >
+                  <i className="fa fa-home" />
+                  <span className="nav-link-inner--text" style={{ color: "black" }}>Home</span>
+                </NavLink>
+              </NavItem>
               <NavItem>
                 <NavLink
                   className="nav-link-icon"

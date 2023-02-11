@@ -37,12 +37,14 @@ import { BsDot } from "react-icons/bs"
 
 import Header from "../Headers/Header.js";
 import { getAllAircraft } from "Api/api.js";
+import { getAllTrips } from "Api/api.js";
 
 
 const Dashboard = () => {
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
-     const [aircratData, setAircraftData] = useState([])
+     const [aircratData, setAircraftData] = useState([]);
+     const [TripsData, setTripsData] = useState([]);
 
     if (window.Chart) {
         parseOptions(Chart, chartOptions());
@@ -62,6 +64,14 @@ const Dashboard = () => {
       })
 
   }, [])
+    useEffect(() => {
+        getAllTrips()
+            .then((res) => {
+                console.log(res, "======>Trips data")
+                setTripsData(res.data)
+            })
+
+    }, [])
     return (
         <>
             <Link
@@ -96,10 +106,10 @@ const Dashboard = () => {
 
                                     <div className="chart">
                                         {
-                                            ["first", "second"].map((data, index) => (
+                                            TripsData?.map((data, index) => (
                                                 <>
-                                               <h3 className="">Name</h3>
-                                               <p style={{fontWeight:"600",fontSize:"15px"}}>UK to USA</p>
+                                               <h3 className="">{data.tripName}</h3>
+                                               <p style={{fontWeight:"600",fontSize:"15px"}}>{data?.destinationFrom}to {data?.destinationTo}</p>
                                                 <span style={{ fontWeight: "600", fontSize: "15px" }}>Status:Pending on Route</span>
                                                 <hr/>
                                                 </>
