@@ -3,14 +3,20 @@ import { CardBody, Container, Table, Card, Row, Col, Button, UncontrolledDropdow
 import { Link } from 'react-router-dom';
 import TripModal from 'components/Modals/TripModal';
 import { getAllTrips } from 'Api/api';
+import { TripsByclientId } from 'Api/api';
+import TripEditModal from 'components/Modals/TripEditModal';
+import PaymentModal from 'components/Modals/PaymentModal';
 const ClientTrip = () => {
     const [TripsData, setTripsData] = useState([]);
-
-    useEffect(() => {
-        getAllTrips()
+    const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
+const values={
+    clientId:role.id
+}
+    useEffect(async() => {
+        await TripsByclientId(values)
             .then((res) => {
                 console.log(res, "======>Trips data")
-                setTripsData(res.data)
+                setTripsData(res?.data?.data)
             })
 
     }, [])
@@ -55,25 +61,33 @@ const ClientTrip = () => {
                                                     <td>{data?.tripName}</td>
                                                     <td>Otto</td>
                                                     <td>{data?.destinationTo ? data?.destinationTo : "empty"}</td>
-                                                    <td>@mdo</td>
-                                                    <td>  <UncontrolledDropdown setActiveFromChild>
-                                                        <DropdownToggle tag="a" className="nav-link" caret>
-                                                            Active
-                                                        </DropdownToggle>
-                                                        <DropdownMenu>
-                                                            <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
-                                                        </DropdownMenu>
-                                                    </UncontrolledDropdown>
-                                                        Pending <i className="fa fa-circle ml-1 mb-5"
-                                                            style={{ fontSize: "5px" }} aria-hidden="true"></i>
-                                                        <span className="ml-2">  Date </span>
+                                                    <td>{data?.crewMembers?.length}</td>
+                                                    <td> 
+                                                        <h6>
+                                                            {data?.status?data?.status:""}
+                                                        </h6>
+                                                        {
+                                                    //     <DropdownMenu>
+                                                    //         <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
+                                                    //     </DropdownMenu>
+                                                    // </UncontrolledDropdown>
+                                                    //     Pending <i className="fa fa-circle ml-1 mb-5"
+                                                    //         style={{ fontSize: "5px" }} aria-hidden="true"></i>
+                                                        // <span className="ml-2">  Date </span>
+                                                        }
                                                     </td>
                                                     <td><i className="fa fa-trash"
                                                         style={{ fontSize: "20px" }} aria-hidden="true"></i>
                                                         {
-                                                            //   <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                                        // <UncontrolledDropdown setActiveFromChild>
+                                                        //     <DropdownToggle tag="a" className="nav-link" >
+                                                        //         <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px", cursor: "pointer", position: "absolute!important", marginBottom: "50px!important" }} aria-hidden="true"></i>
+                                                        //     </DropdownToggle>
+                                                        //     <DropdownMenu>
                                                         }
-
+                                                                <TripEditModal tripdata={data} />
+                                                                <PaymentModal tripdata={data} />
+                                                       
                                                     </td>
                                                 </tr>
                                             ))

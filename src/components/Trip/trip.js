@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom';
 import TripModal from 'components/Modals/TripModal';
 import { getAllTrips } from 'Api/api';
 import { deleteTrip } from 'Api/api';
+import TripEditModal from 'components/Modals/TripEditModal';
+import { updateTripStatus } from 'Api/api';
 const Trip = () => {
     const [TripsData, setTripsData] = useState([]);
+    const [status,setStatus]=useState('')
+   
 
     useEffect(() => {
         getAllTrips()
@@ -28,7 +32,36 @@ const Trip = () => {
                 }
             })
     }
+    
+const handlePending=()=>{
+    setStatus("pending")
+    console.log(status, "==>status")
+}
+ const handleApproved = () => {
+        setStatus("approved")
+    }
+const updateStatus=(e)=>{
+    console.log(e,"====>id")
+    const values={
+        tripId:e,
+        status:status
+    }
+    updateTripStatus(values)
+        .then((res) => {
 
+            if (res.data.message === "Trip status updated") {
+
+                alert("Trip status updated");
+
+            }
+            else {
+                alert("Trip status not updated");
+                
+
+            }
+        });
+
+}
   return (
       <div>
           <Container fluid>
@@ -70,25 +103,35 @@ const Trip = () => {
                                           <td>{data?.tripName}</td>
                                           <td>Otto</td>
                                           <td>{data?.destinationTo ? data?.destinationTo:"empty"}</td>
-                                          <td>@mdo</td>
-                                          <td>  <UncontrolledDropdown setActiveFromChild>
-                                              <DropdownToggle tag="a" className="nav-link" caret>
-                                                  Active
+                                          <td>{data?.crewMembers?.length}</td>
+                                          <td>  <UncontrolledDropdown  >
+                                              <DropdownToggle tag="a" className="nav-link" caret >
+                                                  {data?.status ? data?.status:"status"}
                                               </DropdownToggle>
                                               <DropdownMenu>
-                                                  <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
+                                                  <DropdownItem tag="a" style={{cursor:"pointer"}} onClick={handlePending} value="pending">pending</DropdownItem>
+                                                  <DropdownItem tag="a" style={{cursor:"pointer"}} onClick={handleApproved} value="approved">approved</DropdownItem>
                                               </DropdownMenu>
                                           </UncontrolledDropdown>
-                                              Pending <i className="fa fa-circle ml-1 mb-5"
-                                                  style={{ fontSize: "5px" }} aria-hidden="true"></i>
-                                              <span className="ml-2">  Date </span>
+                                          {
+                                            //   Pending <i className="fa fa-circle ml-1 mb-5"
+                                            //       style={{ fontSize: "5px" }} aria-hidden="true"></i>
+                                            //   <span className="ml-2">  Date </span>
+                                          }
                                           </td>
                                           <td><i className="fa fa-trash"
                                               onClick={(e) => deleteTripById(data._id)}
                                               style={{ fontSize: "20px", cursor: "pointer" }} aria-hidden="true"></i>
-                                           { 
-                                            //   <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                        }
+                                              <UncontrolledDropdown setActiveFromChild>
+                                                  <DropdownToggle tag="a" className="nav-link" caret>
+                                                      <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px", cursor: "pointer", position: "absolute!important", marginBottom: "50px!important" }} aria-hidden="true"></i>
+                                                  </DropdownToggle>
+                                                  <DropdownMenu>
+                                                     <TripEditModal tripdata={data}  />
+                                                      <DropdownItem  style={{ cursor: "pointer" }} onClick={()=>updateStatus(data._id)} value="approved">Update Status</DropdownItem>
+                                                  </DropdownMenu>
+                                              </UncontrolledDropdown>
+                                         
 
                                           </td>
                                       </tr>

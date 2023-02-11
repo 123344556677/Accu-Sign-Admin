@@ -76,9 +76,19 @@ export const addtripDetails = async (values) => {
 export const getAllTrips = async () => {
     return await axios.get(`${url}/getAllTrips`);
 }
+export const TripsByclientId = async (values) => {
+    return await axios.post(`${url}/getAllTripsByClientId`,values);
+}
 export const deleteTrip = async (id) => {
     return await axios.post(`${url}/deleteTripById`, id);
 }
+export const addCrewToTrips = async (values) => {
+    return await axios.post(`${url}/addCrewToTrips`, values);
+}
+export const updateTripStatus = async (values) => {
+    return await axios.put(`${url}/updateTripStatus`, values);
+}
+
 
 //document
 export const addDocument = async (values) => {
@@ -86,4 +96,9 @@ export const addDocument = async (values) => {
 }
 export const getAllDocument = async () => {
     return await axios.get(`${url}/getAllDocuments`);
+}
+
+//stripe
+export const makePayment= async (values) => {
+    return await axios.post(`${url}/stripPayment`,values);
 }

@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 import { Button, Form, Input, FormGroup,Row,Col, Label, Table } from 'reactstrap';
 import CrewNestedModal from './CrewNestedModal';
 
-const TripModal = () => {
+const TripEditModal = (props) => {
     const [show, setShow] = useState(false);
     const [bar,setBar]=useState("bank");
     const [usersData, setUsersData] = useState();
     const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+console.log(props,"========>tripData");
     const handleBankBar=()=>{
         setBar("bank")
     }
@@ -78,12 +78,23 @@ const TripModal = () => {
 
     }, [])
   return (
-      <div><Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }}
+      <div>
+          {
+              role.role === "client" ?
+                 
+                      <h4
 
-          onClick={handleShow}>+ CREATE NEW TRIP
-      </Button>
+                          onClick={handleShow} style={{ cursor: "pointer" }} className="ml-4"> view Trip</h4>
+                        
+                  :
 
-          <Modal show={show} onHide={handleClose} >
+          <h4
+
+              onClick={handleShow} style={{ cursor: "pointer" }} className="ml-2"> add crew member</h4>
+                  
+          }
+
+          <Modal show={show} onHide={handleClose}  >
               <div className="modal-header ">
                   <h2 className="modal-title h4 text-dark">Create new trip</h2>
                   
@@ -118,8 +129,8 @@ const TripModal = () => {
                   </Row> 
                   {bar==="bank"&&
                       <Form>
-                          <Input type="text" name="tripName" id="" className='mt-3' onChange={handleTripValues} placeholder="Trip name" />
-                          <Input type="select" name="client" id="" className='mt-3' onChange={handleTripValues} placeholder="Client" >
+                          <Input type="text" name="tripName" id="" className='mt-3' value={props?.tripdata?.tripName} onChange={handleTripValues} placeholder="Trip name" />
+                          <Input type="select" name="client" id="" className='mt-3' value={props?.tripdata?.client} onChange={handleTripValues} placeholder="Client" >
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
@@ -130,13 +141,13 @@ const TripModal = () => {
                           <Form inline className='mt-3'>
 
 
-                              <Input type="number" name="Fee" id="exampleEmail" onChange={handleTripValues} placeholder="Fee" />
+                              <Input type="number" name="Fee" id="exampleEmail" value={props?.tripdata?.Fee} onChange={handleTripValues} placeholder="Fee" />
 
 
-                              <Input type="text" className='ml-3' name="percentage" onChange={handleTripValues} id="examplePassword" placeholder="Percentage" />
+                              <Input type="text" className='ml-3' name="percentage" value={props?.tripdata?.percentage} onChange={handleTripValues} id="examplePassword" placeholder="Percentage" />
                           </Form>
                           <div className="md-form mt-3">
-                              <textarea id="form7" className="md-textarea form-control" onChange={handleTripValues} name="description" rows="3" placeholder=''></textarea>
+                              <textarea id="form7" className="md-textarea form-control" value={props?.tripdata?.description} onChange={handleTripValues} name="description" rows="3" placeholder=''></textarea>
 
                           </div>
 
@@ -154,7 +165,7 @@ const TripModal = () => {
                 <Form inline className='mt-3'>
                 <Row>
                 <Col>
-                    <Input type="select" name="destinationFrom" onChange={handleTripValues} id="" className='mt-3'  placeholder="Destination from" >
+                    <Input type="select" name="destinationFrom" value={props?.tripdata?.destinationFrom} onChange={handleTripValues} id="" className='mt-3'  placeholder="Destination from" >
                    <option>Destination from</option>
                     <option>2</option>
                     <option>3</option>
@@ -163,7 +174,7 @@ const TripModal = () => {
                 </Input>
                 </Col>
                 <Col> 
-                    <Input type="select" name="destinationTo" onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
+                    <Input type="select" name="destinationTo" value={props?.tripdata?.destinationTo} onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
                     <option>Destination to</option>
                     <option>2</option>
                     <option>3</option>
@@ -180,13 +191,13 @@ const TripModal = () => {
         
         <FormGroup>
         <Label for="exampleDate">Start Date</Label>
-        <Input type="date" name="startDate" onChange={handleTripValues} id="exampleDate" placeholder="Start" className='mt-1' />
+        <Input type="date" name="startDate" onChange={handleTripValues} value={props?.tripdata?.startDate} id="exampleDate" placeholder="Start" className='mt-1' />
         </FormGroup>
         </Col>
         <Col>
         <FormGroup>
         <Label for="exampleDate">End Date</Label>
-        <Input type="date" name="endDate" onChange={handleTripValues} id="exampleDate" placeholder="End" className='mt-1' />
+        <Input type="date" name="endDate" onChange={handleTripValues} value={props?.tripdata?.endDate} id="exampleDate" placeholder="End" className='mt-1' />
         </FormGroup>
        </Col>
             </Row>
@@ -205,7 +216,7 @@ const TripModal = () => {
                       <Form inline className='mt-3'>
                           
                                   <Input type="select" name="aircraftType" 
-                                      onChange={handleTripValues} id="" className='mt-3' placeholder="Destination from" >
+                                      onChange={handleTripValues} id="" className='mt-3' value={props?.tripdata?.aircraftType} placeholder="Destination from" >
                                       <option>Aircraft Type</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -214,7 +225,7 @@ const TripModal = () => {
                                   </Input>
                              
                                   <Input type="select" name="selectAircraft"
-                                    onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
+                                      onChange={handleTripValues} id="" className='mt-3 ml-5' value={props?.tripdata?.selectAircraft} placeholder="Destination to" >
                                       <option>Select aircraft</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -227,7 +238,7 @@ const TripModal = () => {
                               <Form inline className='mt-3'>
 
                                   <Input type="select" name="hotelType"
-                                    onChange={handleTripValues} id="" className='mt-3' placeholder="Destination from" >
+                                    onChange={handleTripValues} id="" className='mt-3' value={props?.tripdata?.hotelType} placeholder="Destination from" >
                                       <option>Hotel type</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -236,7 +247,7 @@ const TripModal = () => {
                                   </Input>
 
                                   <Input type="select" name="airlineTravel" 
-                                    onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
+                                      onChange={handleTripValues} id="" className='mt-3 ml-5' value={props?.tripdata?.airlineTravel} placeholder="Destination to" >
                                       <option>Airline travel class</option>
                                       <option>2</option>
                                       <option>3</option>
@@ -264,49 +275,50 @@ const TripModal = () => {
     :
 <Col>
 
-       <CrewNestedModal/>                           
+    <CrewNestedModal tripId={props?.tripdata?._id}/>                           
 </Col>
 }
                               <Table className="mt-3" >
                                   <thead>
                                       <tr>
-                                          <th style={{ color: "black", fontSize:"8px"}}>Crew Name</th>
-                                          <th style={{ color: "black", fontSize: "8px" }}> Client Appendix 1</th>
-                                          <th style={{ color: "black", fontSize: "8px" }}>Crew Appendix 1 </th>
-                                          <th style={{ color: "black", fontSize: "8px" }}> VAT% </th>
-                                          <th style={{ color: "black", fontSize: "8px" }}> Actions</th>
+                                          <th style={{ fontWeight:"700",color: "black", fontSize:"5px"}}>Crew Name</th>
+                                          <th style={{ fontWeight: "700",color: "black", fontSize: "5px" }}> Client Rate</th>
+                                          <th style={{ fontWeight: "700",color: "black", fontSize: "5px" }}> Per Diems</th>
+                                          <th style={{ fontWeight: "700", color: "black", fontSize: "5px" }}>Crew Rate </th>
+                                          <th style={{ fontWeight: "700",color: "black", fontSize: "5px" }}> Per Diems</th>
+                                         
+                                          <th style={{ fontWeight: "700", color: "black", fontSize: "5px" }}> VAT% </th>
+                                          <th style={{ fontWeight: "700",color: "black", fontSize: "5px" }}> Actions</th>
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          
+                                  {
+                                props?.tripdata?.crewMembers.map((data)=>(
+                                    <tr>
+                                        <td>{data?.crewName}</td>
+                                        <td>{data?.dailyRateClient}</td>
+                                        
+                                        <td>{data?.perDiemsClient}</td>
+                                        <td>{data?.dailyRateCrew}</td>
+                                        <td>{data?.perDiemsCrew}</td>
+                                        <td>10%</td>
 
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                        <td><i className="fa fa-trash"
+                                            style={{ fontSize: "15px" }} aria-hidden="true"></i>
+                                            {
+                                                role.role === "client" ?
+                                                    <></>
+                                                    :
+                                            <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                            }
 
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
+                                        </td>
+                                    </tr>
 
-                                         
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
-
-                                          </td>
-
-
-
-                                      </tr>
+                                ))
+                                      
+                                  }
+                                     
 
 
                                   </tbody>
@@ -316,31 +328,7 @@ const TripModal = () => {
                 }
               </Modal.Body>
               <Modal.Footer className="justify-content-between px-4">
-              {
-                
-                      bar === "route"&&
-                          <>
-                  <Button className="" color="dark" type="button"
-                      onClick={handleRouteBarAgain}>
-                      SAVE
-                  </Button>
-                  <button
-                      className="btn btn-danger"
-                      variant="danger"
-                      onClick={handleClose}
-                  >
-                      Close
-                  </button>
-                  </>
-              }
-                  {
-
-                      bar === "aircraft" &&
-                      <>
-                          <Button className="" color="dark" type="button"
-                              onClick={handleAircraftBarAgain}>
-                              SAVE
-                          </Button>
+             
                           <button
                               className="btn btn-danger"
                               variant="danger"
@@ -348,40 +336,10 @@ const TripModal = () => {
                           >
                               Close
                           </button>
-                      </>
-                  }
-                  {bar === "bank"&&
-                  <>
-                  <Button className="" color="dark" type="button"
-                      onClick={handleBasicBarAgain}>
-                      CREATE
-                  </Button>
-                  <button
-                      className="btn btn-danger"
-                      variant="danger"
-                      onClick={handleClose}
-                  >
-                      Close
-                  </button>
-                      </>
-              }
-                  {bar === "crew" &&
-                      <>
-                          <Button className="" color="dark" type="button"
-                              onClick={trip}>
-                              CREATE
-                          </Button>
-                          <button
-                              className="btn btn-danger"
-                              variant="danger"
-                              onClick={handleClose}
-                          >
-                              Close
-                          </button>
-                      </>
-                  }
+                     
+                  
               </Modal.Footer>
           </Modal></div>
   )
 }
-export default TripModal;
+export default TripEditModal;
