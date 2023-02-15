@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input } from 'reactstrap';
 import FileBase64 from "react-file-base64";
 import { addDocument } from 'Api/api';
+import Swal from "sweetalert2";
 
 const DocumentModal = () => {
     const [show, setShow] = useState(false);
@@ -24,15 +25,40 @@ const DocumentModal = () => {
         await addDocument(documentValues)
             .then((res) => {
                 if (res.data.message === "document created") {
-                    alert("Document Uploaded")
+                    handleClose();
+                    Swal.fire({
+                        position: "center",
+                        icon: "succcess",
+                        text: "Document Uploaded",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    window.location.reload();
                 }
                 else {
-                    alert("error in uploading Document")
+                    handleClose();
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        text: "Error in uploading document",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    window.location.reload();
                 }
             })
         }
         else{
-            alert("Please Complete all fields")
+            Swal.fire({
+                position: "center",
+                icon: "warninig",
+                text: "Please complete all the fields",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
         }
     }
 

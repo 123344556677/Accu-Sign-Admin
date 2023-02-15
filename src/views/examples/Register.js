@@ -1,4 +1,6 @@
 import React,{ useState } from "react";
+import { useHistory } from 'react-router-dom';
+import logo from './Accu Sign.png'
 import {
   Button,
   Card,
@@ -15,33 +17,91 @@ import {
 } from "reactstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import { register } from "Api/api";
+import Swal from "sweetalert2";
 
 const Register = () => {
-const [values,setValues]=useState('')
+const [values,setValues]=useState()
+
  const reg=async()=>{
-  console.log(values,"==========>regValues")
+ 
    const { email, password, firstName, phoneNumber, role } = values;
-   console.log(email, password,firstName, role, phoneNumber, "======>exValues")
-   if (email && password && firstName && role  && phoneNumber) {
+  
+ 
+   
+   console.log(values, "==========>regValues")
+   
+   if (email && password && firstName && phoneNumber) {
+     if (values.role === undefined) {
+const regValues= {
+       values:values,
+       role:"crew"
+
+}
+       await register(regValues)
+         .then((res) => {
+
+           if (res.data.message === "Email already exist") {
+             // console.log(res, "regResponse========>");
+             alert("Email already exist");
+             // {
+             //    position: "top-center"
+             //  })
+           }
+           else {
+             alert("Registered Successfully");
+             //    {
+             //    position: "top-center"
+             //  })
+           }
+         });
+
+
+
+     }
+     if(role==="client"){
+       const regValues = {
+         values: values,
+         role: "client"
+
+       }
+       await register(regValues)
+         .then((res) => {
+
+           if (res.data.message === "Email already exist") {
+             // console.log(res, "regResponse========>");
+             Swal.fire({
+               position: "center",
+               icon: "error",
+               text: "Email already Exist",
+               color: "black",
+               showConfirmButton: false,
+               timer: 2000,
+             });
+             // {
+             //    position: "top-center"
+             //  })
+           }
+           else {
+             Swal.fire({
+               position: "center",
+               icon: "error",
+               text: "Registered Successfuly",
+               color: "black",
+               showConfirmButton: false,
+               timer: 2000,
+             });
+             //    {
+             //    position: "top-center"
+             //  })
+           }
+         });
+
+     }
     
-     await register(values)
-       .then((res) => {
-        
-         if (res.data.message ==="Email already exist") {
-          // console.log(res, "regResponse========>");
-          alert("Email already exist"); 
-          // {
-          //    position: "top-center"
-          //  })
-         }
-         else {
-           alert("Registered Successfully");
-          //    {
-          //    position: "top-center"
-          //  })
-         }
-       });
-   }
+    
+      
+   
+  }
    else {
      alert("Please Complete all fields")
    }
@@ -50,19 +110,24 @@ const [values,setValues]=useState('')
     setValues({ ...values, [e.target.name]: e.target.value });
     console.log(values,"====>values");
   }
+  const history = useHistory();
   return (
     <>
       <Col lg="6" md="8">
         <Card className="bg-secondary shadow border-0">
-          <CardHeader className="bg-transparent pb-5">
+          <CardHeader className="bg-transparent">
+            <img
+              alt="..."
+              src={logo}
+            />
             <div className="text-muted text-center mt-2">
-              <small style={{ color: "black" }}>Sign up with</small>
+              <small style={{ color: "black", fontWeight: "700",fontSize:"16px"}}>SignUp</small>
             </div>
             
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small style={{ color: "black" }}>sign up with credentials</small>
+              <small style={{ color: "black", fontSize: "15px" }}>Signup With Credentials</small>
             </div>
             <Form role="form">
               <FormGroup>
@@ -134,6 +199,7 @@ const [values,setValues]=useState('')
                     type="select"
                     autoComplete=""
                     name="role"
+                    
                     onChange={handleRegValues}
                   ><option value="crew">Crew Member</option>
                     <option value="client">Client</option>
@@ -141,6 +207,18 @@ const [values,setValues]=useState('')
                   </Input>
                 </InputGroup>
               </FormGroup>
+              <Row className="justify-content-center">
+              <a
+                className="text-light mt-4 "
+                href=""
+
+
+
+              >
+                <small style={{ color: "black" }}>Already Logged In?
+                  <a className='ml-2' style={{ color: "blue" }} onClick={() => history.push('/')}>Login</a></small>
+              </a>
+              </Row>
              
               <div className="text-center">
                 <Button className="mt-4" color="dark" type="button" onClick={reg}>

@@ -39,6 +39,8 @@ import Header from "components/Headers/Header.js";
 import { getAllAircraft } from "Api/api";
 import { getAllClient } from "Api/api";
 import { getAllTrips } from "Api/api";
+import AircraftViewModal from "components/ViewModals/AircraftViewModals";
+import ClientViewModal from "components/ViewModals/ClientViewModal";
 
 
 const Index = (props) => {
@@ -78,7 +80,7 @@ const Index = (props) => {
     <>
       <Link
         className="h2 ml-1 mb-0 mt-4 ml-4 text-black text-uppercase d-none d-lg-inline-block"
-        to="/"
+        
       >
         Dashboard
       </Link>
@@ -87,61 +89,71 @@ const Index = (props) => {
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row>
-          <Col className="mb-5 mb-xl-0" xl="8">
-            <Card className="shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-light ls-1 mb-1">
-                      Overview
-                    </h6>
-                    <h2 className=" mb-0">Sales value</h2>
+            <Col xl={8}>
+
+              <Card className="shadow">
+                <CardHeader className="bg-transparent">
+                  <Row className="">
+                    <Col xl={6}>
+                      <h2 className="mb-0">Aircraft</h2>
+                    </Col>
+                    <Col xl={6}>
+                      <div className="col" style={{ float: "right" }}>
+                     <AircraftViewModal/>
+                     </div>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+
+
+                  <div className="chart">
+                    <Row>
+                      {
+                        aircraftData.length ?
+                        aircraftData?.map((data, index) => (
+                          <Col xl={4} key={index}>
+
+                            <Row className="mt-3">
+                              <Col xl={4} >
+
+
+                                <span className="avatar avatar-md rounded-circle">
+                                  <img
+                                    alt="..."
+                                    src={data.aircraftPic ? data.aircraftPic
+                                      : require("../assets/img/theme/team-4-800x800.jpg")}
+                                  />
+                                </span>
+
+
+                              </Col>
+                              <Col xl={5} className="">
+                                <h5>{data.aircraftOwner}</h5>
+                                <span className="text-nowrap" style={{ fontSize: "13px" }}>{data?.aircraftType ? data?.aircraftType : ""}</span>
+                              </Col>
+
+                            </Row>
+
+                          </Col>
+                        ))
+                      
+                      :
+                    
+                            <p className="text-center" >No aircrafts Available!</p>
+                            
+                                 
+                    
+                                    }
+                  </Row>
+                  
                   </div>
-                  <div className="col">
-                    <Nav className="justify-content-end" pills>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 1
-                          })}
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 1)}
-                        >
-                          <span className="d-none d-md-block">Month</span>
-                          <span className="d-md-none">M</span>
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 2
-                          })}
-                          data-toggle="tab"
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 2)}
-                        >
-                          <span className="d-none d-md-block">Week</span>
-                          <span className="d-md-none">W</span>
-                        </NavLink>
-                      </NavItem>
-                    </Nav>
-                  </div>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Line
-                    data={chartExample1[chartExample1Data]}
-                    options={chartExample1.options}
-                    getDatasetAtEvent={(e) => console.log(e)}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-              
-            
-          </Col>
+                  
+
+                  
+                </CardBody>
+              </Card>
+            </Col>
           
           <Col xl="4">
             <Card className="shadow">
@@ -153,7 +165,7 @@ const Index = (props) => {
                   </div>
                     <div className="col" style={{float:"right"}}>
 
-                      <Link><span className="h5 font-weight-bold mb-0 ml-1">View All</span></Link>
+                      <ClientViewModal/>
                     </div>
                 </Row>
               </CardHeader>
@@ -162,25 +174,22 @@ const Index = (props) => {
             
                 <div className="chart">
                 {
+                  clientData.length ?
                 clientData?.map((data,index)=>(
                       <Row key={index} className="mt-3">
-                        <Col xl={3} >
-                          <span className="avatar avatar-lg rounded-circle">
-                            <img
-                              alt="..."
-                              src={require("../assets/img/theme/team-4-800x800.jpg")}
-                            />
-                          </span>
-                        </Col>
+                        
                     <Col xl={5} className="ml-1">
                           <h3>{data?.firstName}</h3>
-                          <span className="text-nowrap" style={{ fontSize: "13px" }}>Pilot
-                          
-                          Flight Crew</span>
+                      <span className="text-nowrap" style={{ fontSize: "13px" }}>{data?.country ? data?.country:"Country not added"}</span>
                         </Col>
 
                       </Row>
-                ))}
+                      
+                ))
+              
+                        :
+                        <p className="">No clients Available!</p>
+              }
                   
                 </div>
               </CardBody>
@@ -189,57 +198,7 @@ const Index = (props) => {
         </Row>
 <Row className="mt-4">
 
-<Col xl={8}>
 
-          <Card className="shadow">
-            <CardHeader className="bg-transparent">
-              <Row className="">
-                <Col xl={6}>
-                  <h2 className="mb-0">Aircraft</h2>
-                </Col>
-                    <Col xl={6}>
-
-                  <Link><span className="h5 font-weight-bold mb-0 mt-2" style={{float:"right"}}>View All</span></Link>
-                </Col>
-              </Row>
-            </CardHeader>
-            <CardBody>
-
-
-              <div className="chart">
-                <Row>
-                  {
-                    aircraftData?.map((data, index) => (
-                      <Col xl={4} key={index}>
-
-                        <Row className="mt-3">
-                          <Col xl={4} >
-                        
-                              
-                              <span className="avatar avatar-md rounded-circle">
-                                <img
-                                  alt="..."
-                                src={data.aircraftPic ?  data.aircraftPic 
-                                :require("../assets/img/theme/team-4-800x800.jpg")}
-                                />
-                            </span>
-                            
-                          
-                          </Col>
-                          <Col xl={5} className="">
-                            <h5>{data.aircraftOwner}</h5>
-                            <span className="text-nowrap" style={{ fontSize: "13px" }}>Pilot  Flight Crew</span>
-                          </Col>
-
-                        </Row>
-
-                      </Col>
-                    ))}
-                </Row>
-              </div>
-            </CardBody>
-          </Card>
-            </Col>
           </Row>
          
          {/*<Row className="mt-5">

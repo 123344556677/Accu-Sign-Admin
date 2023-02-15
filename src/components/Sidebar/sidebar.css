@@ -1,0 +1,15 @@
+.name-span:hover{
+    background-color: black;
+    color:white
+}
+.name-span{
+    background-color: white;
+    border: 1px solid black;
+
+}
+.name:hover{
+    color: white
+}
+.name{
+color: black
+}

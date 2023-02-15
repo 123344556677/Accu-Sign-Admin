@@ -7,6 +7,7 @@ import './document.css'
 import { addDocument } from 'Api/api';
 import DocumentModal from 'components/Modals/DocumentModal';
 import { getAllDocument } from 'Api/api';
+import Swal from "sweetalert2";
 const Document = () => {
 const [upload,setUpload]=useState(true);
 const [documents,setDocuments]=useState([])
@@ -39,9 +40,9 @@ console.log(documents,"========>documents")
                   <Col xl={6}>
                       <Link
                           className="h2 mt-3 ml-1 mb-0 text-black text-uppercase d-none d-lg-inline-block"
-                          to="/"
+                          
                       >
-                          AIRCRAFT list
+                         Document
                       </Link>
                   </Col>
                   <Col xl={6}>
@@ -68,10 +69,11 @@ console.log(documents,"========>documents")
 
           <Row>
           {
+        documents?.length?
             upload?
             documents?.map((data)=>(
-                <Col xl={4} key={data}>
-                    <div className="card mt-3 " style={{
+                <Col xl={4} key={data} className="  ">
+                    <div className="card mt-3 ml-1 mr-1 " style={{
                         backgroundColor: "#e9ecef", border: "none",
                         borderRadius: "0%"
                     }} >
@@ -160,6 +162,8 @@ console.log(documents,"========>documents")
                                       </div>
                                   </Col>
                               ))
+                              :
+                              <p className='mt-3 ml-3'>No Documents Available!</p>
           }
           
           

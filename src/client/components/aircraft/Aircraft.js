@@ -26,7 +26,9 @@ const Aircraft = () => {
                         </Link>
                     </Col>
                     <Col xl={6}>
-                        <AircraftModal />
+                    {
+                        // <AircraftModal />
+                    }
                     </Col>
                 </Row>
                 <Row className="mt-4">
@@ -50,6 +52,7 @@ const Aircraft = () => {
                                     <tbody>
 
                                         {
+                                            aircraftData?.lenght?
                                             aircraftData?.map((data, index) => (
                                                 <tr>
                                                 {
@@ -83,6 +86,8 @@ const Aircraft = () => {
                                                     </td>
                                                 </tr>
                                             ))
+                                            :
+                                            <p className='mt-2'>No aircrafts available!</p>
                                         }
 
 

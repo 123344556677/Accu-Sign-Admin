@@ -11,6 +11,7 @@ import ClientSidebar from "components/Sidebar/ClientSidebar.js";
 
 import routes from "clientRoute.js";
 import MainNavbar from "components/Navbars/MainNavbar";
+import Footer from "components/Footers/AdminFooter";
 
 const Client = (props) => {
     const mainContent = React.useRef(null);
@@ -70,8 +71,9 @@ const Client = (props) => {
 
                 <Switch>
                     {getRoutes(routes)}
-                    <Redirect from="*" to="/client" />
+                    <Redirect from="*" to="/client/clientIndex" />
                 </Switch>
+                <Footer/>
 
             </div>
         </>

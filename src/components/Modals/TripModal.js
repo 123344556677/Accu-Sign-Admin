@@ -1,10 +1,14 @@
 import { getUserById } from 'Api/api';
 import { addtripDetails } from 'Api/api';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Link } from 'react-router-dom';
 import { Button, Form, Input, FormGroup,Row,Col, Label, Table } from 'reactstrap';
 import CrewNestedModal from './CrewNestedModal';
+import Swal from "sweetalert2";
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
+import { getAllAircraft } from 'Api/api';
 
 const TripModal = () => {
     const [show, setShow] = useState(false);
@@ -39,19 +43,36 @@ const TripModal = () => {
         console.log(tripName, client, fee,
             percentage, description, destinationTo, destinationFrom,
             startDate, endDate, aircraftType, selectAircraft, hotelType, airlineTravel, clientId, "======>exValues")
-        if (tripName, client, fee,
-            percentage, description, destinationTo, destinationFrom,
-            startDate, endDate, aircraftType, selectAircraft, hotelType, airlineTravel) {
+        if (tripName&& client&& fee,
+            percentage, description, destinationTo&& destinationFrom&&
+            startDate&& endDate&& aircraftType, selectAircraft, hotelType&& airlineTravel) {
         await addtripDetails(value)
             .then((res) => {
-
-                alert("Details added");
+                handleClose();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    text: "Details added",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                window.location.reload();
                 setValues('')
 
             });
         }
         else {
-            alert("Please Complete all fields")
+            handleClose();
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                text: "Please complete all the fields",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            window.location.reload();
         }
     }
    const handleBasicBarAgain=()=>{
@@ -77,6 +98,16 @@ const TripModal = () => {
             })
 
     }, [])
+    const [aircraftData, setAircratData] = useState([]);
+    useEffect(() => {
+        getAllAircraft()
+            .then((res) => {
+                console.log(res, "======>airtabletData")
+                setAircratData(res.data)
+            })
+
+    }, [])
+    const options = useMemo(() => countryList().getData(), [])
   return (
       <div><Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }}
 
@@ -130,10 +161,10 @@ const TripModal = () => {
                           <Form inline className='mt-3'>
 
 
-                              <Input type="number" name="Fee" id="exampleEmail" onChange={handleTripValues} placeholder="Fee" />
+                              <Input type="number" style={{ cursor: role.role==="client"?"not-allowed":""}} name="Fee" id="exampleEmail" onChange={handleTripValues} placeholder="Fee" />
 
 
-                              <Input type="text" className='ml-3' name="percentage" onChange={handleTripValues} id="examplePassword" placeholder="Percentage" />
+                              <Input type="text" className='ml-3' style={{ cursor: role.role === "client" ? "not-allowed" : "" }}  name="percentage" onChange={handleTripValues} id="examplePassword" placeholder="Percentage" />
                           </Form>
                           <div className="md-form mt-3">
                               <textarea id="form7" className="md-textarea form-control" onChange={handleTripValues} name="description" rows="3" placeholder=''></textarea>
@@ -155,6 +186,7 @@ const TripModal = () => {
                 <Row>
                 <Col>
                     <Input type="select" name="destinationFrom" onChange={handleTripValues} id="" className='mt-3'  placeholder="Destination from" >
+                    <Select options={options} name="destinationFrom" value={value} onChange={handleTripValues} />
                    <option>Destination from</option>
                     <option>2</option>
                     <option>3</option>
@@ -216,10 +248,15 @@ const TripModal = () => {
                                   <Input type="select" name="selectAircraft"
                                     onChange={handleTripValues} id="" className='mt-3 ml-5' placeholder="Destination to" >
                                       <option>Select aircraft</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
+                                      {
+                                          aircraftData.length ?
+                                              aircraftData?.map((data, index) => (
+                                                  <option>{data.firstName}</option>
+                                              ))
+                                              :
+                                              <option>No aircrafts available</option>
+                                      }
+
                                   </Input>
                               
                           
@@ -256,7 +293,9 @@ const TripModal = () => {
 <Row>
 <Col>
 
-<h3 className='mt-3'>Crew member list</h3>
+{
+// <h3 className='mt-3'>Crew member list</h3>
+}
 </Col>
 {
     role.role==="client"?
@@ -264,53 +303,87 @@ const TripModal = () => {
     :
 <Col>
 
-       <CrewNestedModal/>                           
+       <CrewNestedModal crewValues={value}/>                           
 </Col>
 }
-                              <Table className="mt-3" >
-                                  <thead>
-                                      <tr>
-                                          <th style={{ color: "black", fontSize:"8px"}}>Crew Name</th>
-                                          <th style={{ color: "black", fontSize: "8px" }}> Client Appendix 1</th>
-                                          <th style={{ color: "black", fontSize: "8px" }}>Crew Appendix 1 </th>
-                                          <th style={{ color: "black", fontSize: "8px" }}> VAT% </th>
-                                          <th style={{ color: "black", fontSize: "8px" }}> Actions</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
+{
+                            //   <Table className="mt-3" >
+                            //       <thead>
+                            //           <tr>
+                            //               <th style={{ color: "black", fontSize:"8px"}}>Crew Name</th>
+                            //               <th style={{ color: "black", fontSize: "8px" }}> Client Appendix 1</th>
+                            //               <th style={{ color: "black", fontSize: "8px" }}>Crew Appendix 1 </th>
+                            //               <th style={{ color: "black", fontSize: "8px" }}> VAT% </th>
+                            //               <th style={{ color: "black", fontSize: "8px" }}> Actions</th>
+                            //           </tr>
+                            //       </thead>
+                            //       <tbody>
+                            //           <tr>
+                            //               <td>1</td>
+                            //               <td>Mark</td>
+                            //               <td>Otto</td>
+                            //               <td>@mdo</td>
                                           
 
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                            //               <td><i className="fa fa-trash"
+                            //                   style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                            //                   <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
 
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
+                            //               </td>
+                            //           </tr>
+                            //           <tr>
+                            //               <td>1</td>
+                            //               <td>Mark</td>
+                            //               <td>Otto</td>
+                            //               <td>@mdo</td>
 
                                          
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                            //               <td><i className="fa fa-trash"
+                            //                   style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                            //                   <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
 
-                                          </td>
-
-
-
-                                      </tr>
+                            //               </td>
 
 
-                                  </tbody>
-                              </Table>
+
+                            //           </tr>
+                            //           <tr>
+                            //               <td>1</td>
+                            //               <td>Mark</td>
+                            //               <td>Otto</td>
+                            //               <td>@mdo</td>
+
+
+                            //               <td><i className="fa fa-trash"
+                            //                   style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                            //                   <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+
+                            //               </td>
+
+
+
+                            //           </tr>
+                            //           <tr>
+                            //               <td>1</td>
+                            //               <td>Mark</td>
+                            //               <td>Otto</td>
+                            //               <td>@mdo</td>
+
+                                         
+                            //               <td><i className="fa fa-trash"
+                            //                   style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                            //                   <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+
+                            //               </td>
+
+
+
+                            //           </tr>
+
+
+                            //       </tbody>
+                            //   </Table>
+                              }
 </Row>
                       
                 }

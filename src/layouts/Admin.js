@@ -11,6 +11,7 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
 import MainNavbar from "components/Navbars/MainNavbar";
+import Footer from "components/Footers/AdminFooter";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -72,7 +73,7 @@ const Admin = (props) => {
           {getRoutes(routes)}
           <Redirect from="*" to="/admin/index" />
         </Switch>
-        
+        <Footer/>
       </div>
     </>
   );

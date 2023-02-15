@@ -5,23 +5,22 @@ import { Link } from "react-router-dom";
 import { getAllClient } from "Api/api";
 import { getAllCrew } from "Api/api";
 import { getAllTrips } from "Api/api";
+import { getPaymentByClientId } from "Api/api";
+import { TripsByclientId } from "Api/api";
 const Header = () => {
   const [clientData, setClientData] = useState([])
   //  const [aircratData, setAircrafttData] = useState([])
   const [crewData, setCrewData] = useState([])
   const [TripsData, setTripsData] = useState([]);
+  const [paymentData, setPaymentData] = useState([]);
+  const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
 
+  
+  const Values = {
+    clientId: role.id
+  }
   useEffect(() => {
-    getAllClient()
-      .then((res) => {
-        console.log(res, "======>clientData")
-        setClientData(res.data)
-      })
-
-  }, [])
-
-  useEffect(() => {
-    getAllTrips()
+    TripsByclientId(Values)
       .then((res) => {
         console.log(res, "======>Trips data")
         setTripsData(res.data)
@@ -29,11 +28,12 @@ const Header = () => {
 
   }, [])
 
+  
   useEffect(() => {
-    getAllCrew()
+    getPaymentByClientId(Values)
       .then((res) => {
-        console.log(res, "======>clientData")
-        setCrewData(res.data)
+        console.log(res, "======>paymentData")
+        setPaymentData(res.data)
       })
 
   }, [])
@@ -46,8 +46,8 @@ const Header = () => {
 
             {/* Card stats */}
             <Row className="mt-4">
-              <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
+              <Col lg="6" xl="6">
+                <Card className="card-stats mb-4 mb-xl-0" style={{ boxShadow:" 0 0.5rem 1rem rgba(0, 0, 0, 0.1)"}}>
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -55,11 +55,11 @@ const Header = () => {
                           tag="h5"
                           className="text-uppercase text-muted mb-0"
                         >
-                          Clients
+                          Paid Invoices
                         </CardTitle>
 
                         <p className="h2 font-weight-bold mt-4" >
-                          {clientData?.length}
+                          {paymentData?.length}
                         </p>
                       </div>
                       <Col className="col-auto">
@@ -72,8 +72,8 @@ const Header = () => {
                   </CardBody>
                 </Card>
               </Col>
-              <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
+              <Col lg="6" xl="6">
+                <Card className="card-stats mb-4 mb-xl-0" style={{ boxShadow: " 0 0.5rem 1rem rgba(0, 0, 0, 0.1)" }}>
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -83,7 +83,7 @@ const Header = () => {
                         >
                           Trips
                         </CardTitle>
-                        <p className="h2 mt-4 font-weight-bold ">{TripsData?.length}</p>
+                        <p className="h2 mt-4 font-weight-bold ">{TripsData?.data?.length}</p>
                       </div>
                       <Col className="col-auto">
                         <div className="icon icon-shape bg-dark text-white rounded-circle shadow">
@@ -95,29 +95,7 @@ const Header = () => {
                   </CardBody>
                 </Card>
               </Col>
-              <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Crew Members
-                        </CardTitle>
-                        <p className="h2 mt-4 font-weight-bold ">{crewData?.length}</p>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-dark text-white rounded-circle shadow">
-                          <i className="fas fa-users" />
-                        </div>
-                      </Col>
-                    </Row>
-
-                  </CardBody>
-                </Card>
-              </Col>
+             
 
             </Row>
           </div>

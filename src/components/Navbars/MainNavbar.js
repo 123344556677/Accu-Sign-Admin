@@ -1,6 +1,7 @@
 import { getUserById } from 'Api/api';
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from "react-router-dom";
+import './MainNavbar.css'
 import {
     DropdownMenu,
     DropdownItem,
@@ -15,7 +16,8 @@ import {
     Navbar,
     Nav,
     Container,
-    Media
+    Media,
+    Row
 } from "reactstrap";
 
 const MainNavbar = () => {
@@ -24,7 +26,7 @@ const MainNavbar = () => {
     const history = useHistory();
     const logOut = () => {
         localStorage.clear();
-        history.push('/auth/login');
+        history.push('/');
       
     }
     const values = {
@@ -41,24 +43,25 @@ const MainNavbar = () => {
 
     }, [])
   return (
-      <div className='' style={{justifyContent:"end"}}>
+      <div className='' >
       
-          <nav class="navbar navbar-expand-sm bg-white" >
+          <nav className="navbar navbar-expand-sm bg-white"  >
 
           
-              <Nav className="align-items-center d-none d-md-flex" navbar style={{ color: "black" }}>
-              <UncontrolledDropdown nav>
-                  <DropdownToggle className="" nav>
+              <Nav className="align-items-center d-none d-md-flex" navbar >
+                  <UncontrolledDropdown nav className='' style={{float:"right"}}>
+                      <DropdownToggle className="" nav >
                       
-                          <button className='btn btn-outline-dark '>
+                          <button className='btn btn-outline-dark navbar-name'>
                               {usersData?.firstName} <i className="fa fa-caret-down"></i>
                           </button>
+                      
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-menu-arrow" right >
                       <DropdownItem className="noti-title" header tag="div">
                           <h6 className="text-overflow m-0">Welcome!</h6>
                       </DropdownItem>
-                          <Link to='/auth/profile'> <DropdownItem to="/auth/profile" tag={Link}>
+                          <Link to='/auth/profile'> <DropdownItem to="/profile" tag={Link}>
                           <i className="ni ni-single-02" />
                           <span>My profile</span>
                       </DropdownItem>

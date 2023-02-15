@@ -38,12 +38,16 @@ import { BsDot } from "react-icons/bs"
 import Header from "../Headers/Header.js";
 import { getAllAircraft } from "Api/api.js";
 import { getAllTrips } from "Api/api.js";
+import InvoiceModal from "components/ViewModals/InvoiceModal.js";
+import TripViewModal from "components/ViewModals/TripViewModal.js";
+import { TripsByclientId } from "Api/api.js";
+import AircraftViewModal from "components/ViewModals/AircraftViewModals.js";
 
 
 const Dashboard = () => {
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
-     const [aircratData, setAircraftData] = useState([]);
+     const [aircraftData, setAircraftData] = useState([]);
      const [TripsData, setTripsData] = useState([]);
 
     if (window.Chart) {
@@ -64,11 +68,15 @@ const Dashboard = () => {
       })
 
   }, [])
+    const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
+    const Values = {
+        clientId: role.id
+    }
     useEffect(() => {
-        getAllTrips()
+        TripsByclientId(Values)
             .then((res) => {
-                console.log(res, "======>Trips data")
-                setTripsData(res.data)
+                console.log(res, "======>TripsData")
+                setTripsData(res?.data)
             })
 
     }, [])
@@ -76,7 +84,7 @@ const Dashboard = () => {
         <>
             <Link
                 className="h2 ml-1 mb-0 mt-4 ml-4 text-black text-uppercase d-none d-lg-inline-block"
-                to="/"
+                
             >
                 Dashboard
             </Link>
@@ -97,7 +105,7 @@ const Dashboard = () => {
                                         </div>
                                         <div className="col">
 
-                                            <Link><span className="h5 font-weight-bold mb-0 ml-2 ">View All</span></Link>
+                                           <TripViewModal/>
                                         </div>
                                     </Row>
                                 </CardHeader>
@@ -106,14 +114,18 @@ const Dashboard = () => {
 
                                     <div className="chart">
                                         {
-                                            TripsData?.map((data, index) => (
+                                            TripsData.data?.length?
+                                            TripsData?.data?.map((data, index) => (
                                                 <>
                                                <h3 className="">{data.tripName}</h3>
-                                               <p style={{fontWeight:"600",fontSize:"15px"}}>{data?.destinationFrom}to {data?.destinationTo}</p>
-                                                <span style={{ fontWeight: "600", fontSize: "15px" }}>Status:Pending on Route</span>
+                                               <p style={{fontWeight:"600",fontSize:"15px"}}>{data?.destinationFrom} to {data?.destinationTo}</p>
+                                                <span style={{ fontWeight: "600", fontSize: "15px" }}>Status: {data?.status}</span>
                                                 <hr/>
                                                 </>
-                                            ))}
+                                            ))
+                                        :
+                                        <p>No trips available!</p>
+                                    }
 
                                     </div>
                                 </CardBody>
@@ -129,7 +141,7 @@ const Dashboard = () => {
                                         </div>
                                         <div className="col" >
 
-                                            <Link><span className="h5 font-weight-bold mb-0 ml-2 ">View All</span></Link>
+                                            <AircraftViewModal/>
                                         </div>
                                     </Row>
                                 </CardHeader>
@@ -138,7 +150,8 @@ const Dashboard = () => {
 
                                     <div className="chart">
                                         {
-                                            aircratData?.map((data, index) => (
+                                            aircraftData.length?
+                                            aircraftData?.map((data, index) => (
                                                 <Row key={index} className="mt-3">
                                                     <Col xl={3} >
                                                         <span className="avatar avatar-lg rounded">
@@ -156,7 +169,10 @@ const Dashboard = () => {
                                                     </Col>
 
                                                 </Row>
-                                            ))}
+                                            ))
+                                        :
+                                        <p>No aircraft Available!</p>
+                                        }
 
                                     </div>
                                 </CardBody>
@@ -173,7 +189,7 @@ const Dashboard = () => {
                                         </div>
                                         <div className="col" style={{ float: "right" }}>
 
-                                            <Link><span className="h5 font-weight-bold mb-0 ">View All</span></Link>
+                                            <InvoiceModal />
                                         </div>
                                     </Row>
                                 </CardHeader>

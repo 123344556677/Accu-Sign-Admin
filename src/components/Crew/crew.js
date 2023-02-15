@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import CrewModal from 'components/Modals/CrewModal';
 import { getAllCrew } from 'Api/api';
 import { deleteCrew } from 'Api/api';
+import Swal from "sweetalert2";
 const Crew = () => {
     const [crewData, setCrewData] = useState([])
 
@@ -20,11 +21,25 @@ const Crew = () => {
         await deleteCrew({ e })
             .then((res) => {
                 if (res.data.message === "crew deleted") {
-                    alert("crew deleted");
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        text: "Crew deleted",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                     window.location.reload();
                 }
                 else {
-                    alert("crew not deleted");
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        text: "Crew not deleted",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                 }
             })
     }
@@ -35,7 +50,7 @@ const Crew = () => {
                   <Col xl={6}>
                       <Link
                           className="h2 mt-3 ml-1 mb-0 text-black text-uppercase d-none d-lg-inline-block"
-                          to="/"
+                          
                       >
                           Crew list
                       </Link>
@@ -62,6 +77,7 @@ const Crew = () => {
                                   </thead>
                                   <tbody>
                                   {
+                                          crewData?.lenght?
                                     crewData?.map((data,index)=>(
                                         <tr >
                                             <td>{index}</td>
@@ -80,6 +96,8 @@ const Crew = () => {
                                             </td>
                                         </tr>
                                     ))
+                                    :
+                                    <p>No crew Available!</p>
                                   }
                                       
                                      

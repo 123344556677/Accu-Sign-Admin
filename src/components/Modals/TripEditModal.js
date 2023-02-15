@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import { Link } from 'react-router-dom';
 import { Button, Form, Input, FormGroup,Row,Col, Label, Table } from 'reactstrap';
 import CrewNestedModal from './CrewNestedModal';
+import Swal from "sweetalert2";
+import { getAllAircraft } from 'Api/api';
 
 const TripEditModal = (props) => {
     const [show, setShow] = useState(false);
@@ -39,19 +41,36 @@ console.log(props,"========>tripData");
         console.log(tripName, client, fee,
             percentage, description, destinationTo, destinationFrom,
             startDate, endDate, aircraftType, selectAircraft, hotelType, airlineTravel, clientId, "======>exValues")
-        if (tripName, client, fee,
-            percentage, description, destinationTo, destinationFrom,
-            startDate, endDate, aircraftType, selectAircraft, hotelType, airlineTravel) {
+        if (tripName&& client&& fee,
+            percentage, description&& destinationTo&& destinationFrom&&
+            startDate&& endDate&& aircraftType, selectAircraft, hotelType&& airlineTravel) {
         await addtripDetails(value)
             .then((res) => {
-
-                alert("Details added");
+                handleClose();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    text: "Details added",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                window.location.reload();
                 setValues('')
 
             });
         }
         else {
-            alert("Please Complete all fields")
+            handleClose();
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                text: "Please complete all the fields",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            window.location.reload();
         }
     }
    const handleBasicBarAgain=()=>{
@@ -77,20 +96,29 @@ console.log(props,"========>tripData");
             })
 
     }, [])
+    const [aircraftData, setAircratData] = useState([]);
+    useEffect(() => {
+        getAllAircraft()
+            .then((res) => {
+                console.log(res, "======>airtabletData")
+                setAircratData(res.data)
+            })
+
+    }, [])
   return (
       <div>
           {
               role.role === "client" ?
                  
-                      <h4
+                      <button className="btn btn-outline-dark btn-sm"
 
-                          onClick={handleShow} style={{ cursor: "pointer" }} className="ml-4"> view Trip</h4>
+                       onClick={handleShow} style={{ cursor: "pointer", fontSize: "12px" }}> view Trip</button>
                         
                   :
 
-          <h4
+                  <button className="btn btn-outline-dark btn-sm"
 
-              onClick={handleShow} style={{ cursor: "pointer" }} className="ml-2"> add crew member</h4>
+                      onClick={handleShow} style={{ cursor: "pointer", fontSize: "12px" }}> Add </button>
                   
           }
 
@@ -227,10 +255,14 @@ console.log(props,"========>tripData");
                                   <Input type="select" name="selectAircraft"
                                       onChange={handleTripValues} id="" className='mt-3 ml-5' value={props?.tripdata?.selectAircraft} placeholder="Destination to" >
                                       <option>Select aircraft</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
+                                      {
+                                          aircraftData.length ?
+                                              aircraftData?.map((data, index) => (
+                                                  <option>{data.firstName}</option>
+                                              ))
+                                              :
+                                              <option>No aircrafts available</option>
+                                      }
                                   </Input>
                               
                           

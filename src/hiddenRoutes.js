@@ -6,39 +6,39 @@ import ForgetPasswordLink from "views/examples/forgetPasswordLink";
 
 const routes=[
     {
-        path: "/login",
+        path: "/",
         name: "Login",
         icon: "ni ni-key-25 text-info",
         component: Login,
-        layout: "/auth"
+        layout: "/"
     },
     {
-        path: "/register",
+        path: "register",
         name: "Register",
         icon: "ni ni-circle-08 text-pink",
         component: Register,
-        layout: "/auth"
+        layout: "/"
     },
     {
-        path: "/profile",
+        path: "profile",
         name: "Profile",
         icon: "ni ni-circle-08 text-pink",
         component: Profile,
-        layout: "/auth"
+        layout: "/"
     },
      {
-         path: "/forgetPassword/:email",
+         path: "forgetPassword/:email",
          name: "forgetPassword",
         icon: "ni ni-circle-08 text-pink",
         component: ForgetPassword,
-        layout: "/auth"
+        layout: "/"
     },
     {
-        path: "/forgetPasswordLink",
+        path: "forgetPasswordLink",
         name: "forgetPasswordLink",
         icon: "ni ni-circle-08 text-pink",
         component: ForgetPasswordLink,
-        layout: "/auth"
+        layout: "/"
     }
 ]
 export default routes;

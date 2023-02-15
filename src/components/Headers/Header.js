@@ -47,7 +47,7 @@ const Header = () => {
             {/* Card stats */}
             <Row className="mt-4">
               <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" style={{ boxShadow: " 0 0.5rem 1rem rgba(0, 0, 0, 0.1)" }}>
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -73,7 +73,7 @@ const Header = () => {
                 </Card>
               </Col>
               <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" style={{ boxShadow: " 0 0.5rem 1rem rgba(0, 0, 0, 0.1)" }}>
                   <CardBody>
                     <Row>
                       <div className="col">
@@ -96,7 +96,7 @@ const Header = () => {
                 </Card>
               </Col>
               <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" style={{ boxShadow: " 0 0.5rem 1rem rgba(0, 0, 0, 0.1)" }}>
                   <CardBody>
                     <Row>
                       <div className="col">

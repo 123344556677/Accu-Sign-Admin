@@ -18,6 +18,8 @@ import dummy from './avatrOne.png';
 import { getAllUsers } from "Api/api";
 import { getUserById } from "Api/api";
 import { updateUser } from "Api/api";
+import Swal from "sweetalert2";
+import { Link, useHistory } from "react-router-dom";
 
 const Profile = () => {
   
@@ -99,14 +101,44 @@ const profileValue={
     updateUser(profileValue)
     .then((res)=>{
       if (res.data.message ==="user updated "){
-       alert("Profile Updated");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          text: "Profile updated",
+          color: "black",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
       else{
-        alert("Profile not updated");
+      Swal.fire({
+          position: "center",
+          icon: "error",
+          text: "Profile not updated",
+          color: "black",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     })
   }
+ 
+  const history = useHistory();
+  const backToHome = () => {
+    if (role.role === "admin") {
 
+
+      history.push('/admin/index');
+    }
+    if (role.role === "crew") {
+
+      history.push('/crew/crewIndex');
+    }
+    if (role.role === "client") {
+
+      history.push('/client/clientIndex');
+    }
+  }
   // console.log(values,"========>userdata")
   return (
     <>
@@ -183,7 +215,7 @@ const profileValue={
                     <h3 className="mb-0">My account</h3>
                   </Col>
                   <Col className="text-right" xs="4">
-                    
+                        <Link onClick={backToHome}> Dashboard</Link>
                   </Col>
                 </Row>
               </CardHeader>
@@ -371,7 +403,7 @@ const profileValue={
                     <h3 className="mb-0">My account</h3>
                   </Col>
                   <Col className="text-right" xs="4">
-
+                        <Link onClick={backToHome}> Dashboard</Link>
                   </Col>
                 </Row>
               </CardHeader>
@@ -736,7 +768,7 @@ const profileValue={
                 // </Col>
               }
 
-            <Col className="order-xl-1" xl="8">
+            <Col className="order-xl-1 mt-5" xl="8">
               <Card className="bg-secondary shadow">
                 <CardHeader className="bg-white border-0">
                   <Row className="align-items-center">
@@ -744,7 +776,7 @@ const profileValue={
                       <h3 className="mb-0">My account</h3>
                     </Col>
                     <Col className="text-right" xs="4">
-
+                        <Link onClick={backToHome}> Dashboard</Link>
                     </Col>
                   </Row>
                 </CardHeader>
@@ -1081,9 +1113,9 @@ const profileValue={
                         Passport
                       </h6>
                       <div className="pl-lg-4">
-                        <Row>
+                        <Row >
                           <Col md="12">
-                            <img src={usersData?.passportPic ? usersData?.passportPic : dummy} style={{ width: "600px" }} />
+                            <img src={usersData?.passportPic ? usersData?.passportPic : dummy} style={{ width: "400px" }} />
                           </Col>
                           {
                             // <Button color="secondary" size="lg" className="mt-1 mr-3 mt-3" 

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import ClientModal from 'components/Modals/ClientModal';
 import { getAllClient } from 'Api/api';
 import { deleteClient } from 'Api/api';
+import Swal from "sweetalert2";
 
 
 
@@ -26,11 +27,25 @@ const Clients = () => {
         await deleteClient({e})
         .then((res)=>{
             if (res.data.message === "client deleted") {
-                alert("client deleted");
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    text: "Client deleted",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
                 window.location.reload();
             }
             else {
-                alert("client not deleted");
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    text: "Client not deleted",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
             }
         })
     }
@@ -41,7 +56,7 @@ const Clients = () => {
     <Col xl={6}>
               <Link
                   className="h2 mt-3 ml-1 mb-0 text-black text-uppercase d-none d-lg-inline-block"
-                  to="/"
+                 
               >
                   Client list
               </Link>
@@ -69,6 +84,7 @@ const Clients = () => {
                                   </thead>
                                   <tbody>
                                   {
+                                          clientData?.length?
                                     clientData?.map((data,index=1)=>(
                                         <tr>
                                             <td>{index}</td>
@@ -85,6 +101,8 @@ const Clients = () => {
                                             </td>
                                         </tr>
                                     ))
+                                    :
+                                    <p>No clients Available!</p>
                                   }
                                       
                                     

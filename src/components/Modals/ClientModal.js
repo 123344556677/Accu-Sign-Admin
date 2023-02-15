@@ -2,6 +2,7 @@ import { createClient } from 'Api/api';
 import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input,FormGroup } from 'reactstrap';
+import Swal from "sweetalert2";
 
 const ClientModal = () => {
     const [show, setShow] = useState(false);
@@ -17,25 +18,49 @@ const ClientModal = () => {
         console.log(values, "==========>regValues")
         const { firstName, lastName, phoneNumber, email, registrationNumber } = values;
         console.log(firstName, lastName, phoneNumber, email, registrationNumber,"======>exValues")
-        if (firstName, lastName, phoneNumber, email, registrationNumber) {
+        if (firstName&& lastName&& phoneNumber&& email&& registrationNumber) {
 
             await createClient(values)
                 .then((res) => {
 
-                    if (res.data.message === "Email already exist") {
+                    if (res.data.message === "Email Sent") {
                         
-                        alert("Email already exist");
-                        
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: "Email sent to client",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                       
                     }
                     else {
-                        alert("Client created");
-                        handleClose();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: "Email not sent to client",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                        
+                        
                         
                     }
                 });
         }
         else {
-            alert("Please Complete all fields")
+            handleClose();
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                text: "Please complete all th field",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            handleClose();
         }
     }
   return (

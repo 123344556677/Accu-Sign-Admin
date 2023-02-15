@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import AircraftModal from 'components/Modals/AircraftModal';
 import { getAllAircraft } from 'Api/api';
 import { deleteAircraft } from 'Api/api';
+import Swal from "sweetalert2";
 const Aircraft = () => {
     const [aircraftData, setAircratData] = useState([]);
     useEffect(() => {
@@ -19,11 +20,25 @@ const Aircraft = () => {
         await deleteAircraft({ e })
             .then((res) => {
                 if (res.data.message === "aircraft deleted") {
-                    alert("aircraft deleted");
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        text: "Aircraft deleted ",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                     window.location.reload();
                 }
                 else {
-                    alert("aircraft not deleted");
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        text: "Aircraft not deleted",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                 }
             })
     }
@@ -34,7 +49,7 @@ const Aircraft = () => {
                   <Col xl={6}>
                       <Link
                           className="h2 mt-3 ml-1 mb-0 text-black text-uppercase d-none d-lg-inline-block"
-                          to="/"
+                          
                       >
                           AIRCRAFT list
                       </Link>
@@ -64,6 +79,7 @@ const Aircraft = () => {
                                   <tbody>
 
                                 {
+                                          aircraftData.length ?
                                     aircraftData?.map((data,index)=>(
                                         <tr>
                                             <td>
@@ -93,6 +109,8 @@ const Aircraft = () => {
                                             </td>
                                         </tr>
                                     ))
+                                    :
+                                    <p >No aircrafts Available!</p>
                                 }
                                       
                                      

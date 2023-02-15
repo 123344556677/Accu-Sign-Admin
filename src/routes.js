@@ -15,8 +15,7 @@ import Dashboard from "client/components/dashboard/Dashboard";
 import ClientTrip from "client/components/trip/Trip";
 import Clientdocument from "client/components/Document/Document";
 import Clientaircraft from "client/components/aircraft/Aircraft";
-// import Tables from "views/examples/Tables.js";
-// import Icons from "views/examples/Icons.js" 
+
 
 
 var routes = [

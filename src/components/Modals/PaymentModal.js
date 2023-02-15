@@ -8,11 +8,8 @@ import CheckoutForm from './CheckoutForm';
 
 
 const stripePromise = loadStripe('pk_test_51MaOSqE6HtvcwmMAdMy883aTXdyWTHnC8vQEIODCdn8OSGY8ePIRmlyGibnWuS9WYw1vqLYLRns32dQHzlmDVFr200yWroca7l');
-// let options = {
-//     // passing the client secret obtained from the server
-//     clientSecret: 'sk_test_51MaOSqE6HtvcwmMAEFBEcSwTQIBNvQVzAXJc1cnrFoKIQbIH7i7KfcjxtB0DsRiRECgIaGb30vlq4fVSB6uaHsP400S1cZv15n',
-// };
-const PaymentModal = () => {
+
+const PaymentModal = (props) => {
 
 
 
@@ -48,7 +45,9 @@ const PaymentModal = () => {
 
     return (
         <div>
-            <h4 onClick={handleShow} className="ml-4" style={{cursor:"pointer"}}>update payment</h4>
+            <button className="btn btn-outline-dark btn-sm"
+
+                onClick={handleShow} style={{ cursor: "pointer", fontSize: "12px" }}> update payment</button>
 
             <Modal show={show} onHide={handleClose}>
                 <div className="modal-header px-4">
@@ -64,16 +63,13 @@ const PaymentModal = () => {
                 <Modal.Body className="px-4">
                     <Form>
                         <Elements stripe={stripePromise} >
-                            <CheckoutForm />
+                            <CheckoutForm tripdata={props.tripdata} />
                         </Elements>
 
                                         </Form>
                 </Modal.Body>
                 <Modal.Footer className="justify-content-between px-4">
-                    <Button className="" color="dark" type="button"
-                        onClick={details}>
-                        CREATE
-                    </Button>
+                    
                     <button
                         className="btn btn-danger"
                         variant="danger"

@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input } from 'reactstrap';
 import FileBase64 from "react-file-base64";
 import { addaicraftDetails } from 'Api/api';
+import Swal from "sweetalert2";
 
 const AircraftModal = () => {
     const [show, setShow] = useState(false);
@@ -26,7 +27,7 @@ const AircraftModal = () => {
     }
     const aircraftDetails = async () => {
        
-        console.log(aircraftValues, "==========>aircraft")
+       
         const { aircraftOwner, aircraftOperator, type,
             registrationNumber } = aircraftValues.values;
         const { aircraftPic } = aircraftValues;
@@ -34,20 +35,48 @@ const AircraftModal = () => {
         console.log(aircraftOwner, aircraftOperator, type,
             registrationNumber, aircraftPic, "======>exValues")
 
-        if (aircraftOwner, aircraftOperator, type,
-            registrationNumber, aircraftPic) {
+        if (aircraftOwner&& aircraftOperator&& type&&
+            registrationNumber&& aircraftPic) {
 
             await addaicraftDetails(aircraftValues)
                 .then((res) => {
-
-                    alert("Details added");
-                    handleClose();
-
+                    if (res.data?.message==="Aircraft Details added"){
+                        handleClose();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: "Details added",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                
+                        window.location.reload();
+                    }
+                    
+else{
+                        handleClose();
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            text: "Details not deleted",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+}
 
                 });
         }
         else {
-            alert("Please Complete all fields")
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                text: "Please complete all the fields",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
         }
     }
   return (

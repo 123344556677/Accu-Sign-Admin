@@ -2,6 +2,7 @@ import { addBankDetails } from 'Api/api';
 import React,{useState} from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input } from 'reactstrap';
+import Swal from "sweetalert2";
 
 const BankModal = () => {
    
@@ -20,19 +21,35 @@ const BankModal = () => {
         console.log(values, "==========>regValues")
         const { title,bank,accountNumber,iban,bic,address } = values;
         console.log(title, bank, accountNumber, iban, bic, address, "======>exValues")
-        if (title, bank, accountNumber, iban, bic, address) {
+        if (title&& bank&& accountNumber&& iban&& bic&& address) {
 
             await addBankDetails(values)
                 .then((res) => {
-
-                    alert("Details added");
-                        handleClose();
+                    handleClose();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        text: "Details added",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    window.location.reload();
+                        
 
                     
                 });
         }
         else {
-            alert("Please Complete all fields")
+            handleClose();
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                text: "Please complete all the fields",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
         }
     }
   

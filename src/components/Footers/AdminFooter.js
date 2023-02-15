@@ -21,64 +21,51 @@
 import { Container, Row, Col, Nav, NavItem, NavLink } from "reactstrap";
 
 const Footer = () => {
+  const date = new Date().toLocaleString();
   return (
     <footer className="footer">
       <Row className="align-items-center justify-content-xl-between">
         <Col xl="6">
-          <div className="copyright text-center text-xl-left text-muted">
-            © {new Date().getFullYear()}{" "}
+          <div className="copyright text-center text-xl-left text-muted ml-4">
+            Powered by:
             <a
               className="font-weight-bold ml-1"
-              href="https://www.creative-tim.com?ref=adr-admin-footer"
+              href="https://www.solutioncorridor.com"
               rel="noopener noreferrer"
               target="_blank"
+
             >
-              Creative Tim
+              Solution Corridor (Digital Consultant)
+
             </a>
           </div>
         </Col>
 
-        <Col xl="6">
-          <Nav className="nav-footer justify-content-center justify-content-xl-end">
+        <Col xl="6" >
+          <Nav className="nav-footer justify-content-center justify-content-xl-end mr-4">
             <NavItem>
               <NavLink
-                href="https://www.creative-tim.com?ref=adr-admin-footer"
+                className="font-weight-bold"
+               
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Creative Tim
+                <i className="fa fa-globe" aria-hidden="true"></i>  1.1.0
               </NavLink>
             </NavItem>
 
             <NavItem>
               <NavLink
-                href="https://www.creative-tim.com/presentation?ref=adr-admin-footer"
+                
                 rel="noopener noreferrer"
                 target="_blank"
-              >
-                About Us
+              >15/2/2023 12:30pm
               </NavLink>
             </NavItem>
 
-            <NavItem>
-              <NavLink
-                href="http://blog.creative-tim.com?ref=adr-admin-footer"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Blog
-              </NavLink>
-            </NavItem>
+            
 
-            <NavItem>
-              <NavLink
-                href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md?ref=adr-admin-footer"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                MIT License
-              </NavLink>
-            </NavItem>
+           
           </Nav>
         </Col>
       </Row>

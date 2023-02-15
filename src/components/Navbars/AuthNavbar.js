@@ -65,36 +65,7 @@ const backToHome=()=>{
                 </Col>
               </Row>
             </div>
-            <Nav className="ml-auto" >
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                 
-                  tag={Link}
-                  onClick={backToHome}
-                >
-                  <i className="fa fa-home" />
-                  <span className="nav-link-inner--text" style={{ color: "black" }}>Home</span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to="/auth/register"
-                  tag={Link}
-                >
-                  <i className="ni ni-circle-08" />
-                  <span className="nav-link-inner--text" style={{ color: "black" }}>Register</span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink className="nav-link-icon" to="/auth/login" tag={Link}>
-                  <i className="ni ni-key-25" />
-                  <span className="nav-link-inner--text" style={{ color: "black" }}>Login</span>
-                </NavLink>
-              </NavItem>
-              
-            </Nav>
+            
           </UncontrolledCollapse>
         </Container>
       </Navbar>

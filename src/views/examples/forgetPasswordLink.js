@@ -34,15 +34,15 @@ const ForgetPasswordLink = () => {
   return (
     <Col lg="6" md="8">
       <Card className="bg-secondary shadow border-0">
-        <CardHeader className="bg-transparent pb-5">
+        <CardHeader className="bg-transparent">
           <div className="text-muted text-center mt-2">
-            <small style={{ color: "black" }}>Forget Password Link </small>
+            <small style={{ color: "black", fontWeight: "700", fontSize: "16px" }}>Forgot Password Link </small>
           </div>
 
         </CardHeader>
         <CardBody className="px-lg-5 py-lg-5">
           <div className="text-center text-muted mb-4">
-            <small style={{ color: "black" }}>Generate Link</small>
+            <small style={{ color: "black", fontSize: "15px" }}>Generate Link</small>
           </div>
           <Form role="form">
 

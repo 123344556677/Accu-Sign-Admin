@@ -1,9 +1,10 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink as NavLinkRRD, Link, useHistory } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 import Logo from './Accu Sign.png'
+import './sidebar.css'
 
 // reactstrap components
 import {
@@ -35,11 +36,17 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { getUserById } from "Api/api";
 
 var ps;
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
+  const [usersData, setUsersData] = useState();
+  const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
+  const values = {
+    id: role.id
+  }
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -52,6 +59,7 @@ const Sidebar = (props) => {
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
+  
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
@@ -89,9 +97,20 @@ const Sidebar = (props) => {
   const history = useHistory();
   const logOut = () => {
     localStorage.clear();
-    history.push('/auth/login');
+    history.push('/');
 
   }
+  useEffect(() => {
+
+    getUserById(values)
+      .then((res) => {
+
+        setUsersData(res.data.data)
+
+      })
+
+  }, [])
+  
 
   return (
     <Navbar
@@ -121,9 +140,7 @@ const Sidebar = (props) => {
         {/* User */}
         <Nav className="align-items-center d-md-none">
           <UncontrolledDropdown nav>
-            <DropdownToggle nav className="nav-link-icon">
-              <i className="ni ni-bell-55" />
-            </DropdownToggle>
+           
             
             <DropdownMenu
               aria-labelledby="navbar-default_dropdown_1"
@@ -140,25 +157,24 @@ const Sidebar = (props) => {
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
               <Media className="align-items-center">
-                <span className="avatar avatar-sm rounded-circle">
-                  <img
-                    alt="..."
-                    src={Logo}
-                  />
+                <span className="avatar avatar-lg rounded-circle name-span " 
+                  >
+                 
+                  <span className="name">{usersData?.firstName} <i className="fa fa-caret-down"></i></span>
+                 
                 </span>
               </Media>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" right>
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">Welcome!</h6>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
+              </DropdownItem>   <DropdownItem to="/profile" tag={Link}>
                 <i className="ni ni-single-02" />
                 <span>My profile</span>
               </DropdownItem>
               
               <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={logOut}>
+              <DropdownItem href="" onClick={logOut}>
                 <i className="ni ni-user-run" />
                 <span>Logout</span>
               </DropdownItem>
@@ -196,21 +212,7 @@ const Sidebar = (props) => {
             </Row>
           </div>
           {/* Form */}
-          <Form className="mt-4 mb-3 d-md-none">
-            <InputGroup className="input-group-rounded input-group-merge">
-              <Input
-                aria-label="Search"
-                className="form-control-rounded form-control-prepended"
-                placeholder="Search"
-                type="search"
-              />
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <span className="fa fa-search" />
-                </InputGroupText>
-              </InputGroupAddon>
-            </InputGroup>
-          </Form>
+          
           
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}

@@ -58,7 +58,7 @@ const Dashboard = () => {
         <>
             <Link
                 className="h2 ml-1 mb-0 mt-4 ml-4 text-black text-uppercase d-none d-lg-inline-block"
-                to="/"
+               
             >
                 Dashboard
             </Link>

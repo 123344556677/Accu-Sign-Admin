@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { Button } from 'reactstrap'
 import { makePayment } from 'Api/api'
+import Swal from "sweetalert2";
 const CARD_OPTIONS = {
     iconStyle: "solid",
     style: {
@@ -21,11 +22,11 @@ const CARD_OPTIONS = {
         }
     }
 }
-const CheckoutForm = () => {
+const CheckoutForm = (props) => {
     const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
     const stripe = useStripe()
     const elements = useElements()
-
+console.log(props,"tripData");
     const stripePayment = async () => {
         
         const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -41,11 +42,37 @@ const CheckoutForm = () => {
                 const { id } = paymentMethod
                 const values = {
                     clientId: role.id,
-                    tripName: "hannan",
+                    tripDetails: props.tripdata,
                     paymentId: id
                 }
                 await makePayment(values)
+                    .then((res) => {
 
+                        if (res.data.message === "Payment successful") {
+
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                text: "Payment successful",
+                                color: "black",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            window.location.reload();
+                        }
+                        else {
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                text: "Try Again",
+                                color: "black",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                           
+
+                        }
+                    });
 
                  
                 
@@ -64,7 +91,7 @@ const CheckoutForm = () => {
                   <CardElement options={CARD_OPTIONS} />
               </div>
               <div className='text-center'>
-              <Button className="mt-4 " color="outline-primary" type="button" onClick={stripePayment} >
+              <Button className="mt-4 " color="outline-primary" type="button" onClick={stripePayment}  >
                   Make Payment
               </Button>
               </div>

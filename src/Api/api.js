@@ -22,6 +22,12 @@ export const forgetPassword = async (values) => {
 export const updateUser= async (values) => {
     return await axios.put(`${url}/updateUser`, values);
 }
+export const sendForgetLink = async (email) => {
+    return await axios.post(`${url}/forgetLink`, email);
+}
+export const getCrewByKey = async () => {
+    return await axios.get(`${url}/crewByKey`);
+}
 
 
 
@@ -48,8 +54,9 @@ export const getAllCrew = async () => {
 export const deleteCrew = async (id) => {
     return await axios.post(`${url}/deleteCrewById`, id);
 }
-export const sendForgetLink = async (email) => {
-    return await axios.post(`${url}/forgetLink`, email);
+
+export const getCrewByName = async (name) => {
+    return await axios.post(`${url}/getCrewByName`, name);
 }
 
 //bankDetails
@@ -79,6 +86,9 @@ export const getAllTrips = async () => {
 export const TripsByclientId = async (values) => {
     return await axios.post(`${url}/getAllTripsByClientId`,values);
 }
+export const TripsBycrewId = async (values) => {
+    return await axios.post(`${url}/getAllTripsByCrewId`, values);
+}
 export const deleteTrip = async (id) => {
     return await axios.post(`${url}/deleteTripById`, id);
 }
@@ -87,6 +97,9 @@ export const addCrewToTrips = async (values) => {
 }
 export const updateTripStatus = async (values) => {
     return await axios.put(`${url}/updateTripStatus`, values);
+}
+export const addTripWithCrew = async (values) => {
+    return await axios.post(`${url}/addTripwithCrew`, values);
 }
 
 
@@ -101,4 +114,10 @@ export const getAllDocument = async () => {
 //stripe
 export const makePayment= async (values) => {
     return await axios.post(`${url}/stripPayment`,values);
+}
+export const getPaymentByClientId = async (values) => {
+    return await axios.post(`${url}/getPaymentByClientId`, values);
+}
+export const getAllPayments = async () => {
+    return await axios.get(`${url}/getAllPayments`);
 }

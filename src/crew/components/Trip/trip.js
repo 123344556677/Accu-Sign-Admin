@@ -1,7 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { TripsBycrewId } from 'Api/api';
 const CrewTrip = () => {
+    const [crewTripData, setCrewTripData] = useState()
+    const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
+    const [usersData, setUsersData] = useState();
+    const Values = {
+        crewId: role.id
+    }
+    useEffect(async () => {
+        await TripsBycrewId(Values)
+            .then((res) => {
+                console.log(res, "======>Trips data")
+                setCrewTripData(res?.data?.data)
+            })
+
+    }, [])
+    console.log(crewTripData, "crewDtaat======>")
   return (
       <div>
           <Container fluid>
@@ -32,61 +48,49 @@ const CrewTrip = () => {
                                           <th style={{ color: "black" }}> Location</th>
                                           <th style={{ color: "black" }}> Total crew member</th>
                                           <th style={{ color: "black" }}>Stats</th>
-                                          <th style={{ color: "black" }}> Actions</th>
+                                          {
+                                        //   <th style={{ color: "black" }}> Actions</th>
+                                          }
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      <tr>
-                                          <td>1</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>@mdo</td>
-                                          <td>  <UncontrolledDropdown setActiveFromChild>
-                                              <DropdownToggle tag="a" className="nav-link" caret>
-                                                  Active
-                                              </DropdownToggle>
-                                              <DropdownMenu>
-                                                  <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
-                                              </DropdownMenu>
-                                          </UncontrolledDropdown>
-                                              Pending <i className="fa fa-circle ml-1 mb-5" 
-                                              style={{fontSize:"5px"}} aria-hidden="true"></i>
-                                              <span className="ml-2">  Date </span>
-                                          </td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                  {
+                                    crewTripData.length ?
+                                    crewTripData?.map((data,index)=>(
+                                        <tr>
+                                            <td>{index}</td>
+                                            <td>{data?.tripName}</td>
+                                            <td>Otto</td>
+                                            <td>{data?.destinationFrom}</td>
+                                            <td>{data?.crewMembers?.length}</td>
+                                            <td> {data?.status}
+                                            {
+                                            //  <UncontrolledDropdown setActiveFromChild>
+                                            //     <DropdownToggle tag="a" className="nav-link" caret>
+                                            //         Active
+                                            //     </DropdownToggle>
+                                            //     <DropdownMenu>
+                                            //         <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
+                                            //     </DropdownMenu>
+                                            // </UncontrolledDropdown>
+                                            //     Pending <i className="fa fa-circle ml-1 mb-5"
+                                            //         style={{ fontSize: "5px" }} aria-hidden="true"></i>
+                                            //     <span className="ml-2">  Date </span>
+                                            }
+                                            </td>
+                                            {
+                                            // <td><i className="fa fa-trash"
+                                            //     style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                            //     <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
 
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>2</td>
-                                          <td>Mark</td>
-                                          <td>Otto</td>
-                                          <td>@mdo</td>
-                                          <td>@mdo</td>
-                                          <td>  <UncontrolledDropdown setActiveFromChild>
-                                              <DropdownToggle tag="a" className="nav-link" >
-                                                  Active
-                                              </DropdownToggle>
-                                              <DropdownMenu>
-                                                  <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
-                                              </DropdownMenu>
-                                          </UncontrolledDropdown>
-                                              Pending <i className="fa fa-circle ml-1 mb-5"
-                                                  style={{ fontSize: "5px" }} aria-hidden="true"></i>
-                                              <span className="ml-2">  Date </span>
-                                          </td>
-                                          <td><i className="fa fa-trash"
-                                              style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                              <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
-
-                                          </td>
-
-
-
-                                      </tr>
+                                            // </td>
+                                            }
+                                        </tr>
+                                    ))
+                                    :
+                                    <p className='mt-3'>No trips available!</p>
+                                  }
+                                      
 
 
                                   </tbody>

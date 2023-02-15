@@ -6,6 +6,8 @@ import { getAllTrips } from 'Api/api';
 import { TripsByclientId } from 'Api/api';
 import TripEditModal from 'components/Modals/TripEditModal';
 import PaymentModal from 'components/Modals/PaymentModal';
+import { deleteTrip } from 'Api/api';
+import Swal from "sweetalert2";
 const ClientTrip = () => {
     const [TripsData, setTripsData] = useState([]);
     const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
@@ -20,6 +22,33 @@ const values={
             })
 
     }, [])
+    const deleteTripById = async (e) => {
+
+        await deleteTrip({ e })
+            .then((res) => {
+                if (res.data.message === "trip deleted") {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        text: "Trip deleted",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    window.location.reload();
+                }
+                else {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        text: "Trip not deleted",
+                        color: "black",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                }
+            })
+    }
     return (
         <div>
             <Container fluid>
@@ -38,25 +67,31 @@ const values={
                 </Row>
                 <Row className="mt-4">
                     <Col lg="6" xl="12">
-                        <Card className="card-stats mb-4 mb-xl-0" style={{ height: "700px" }}>
+                        <Card className="card-stats mb-4 mb-xl-0" style={{ height: "700px",width:"1000px" }}>
                             <CardBody>
 
                                 <Table className="mt-3" >
                                     <thead>
                                         <tr>
-                                            <th style={{ color: "black" }}>#</th>
-                                            <th style={{ color: "black" }}> Name</th>
-                                            <th style={{ color: "black" }}>Client</th>
-                                            <th style={{ color: "black" }}> Location</th>
-                                            <th style={{ color: "black" }}> Total crew member</th>
-                                            <th style={{ color: "black" }}>Stats</th>
-                                            <th style={{ color: "black" }}> Actions</th>
+                                            <th style={{ fontSize:"10px", color: "black" }}>#</th>
+                                            <th style={{ fontSize: "10px", color: "black" }}> Name</th>
+                                            <th style={{ fontSize: "10px", color: "black" }}>Client</th>
+                                            <th style={{ fontSize: "10px", color: "black" }}> Location</th>
+                                            <th style={{ fontSize: "10px", color: "black" }}> Crew member</th>
+                                            <th style={{ fontSize: "10px", color: "black" }}>Stats</th>
+                                            <th style={{ fontSize: "10px", color: "black" }}> Details</th>
+                                            <th style={{ fontSize: "10px", color: "black" }}> Payment</th>
+                                              
+                                           
+                                            <th style={{ fontSize: "10px", color: "black" }}> Actions</th>
+                                         
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {
+                                            TripsData?.length?
                                             TripsData?.map((data, index) => (
-                                                <tr>
+                                                <tr >
                                                     <td>{index}</td>
                                                     <td>{data?.tripName}</td>
                                                     <td>Otto</td>
@@ -66,31 +101,37 @@ const values={
                                                         <h6>
                                                             {data?.status?data?.status:""}
                                                         </h6>
-                                                        {
-                                                    //     <DropdownMenu>
-                                                    //         <DropdownItem tag="a" href="/blah" active>Link</DropdownItem>
-                                                    //     </DropdownMenu>
-                                                    // </UncontrolledDropdown>
-                                                    //     Pending <i className="fa fa-circle ml-1 mb-5"
-                                                    //         style={{ fontSize: "5px" }} aria-hidden="true"></i>
-                                                        // <span className="ml-2">  Date </span>
-                                                        }
-                                                    </td>
-                                                    <td><i className="fa fa-trash"
-                                                        style={{ fontSize: "20px" }} aria-hidden="true"></i>
-                                                        {
-                                                        // <UncontrolledDropdown setActiveFromChild>
-                                                        //     <DropdownToggle tag="a" className="nav-link" >
-                                                        //         <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px", cursor: "pointer", position: "absolute!important", marginBottom: "50px!important" }} aria-hidden="true"></i>
-                                                        //     </DropdownToggle>
-                                                        //     <DropdownMenu>
-                                                        }
-                                                                <TripEditModal tripdata={data} />
-                                                                <PaymentModal tripdata={data} />
                                                        
                                                     </td>
+                                                    <td >
+                                                        <TripEditModal tripdata={data} />
+                                                    </td>
+                                                    {
+                                                        data.status==="approved"?
+                                                            <td >
+
+                                                                <PaymentModal tripdata={data} />
+                                                            </td>
+                                                            :
+                                                            <td >
+
+                                                                pending
+                                                            </td>
+                                                    }
+                                                    
+                                                    <td><i className="fa fa-trash"
+                                                        style={{ fontSize: "20px",cursor:"pointer" }} onClick={(e) => deleteTripById(data._id)} aria-hidden="true"></i>
+                                                        
+                                                        
+                                                                
+                                                              
+                                                       
+                                                    </td>
+                                                    
                                                 </tr>
                                             ))
+                                            :
+                                            <p>No trips avilable!</p>
 
                                         }
 

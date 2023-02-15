@@ -11,6 +11,7 @@ import CrewSidebar from "components/Sidebar/CrewSidebar.js";
 
 import MainNavbar from "components/Navbars/MainNavbar";
 import routes from "crewRoute.js";
+import Footer from "components/Footers/AdminFooter";
 
 const Crew = (props) => {
     const mainContent = React.useRef(null);
@@ -72,7 +73,7 @@ const Crew = (props) => {
                     {getRoutes(routes)}
                     <Redirect from="*" to="/crew/crewIndex" />
                 </Switch>
-
+<Footer/>
             </div>
         </>
     );

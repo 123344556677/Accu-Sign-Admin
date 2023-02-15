@@ -1,7 +1,49 @@
 
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCrewByName } from "Api/api";
+import { getUserById } from "Api/api";
+import { TripsBycrewId } from "Api/api";
+
 const Header = () => {
+
+  const [crewData,setCrewData]=useState()
+  const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
+  const [usersData, setUsersData] = useState();
+
+  
+  const values = {
+    id: role.id
+  }
+  useEffect(() => {
+
+    getUserById(values)
+      .then((res) => {
+
+        setUsersData(res?.data?.data)
+        
+
+      })
+
+  }, [])
+  console.log(usersData, "userDtaat======>")
+
+
+  const Values = {
+    crewId: role.id
+  }
+  useEffect(async () => {
+    await TripsBycrewId(Values)
+      .then((res) => {
+        console.log(res, "======>Trips data")
+        setCrewData(res?.data?.data)
+      })
+
+  }, [])
+    console.log(crewData, "crewDtaat======>")
+  
+  
   return (
     <>
       <div className="header bg-white pb-8 pt-5 ">
@@ -40,16 +82,21 @@ const Header = () => {
                     </Col>
                     <Col>
                       <div className="custom-control custom-switch ml-5 mt-4">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="customSwitches"
-                        />
-                        <label className="custom-control-label" for="customSwitches">
-                          <i className="fa fa-pencil" aria-hidden="true"></i>
-                        </label>
-                        <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    {
+                     
+                        // <input
+                        //   type="checkbox"
+                        //   className="custom-control-input"
+                        //   id="customSwitches"
+                        // />
+                        // <label className="custom-control-label" for="customSwitches">
+                        //   <i className="fa fa-pencil" aria-hidden="true"></i>
+                        // </label>
+                    }
+                        <Link to='/profile' style={{color:"black"}}>
+                             <i className="fa fa-pencil-square-o"  aria-hidden="true"></i></Link>
                       </div>
+                    
                      
                     </Col>
                   </Row>
@@ -57,20 +104,18 @@ const Header = () => {
                   <hr/>
                   <CardBody>
                   <p style={{fontWeight:"600"}}>Name:
-                  <span className="ml-2"style={{ fontWeight: "500" }}>Hannan</span>
+                  <span className="ml-2"style={{ fontWeight: "500" }}>{usersData?.firstName}</span>
                   </p>
                     <p style={{ fontWeight: "600" }}>Bank:
-                      <span className="ml-2" style={{ fontWeight: "500" }}>Hannan</span>
+                        <span className="ml-2" style={{ fontWeight: "500" }}>{usersData?.bankName ? usersData?.bankName : "Update Profile"}</span>
                     </p>
                     <p style={{ fontWeight: "600" }}>Account Number:
-                      <span className="ml-2" style={{ fontWeight: "500" }}>Hannan</span>
+                      <span className="ml-2" style={{ fontWeight: "500" }}>{usersData?.accountNumber ? usersData?.accountNumber: "Update Profile"}</span>
                     </p>
                     <p style={{ fontWeight: "600" }}>IBAN:
-                      <span className="ml-2" style={{ fontWeight: "500" }}>Hannan</span>
+                      <span className="ml-2" style={{ fontWeight: "500" }}>{usersData?.iban ? usersData?.iban : "Update Profile"}</span>
                     </p>
-                    <p style={{ fontWeight: "600" }}>BIC:
-                      <span className="ml-2" style={{ fontWeight: "500" }}>Hannan</span>
-                    </p>
+                   
                   </CardBody>
                 </Card>
            </Col>
@@ -80,7 +125,8 @@ const Header = () => {
                   <h2 className="ml-3 mt-3">Trip Requests</h2>
                   <hr/>
                   {
-                 ["ONE","TWO","THREE"].map((data)=>(
+                    crewData?.length?
+                 crewData?.map((data)=>(
 
                  
                     <div className="card ml-2 mt-3 mr-2" key={data} style={{
@@ -88,13 +134,13 @@ const Header = () => {
                       borderRadius: "0%"
                     }} >
                     <div className="card-body">
-                     <h3>Sed sed rius prituim</h3>
-                     <h4 className="mt-2">Hotel: Five stars</h4>
+                       <h3> {data?.tripName}</h3>
+                     <h4 className="mt-2">Hotel: {data?.hotelType}</h4>
                       <Row>
                         <Col xl={5}>
                           <p style={{ fontWeight: "600" }} className="ml-1 mt-2">
                           <i class="fa fa-map-marker" aria-hidden="true"></i><span className="ml-2">
-                            UK to USA
+                               {data?.destinationFrom} to  {data?.destinationTo}
                           </span>
                           </p>
 
@@ -103,7 +149,7 @@ const Header = () => {
                           
                           <p style={{ fontWeight: "600" }} className=" mt-2">
                             <i class="fa fa-user" aria-hidden="true"></i><span className="ml-2">
-                              Warden
+                               {data?.crewMembers?.crewType ? data.crewMembers.crewType:""}
                             </span>
                          </p>
                         </Col>
@@ -111,14 +157,14 @@ const Header = () => {
 
                         <Row>
                           <Col xl={5}>
-                            <button type="button" className="btn pr-5" style={{
+                            <button type="button" className="btn pr-5 mt-3 pl-5" style={{
                               backgroundColor: "white",
                               color: "#adad85",
                               borderRadius: "0%"
                             }}>Accept</button>
                           </Col>
                           <Col xl={5}>
-                            <button type="button" className="btn  pr-5 pl-5" style={{
+                            <button type="button" className="btn mt-3  pr-5 pl-5" style={{
                               backgroundColor: "white",
                               color: "#adad85",
                               borderRadius: "0%"
@@ -130,6 +176,8 @@ const Header = () => {
                       </div>
                  
                  ))
+                 :
+                 <p className="ml-2">No trip requests available!</p>
                           }
                     
                  

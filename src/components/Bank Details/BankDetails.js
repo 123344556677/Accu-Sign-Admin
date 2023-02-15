@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button } from 'reactstrap';
 import { HashRouter, Link } from 'react-router-dom';
 import BankModal from 'components/Modals/BankModal';
+import { getAllPayments } from 'Api/api';
+import bank from './image 25.png'
 const BankDetails = () => {
+    const [paymentData, setPaymentData] = useState([])
+    let payment;
+    useEffect(() => {
+        getAllPayments()
+            .then((res) => {
+                console.log(res, "======>clientData")
+                setPaymentData(res?.data)
+            })
+        
+        paymentData?.map((data) => {
+          payment = payment + data?.payment;
+        })
+
+    }, [])
+
+   
+    
   return (
       <div>
           <Container fluid>
@@ -10,13 +29,15 @@ const BankDetails = () => {
                   <Col xl={6}>
                       <Link
                           className="h2 mt-3 ml-1 mb-0 text-black text-uppercase d-none d-lg-inline-block"
-                          to="/"
+                          
                       >
                           Bank Detail
                       </Link>
                   </Col>
                   <Col xl={6}>
-                      <BankModal/>
+                  {
+                    //   <BankModal/>
+  }
                   </Col>
               </Row>
               <Row className="mt-4">
@@ -26,30 +47,40 @@ const BankDetails = () => {
                          <Col xl={4}>
                                   <Card className="card-stats mb-4 mb-xl-0 mt-5 ml-2" style={{ 
                                 border:"1px solid black", borderRadius:"0%" }}>
-                                      <CardBody className='mt-5'>
-                                      <Row className="justify-content-center mt-3">
-                                      <Col className="justify-content-center">
-                                    <h3 className="text-center">Bank Transfer Details</h3> 
-                                      <p style={{fontWeight:"600"}} className="text-center">Standard Chartered</p> 
-                                      <p className="text-center"> Last Update 5 days ago</p> 
-                                      <hr className="my-3"/>  
-                                        <div className="custom-control custom-switch ml-1 text-center">
-                                       
-                                            <input
-                                                type="checkbox"
-                                                className="custom-control-input"
-                                                id="customSwitches"
-                                                style={{ position:"absolute" }}
-                                            />
+                                      <CardBody className='mt-3'>
+                                      <Row className=" ">
+                                              <Col className="col-4">
+                                              <img src={bank}/>
+                                              </Col>
+                                      <Col className="col-8">
+                                    <h6 className="">Bank Transfer Details</h6> 
+                                      <span style={{fontWeight:"600"}} className="">Standard Chartered</span> 
+                                    <p className="mt-2" style={{ fontSize: "12px" }}> Last Update 5 days ago</p> 
+                                     
                                         
-                                            <label className="custom-control-label" for="customSwitches"
-                                            >
-                                                Active
-                                            </label>
-                                       
-                                        </div>
+                                                  
                                         </Col>
+                                              
+                                        
                                         </Row>
+                                          <hr className="my-3" />  
+                                          {
+                                        //   <div className="custom-control custom-switch ml-1 text-center">
+
+                                        //       <input
+                                        //           type="checkbox"
+                                        //           className="custom-control-input"
+                                        //           id="customSwitches"
+                                        //           style={{ position: "absolute" }}
+                                        //       />
+
+                                        //       <label className="custom-control-label" for="customSwitches"
+                                        //       >
+                                        //           Active
+                                        //       </label>
+
+                                        //   </div>
+                                          }
                                       </CardBody>
                                       
                                 </Card>
@@ -57,6 +88,7 @@ const BankDetails = () => {
                                   </Col>
 
                               <Col xl={8}>
+                              
                           <CardBody>
                           <Row>
                           <Col>
@@ -73,7 +105,7 @@ const BankDetails = () => {
                                         to="/"
                                         style={{float:"right"}}
                                     >
-                                        Total Amount:1000 USD
+                                        Total Amount:{payment?payment:"0"} USD
                                     </Link>
 
                                           </Col>
@@ -88,21 +120,22 @@ const BankDetails = () => {
                                       </tr>
                                   </thead>
                                   <tbody>
+                                  {
+                                    paymentData?.lenght?
+                                    paymentData?.map((data,key)=>(
+
+                                  
                                       <tr>
-                                          <td>John</td>
-                                          <td>Doe</td>
-                                          <td>john@example.com</td>
+                                      
+                                            <td>{data?.tripDetails[0].tripName ? data?.tripDetails[0].tripName : "empty"}</td>
+                                          <td>{data?.payment?data.payment:"empty"}</td>
+                                            <td>{data?.date}</td>
                                       </tr>
-                                      <tr>
-                                          <td>Mary</td>
-                                          <td>Moe</td>
-                                          <td>mary@example.com</td>
-                                      </tr>
-                                      <tr>
-                                          <td>July</td>
-                                          <td>Dooley</td>
-                                          <td>july@example.com</td>
-                                      </tr>
+                                    ))
+                                    :
+                                    <p>No transitions Available!</p>
+                                              }
+                                      
                                   </tbody>
                               </table>
 

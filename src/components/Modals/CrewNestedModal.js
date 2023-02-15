@@ -1,60 +1,145 @@
+import { getCrewByKey } from 'Api/api';
+import { addTripWithCrew } from 'Api/api';
 import { addCrewToTrips } from 'Api/api';
 import { getAllCrew } from 'Api/api';
 import React, { useEffect, useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input, FormGroup, Label } from 'reactstrap';
-
+import Swal from "sweetalert2";
 const CrewNestedModal = (props) => {
     const [show, setShow] = useState(false);
     const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
     const [crewData,setCrewData]=useState([])
+    const [crewAuthData, setCrewAuthData] = useState([])
     const [values, setValues]=useState()
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+console.log(props,"=============>tripvalues")
     const handleNestedCrewValues=(e)=>{
         setValues({ ...values, [e.target.name]: e.target.value });
-        setValues({ ...values, tripId: props.tripId });
-        console.log(values);
+        
+        console.log(values,"==========>nestedvalues");
     }
     const crewMemberToTrip=async()=>{
-        
-        const { crewName,
-            dailyRateCrew,
-            dailyRateClient,
-            perDiemsCrew,
-            perDiemsClient } = values;
-        console.log(crewName,
-            dailyRateCrew,
-            dailyRateClient,
-            perDiemsCrew,
-            perDiemsClient, "======>exValues")
-        if (crewName,
-            dailyRateCrew,
-            dailyRateClient,
-            perDiemsCrew,
-            perDiemsClient) {
-      await addCrewToTrips(values)
-          .then((res) => {
-              console.log(res, "======>crewtableData")
-              if (res.data.message === "crew Added") {
+        if (props?.tripId) {
+            setValues({ ...values, tripId: props?.tripId });
+            const { crewId,
+                dailyRateCrew,
+                dailyRateClient,
+                perDiemsCrew,
+                perDiemsClient,crewType } = values;
+            console.log(crewId,
+                dailyRateCrew,
+                dailyRateClient,
+                perDiemsCrew,
+                perDiemsClient, crewType , "======>exValues")
+            if (crewId &&
+                dailyRateCrew &&
+                dailyRateClient &&
+                perDiemsCrew &&
+                crewType &&
+                perDiemsClient) {
+                await addCrewToTrips(values)
+                    .then((res) => {
+                        console.log(res, "======>crewtableData")
+                        if (res.data.message === "crew Added") {
+                            handleClose();
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                text: "Crew added",
+                                color: "black",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            window.location.reload();
+                            
 
-                  alert("crew member created");
-                  handleClose();
-              }
-              else {
-                  alert("server error");
-                  
+                        }
+                        else {
+                            handleClose();
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                text: "Crew member not added",
+                                color: "black",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
 
-              }
-             
-               handleClose();
-          })
+
+                        }
+
+                        
+                    })
+            }
+            else {
+                handleClose();
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    text: "Please complete all the fields",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            }
         }
         else{
-            
-            alert("please complete all the fields")
+            const { crewId,
+                dailyRateCrew,
+                dailyRateClient,
+                perDiemsCrew,
+                perDiemsClient, crewType } = values;
+            const Values={
+                tripName: props?.crewValues?.tripName, client: props?.crewValues?.client, fee: props?.crewValues?.fee,
+                percentage: props?.crewValues?.percentage, description: props?.crewValues?.description,
+                destinationTo: props?.crewValues?.destinationTo, destinationFrom: props?.crewValues?.destinationFrom,
+                startDate: props?.crewValues?.startDtae, endDate: props?.crewValues?.client, aircraftType: props?.crewValues?.client, selectAircraft: props.crewValues.client,
+                hotelType: props?.crewValues?.client, airlineTravel: props?.crewValues?.client,
+                crewId:crewId,
+                dailyRateCrew:dailyRateCrew,
+                dailyRateClient:dailyRateClient,
+                perDiemsCrew:perDiemsCrew,
+                perDiemsClient:perDiemsClient,
+                crewType:crewType 
+            }
+            addTripWithCrew(Values)
+                .then((res) => {
+                    console.log(res, "======>crewtableData")
+                    if (res.data.message === "Trip Details added") {
+                        handleClose();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: "Trip added",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                        
+                        window.location.reload();
+                    }
+                    else {
+                        handleClose();
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            text: "Trip not added",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+
+
+                    }
+
+                    handleClose();
+                })
+
         }
+        
+        
     }
     console.log(props,"=========>tripid")
     useEffect(() => {
@@ -62,6 +147,15 @@ const CrewNestedModal = (props) => {
             .then((res) => {
                 console.log(res, "======>crewtableData")
                 setCrewData(res.data)
+
+            })
+
+    }, [])
+    useEffect(() => {
+        getCrewByKey()
+            .then((res) => {
+                console.log(res, "======>crewauthData")
+                setCrewAuthData(res?.data)
 
             })
 
@@ -94,13 +188,14 @@ const CrewNestedModal = (props) => {
                           <option value="maintenance">Maintenance</option>
                          
                       </Input>
-                          <Input type="select" name="crewName" id="" className='mt-3 ml-2 pr-5 pl-5' onChange={handleNestedCrewValues} placeholder="" >
+                          <Input type="select" name="crewId" id="" className='mt-3 ml-2 pr-5 pl-5' onChange={handleNestedCrewValues} placeholder="" >
                           <option>Member</option>
-                          {
-                            crewData.map((data,index)=>(
-                                <option values={ data.firstName }>{data.firstName}</option>
-                            ))
-                          }
+                          
+                              {
+                                  crewAuthData?.data?.map((data, index) => (
+                                      <option value={data?._id} key={index}>{data?.firstName}</option>
+                                  ))
+                              }
                           
                           
                       </Input>

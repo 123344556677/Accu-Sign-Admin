@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import Swal from "sweetalert2";
 import Logo from './Accu Sign.png'
 // reactstrap components
 import { Container, Row, Col } from "reactstrap";
@@ -10,6 +11,8 @@ import AuthNavbar from "components/Navbars/AuthNavbar.js";
 import AuthFooter from "components/Footers/AuthFooter.js";
 
 import routes from "../hiddenRoutes";
+import Login from "components/Footers/AuthFooter";
+import Footer from "components/Footers/AdminFooter";
 
 const Auth = (props) => {
   const mainContent = React.useRef(null);
@@ -29,7 +32,7 @@ const Auth = (props) => {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
+      if (prop.layout === "/") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -46,7 +49,7 @@ const Auth = (props) => {
   return (
     <>
       <div className="" >
-        <AuthNavbar />
+        
         <div className=" py-7 py-lg-8 ">
           <Container>
             
@@ -58,10 +61,13 @@ const Auth = (props) => {
           <Row className="justify-content-center ">
             <Switch>
               {getRoutes(routes)}
-              <Redirect from="*" to="/auth/login" />
+              <Redirect from="*" to="/" />
             </Switch>
+            
           </Row>
+          
         </Container>
+       
       </div>
       
     </>

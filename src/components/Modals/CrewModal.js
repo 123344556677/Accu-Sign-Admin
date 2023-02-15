@@ -2,6 +2,7 @@ import { createCrew } from 'Api/api';
 import React, { useState } from 'react'
 import Modal from "react-bootstrap/Modal";
 import { Button, Form, Input, FormGroup } from 'reactstrap';
+import Swal from "sweetalert2";
 
 const CrewModal = () => {
 
@@ -19,25 +20,48 @@ const CrewModal = () => {
         console.log(values, "==========>regValues")
         const { firstName, lastName, phoneNumber, email, bank } = values;
         console.log(firstName, lastName, phoneNumber, email, bank, "======>exValues")
-        if (firstName, lastName, phoneNumber, email, bank) {
+        if (firstName&& lastName&& phoneNumber&& email&& bank) {
 
             await createCrew(values)
                 .then((res) => {
 
-                    if (res.data.message === "Email already exist") {
-
-                        alert("Email already exist");
+                    if (res.data.message === "Email Sent") {
+                        handleClose();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            text: "Email sent to crew",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                       
 
                     }
                     else {
-                        alert("Crew member created");
                         handleClose();
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            text: "Email sent to client",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                       
 
                     }
                 });
         }
         else {
-            alert("Please Complete all fields")
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                text: "Please complete all the fields",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
         }
     }
   return (
