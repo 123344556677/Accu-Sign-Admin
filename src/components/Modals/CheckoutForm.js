@@ -43,7 +43,8 @@ console.log(props,"tripData");
                 const values = {
                     clientId: role.id,
                     tripDetails: props.tripdata,
-                    paymentId: id
+                    paymentId: id,
+                    tripId: props.tripdata._id
                 }
                 await makePayment(values)
                     .then((res) => {

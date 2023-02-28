@@ -1,6 +1,9 @@
+
 import Dashboard from "crew/components/dashboard/Dashboard";
 import CrewDocument from "crew/components/Document/Document";
 import CrewTrip from "crew/components/Trip/trip";
+import Profile from "views/examples/Profile";
+import UpdatePassword from "views/examples/updatePassword";
 
 
 
@@ -29,7 +32,21 @@ var routes = [
         component: CrewDocument,
         layout: "/crew"
     },
-    
+    {
+        path: "/profile",
+        name: "Profile",
+        icon: "fa fa-user",
+        component: Profile,
+        layout: "/crew"
+    },
+   
+    {
+        path: "/updatePassword",
+        name: "updatePassowrd",
+        icon: "ni ni-circle-08 text-pink",
+        component: UpdatePassword,
+        layout: "/crew"
+    },
     // {
     //   path: "/login",
     //   name: "Login",

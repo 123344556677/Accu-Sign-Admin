@@ -2,6 +2,8 @@ import Dashboard from "client/components/dashboard/Dashboard";
 import ClientTrip from "client/components/trip/Trip";
 import Clientdocument from "client/components/Document/Document";
 import Clientaircraft from "client/components/aircraft/Aircraft";
+import Profile from "views/examples/Profile";
+import UpdatePassword from "views/examples/updatePassword";
 // import Tables from "views/examples/Tables.js";
 // import Icons from "views/examples/Icons.js" 
 
@@ -34,6 +36,20 @@ var routes = [
         name: "Aircraft",
         icon: "fa fa-fighter-jet",
         component: Clientaircraft,
+        layout: "/client"
+    },
+    {
+        path: "/profile",
+        name: "Profile",
+        icon: "fa fa-user",
+        component: Profile,
+        layout: "/client"
+    },
+    {
+        path: "/updatePassword",
+        name: "updatePassowrd",
+        icon: "ni ni-circle-08 text-pink",
+        component: UpdatePassword,
         layout: "/client"
     },
     // {

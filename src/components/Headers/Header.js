@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { getAllClient } from "Api/api";
 import { getAllCrew } from "Api/api";
 import { getAllTrips } from "Api/api";
+import { getCrewByKey } from "Api/api";
+import { getClientByKey } from "Api/api";
 const Header = () => {
  const[clientData,setClientData]=useState([])
 //  const [aircratData, setAircrafttData] = useState([])
@@ -12,13 +14,14 @@ const Header = () => {
  const [TripsData, setTripsData] = useState([]);
 
   useEffect(() => {
-    getAllClient()
-    .then((res)=>{
-     console.log(res,"======>clientData")
-     setClientData(res.data)
-    })
+    getClientByKey()
+      .then((res) => {
+        console.log(res, "======>clientData")
+        setClientData(res?.data?.data)
 
-  },[] )
+      })
+
+  }, [])
 
   useEffect(() => {
     getAllTrips()
@@ -29,11 +32,13 @@ const Header = () => {
 
   }, [])
  
+  
   useEffect(() => {
-    getAllCrew()
+    getCrewByKey()
       .then((res) => {
-        console.log(res, "======>clientData")
-        setCrewData(res.data)
+        console.log(res, "======>crewauthData")
+        setCrewData(res?.data?.data)
+
       })
 
   }, [])

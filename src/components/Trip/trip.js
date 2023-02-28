@@ -48,12 +48,77 @@ const Trip = () => {
             })
     }
     
-const handlePending=()=>{
+const handlePending=(e)=>{
     setStatus("pending")
     console.log(status, "==>status")
+    const values = {
+        tripId: e,
+        status: "pending"
+    }
+    updateTripStatus(values)
+        .then((res) => {
+
+            if (res.data.message === "Trip status updated") {
+
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    text: "Trip status updated",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                window.location.reload();
+            }
+            else {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    text: "Trip status not updated",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+
+
+            }
+        });
 }
- const handleApproved = () => {
-        setStatus("approved")
+ const handleApproved = (e) => {
+        setStatus("approved");
+     const values = {
+         tripId: e,
+         status: "approved"
+     }
+     updateTripStatus(values)
+         .then((res) => {
+
+             if (res.data.message === "Trip status updated") {
+
+                 Swal.fire({
+                     position: "center",
+                     icon: "success",
+                     text: "Trip status updated",
+                     color: "black",
+                     showConfirmButton: false,
+                     timer: 2000,
+                 });
+                 window.location.reload();
+             }
+             else {
+                 Swal.fire({
+                     position: "center",
+                     icon: "error",
+                     text: "Trip status not updated",
+                     color: "black",
+                     showConfirmButton: false,
+                     timer: 2000,
+                 });
+
+
+             }
+         });
+
     }
 const updateStatus=(e)=>{
     console.log(e,"====>id")
@@ -69,7 +134,7 @@ const updateStatus=(e)=>{
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    text: "Trip status updted",
+                    text: "Trip status updated",
                     color: "black",
                     showConfirmButton: false,
                     timer: 2000,
@@ -109,20 +174,25 @@ const updateStatus=(e)=>{
               </Row>
               <Row className="mt-4">
                   <Col lg="6" xl="12">
-                      <Card className="card-stats mb-4 mb-xl-0" style={{ height: "700px",width:"1000px" }}>
-                          <CardBody>
-
-                              <Table className="mt-3" >
+                      <Card className="card-stats mb-4 mb-xl-0" style={{width:"105%" }}>
+                          <CardBody style={{ width: "400px" }}>
+<Row>
+                                  <Col xl="12">
+                              <Table className="mt-3"  >
                                   <thead>
-                                      <tr>
+                                      <tr className='text-center'>
                                           <th style={{ fontSize:"10px", color: "black" }}>#</th>
                                           <th style={{ fontSize: "10px", color: "black" }}> Name</th>
+                                          
                                           <th style={{ fontSize: "10px", color: "black" }}>Client</th>
+                                          
                                           <th style={{ fontSize: "10px", color: "black" }}> Location</th>
                                           <th style={{ fontSize: "10px", color: "black" }}> Crew member</th>
                                           <th style={{ fontSize: "10px", color: "black" }}>Stats</th>
                                           <th style={{ fontSize: "10px", color: "black" }}>Add member</th>
-                                          <th style={{ fontSize: "10px", color: "black" }}>update status</th>
+                                          {
+                                        //   <th style={{ fontSize: "10px", color: "black" }}>update status</th>
+                                          }
                                           
                                           <th style={{ color: "black" }}> Actions</th>
                                       </tr>
@@ -131,17 +201,62 @@ const updateStatus=(e)=>{
                                   {
                                           TripsData?.length?
                                   TripsData?.map((data,index)=>(
-                                      <tr>
-                                          <td>{index}</td>
+                                      <tr className='text-center'>
+                                          <td>{index+1}</td>
                                           <td>{data?.tripName}</td>
-                                          <td>Otto</td>
+                                          
+                                          <td>{data?.clientName}</td>
+                                          
                                           <td>{data?.destinationTo ? data?.destinationTo:"empty"}</td>
                                           <td>{data?.crewMembers?.length}</td>
                                           
                                           
                                           
-                                          <td>  <UncontrolledDropdown  >
-                                              <DropdownToggle tag="a" className="nav-link" caret >
+                                          <td> 
+                                          
+                                          
+                                          {
+                                            data?.crewMembers?.length>0&&
+                                            data?.crewStatus==="pending"&&
+                                            <h5>Pending
+                                        <i className="fa fa-circle ml-1 mr-1"
+                                            
+                                            style={{ fontSize: "5px" }} aria-hidden="true"></i>crew</h5>
+                                          }
+                                          {
+                                            data?.crewMembers?.length>0 &&
+                                           data?.crewStatus==="rejected"&&
+                                              <h5>Rejected
+                                                  <i className="fa fa-circle ml-1 mr-1"
+
+                                                      style={{ fontSize: "5px" }} aria-hidden="true"></i>crew</h5>
+                                          }
+                                              {
+                                                //   data?.crewMembers?.length > 0 &&
+                                                //   data?.documetnStatus === "pending" &&
+                                                //   <h5>Pendig
+                                                //       <i className="fa fa-circle ml-1 mr-1"
+
+                                                //           style={{ fontSize: "5px" }} aria-hidden="true"></i>client</h5>
+                                              }
+                                              {
+                                                data?.crewMembers?.length>0 &&
+                                             data?.crewStatus==="approved"&&
+                                          
+                                           <UncontrolledDropdown style={{cursor:"pointer"}}  >
+                                            <DropdownToggle tag="a" className="nav-link" caret style={{ cursor: "pointer" }} >
+                                                  {data?.status ? data?.status:"status"}
+                                              </DropdownToggle>
+                                              <DropdownMenu>
+                                                  <DropdownItem tag="a" style={{cursor:"pointer"}} onClick={()=>handlePending(data._id)} value="pending">pending</DropdownItem>
+                                                <DropdownItem tag="a" style={{ cursor: "pointer" }} onClick={()=>handleApproved(data._id)} value="approved">approved</DropdownItem>
+                                              </DropdownMenu>
+                                          </UncontrolledDropdown>
+                                          }
+                                          {
+                                              data?.crewMembers?.length<=0 &&
+                                          <UncontrolledDropdown style={{cursor:"pointer"}}  >
+                                            <DropdownToggle tag="a" className="nav-link" caret style={{ cursor: "pointer" }} >
                                                   {data?.status ? data?.status:"status"}
                                               </DropdownToggle>
                                               <DropdownMenu>
@@ -149,13 +264,18 @@ const updateStatus=(e)=>{
                                                   <DropdownItem tag="a" style={{cursor:"pointer"}} onClick={handleApproved} value="approved">approved</DropdownItem>
                                               </DropdownMenu>
                                           </UncontrolledDropdown>
+                                          }
+                                        
                                          
                                           </td>
                                           
                                           <td><TripEditModal tripdata={data} /></td>
-                                          <td><button className="btn btn-outline-dark btn-sm" onClick={() => updateStatus(data._id)}
-
-                                               style={{ cursor: "pointer", fontSize: "12px" }}> Update</button></td>
+                                          {
+                                        //   <td><button className="btn btn-outline-dark btn-sm" onClick={() => updateStatus(data._id)}
+                                          
+                                          
+                                            //    style={{ cursor: "pointer", fontSize: "12px" }}> Update</button></td>
+                                          }
 
                                           <td><i className="fa fa-trash"
                                               onClick={(e) => deleteTripById(data._id)}
@@ -174,6 +294,8 @@ const updateStatus=(e)=>{
 
                                   </tbody>
                               </Table>
+                                  </Col>
+                              </Row>
                           </CardBody>
                       </Card>
                   </Col>

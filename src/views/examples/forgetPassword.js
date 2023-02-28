@@ -16,6 +16,7 @@ import {
     Row,
     Col
 } from "reactstrap";
+import Swal from 'sweetalert2';
 const ForgetPassword = () => {
     const [value, setValue] = useState('')
     const {email}=useParams();
@@ -37,21 +38,51 @@ const ForgetPassword = () => {
 
                     if (res.data.message === "user does not exist") {
                       
-                        alert("user not registered");
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            text: "user does not exist",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
                         
                     }
                     else {
-                        alert("password updtaed successfully");
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            text: "Passowrd updated successfully",
+                            color: "black",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
                         
                     }
                 });
             }
             else{
-                alert("password and confirm password must be equal");
+               
+                Swal.fire({
+                    position: "center",
+                    icon: "warning",
+                    text: "password and confirm password must be equal",
+                    color: "black",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
             }
         }
         else {
-            alert("Please Complete all fields")
+            
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                text: "Please Complete all fields",
+                color: "black",
+                showConfirmButton: false,
+                timer: 2000,
+            });
         }
     }
     const handleforgetValues = (e) => {

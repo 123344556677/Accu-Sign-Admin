@@ -1,0 +1,29 @@
+.cloud-icon{
+    position: absolute;
+    cursor: pointer;
+}
+
+.custom-file-input { 
+    content: "Select some files" !important;
+   
+    background: linear-gradient(top, #be2020, #2b2727) !important;
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+    text-shadow: 1px 1px #2b2626;
+    font-weight: 700;
+    font-size: 10pt;
+   
+}
+
+
+.custom-file-input:hover::before {
+    border-color: black !important;
+}
+
+.custom-file-input:active::before {
+    background: -webkit-linear-gradient(top, #ae2727, #a40404);
+}

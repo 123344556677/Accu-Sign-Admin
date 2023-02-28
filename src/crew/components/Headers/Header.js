@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 import { getCrewByName } from "Api/api";
 import { getUserById } from "Api/api";
 import { TripsBycrewId } from "Api/api";
+import { updateTripStatus } from "Api/api";
+import Swal from "sweetalert2";
 
 const Header = () => {
 
   const [crewData,setCrewData]=useState()
   const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
   const [usersData, setUsersData] = useState();
+ 
 
   
   const values = {
@@ -43,7 +46,76 @@ const Header = () => {
   }, [])
     console.log(crewData, "crewDtaat======>")
   
-  
+  const updateApprovedStatus=(e)=>{
+    console.log(e,"data==========>")
+    const values = {
+      tripId: e,
+      crewStatus:"approved"
+    }
+    updateTripStatus(values)
+      .then((res) => {
+
+        if (res.data.message === "Trip status updated") {
+
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            text: "Trip status updated",
+            color: "black",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          window.location.reload();
+        }
+        else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            text: "Trip status not updated",
+            color: "black",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+
+
+        }
+      });
+  }
+  const updateRejectededStatus = (e) => {
+    console.log(e, "data==========>")
+    const values = {
+      tripId: e,
+      crewStatus: "rejected"
+    }
+    updateTripStatus(values)
+      .then((res) => {
+
+        if (res.data.message === "Trip status updated") {
+
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            text: "Trip status updated",
+            color: "black",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          window.location.reload();
+        }
+        else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            text: "Trip status not updated",
+            color: "black",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+
+
+        }
+      });
+  }
   return (
     <>
       <div className="header bg-white pb-8 pt-5 ">
@@ -53,29 +125,29 @@ const Header = () => {
             {/* Card stats */}
            <Row>
            <Col xl={6}>
-                <Card className="card-stats mb-4 mb-xl-0">
+                <Card className="card-stats mb-4 mb-xl-0" style={{ boxShadow: " 0 0.5rem 1rem rgba(0, 0, 0, 0.1)" }}>
                   <h2 className="ml-3 mt-3">Trips</h2>
                   <CardBody>
                  
                     <p style={{ fontWeight: "600", fontSize: "20px" }}> USA</p>
                     <div className="progress ">
                     
-                      <div className="progress-bar bg-gray" style={{width:"63%"}}>63%</div>
+                      <div className="progress-bar bg-gray" style={{width:"0%"}}>0%</div>
                     </div>
                     <p style={{ fontWeight: "600", fontSize: "20px" }} > Uk</p>
                     <div className="progress mt-3 ">
 
-                      <div className="progress-bar bg-gray" style={{ width: "91%" }}>91%</div>
+                      <div className="progress-bar bg-gray" style={{ width: "0%" }}>0%</div>
                     </div>
                     <p style={{ fontWeight: "600", fontSize: "20px" }} > Dubai</p>
                     <div className="progress  ">
 
-                      <div className="progress-bar bg-gray" style={{ width: "43%" }}>43%</div>
+                      <div className="progress-bar bg-gray" style={{ width: "0%" }}>0%</div>
                     </div>
                   </CardBody>
                   </Card>
 
-                <Card className="card-stats mt-5 mb-xl-0">
+                <Card className="card-stats mt-5 mb-xl-0" style={{ boxShadow: " 0 0.5rem 1rem rgba(0, 0, 0, 0.1)" }}>
                 <Row>
                 <Col>
                   <h2 className="ml-3 mt-4">Bank Information</h2>
@@ -126,12 +198,15 @@ const Header = () => {
                   <hr/>
                   {
                     crewData?.length?
+                   
                  crewData?.map((data)=>(
-
+                  
+                   data?.crewStatus === "pending" &&
                  
-                    <div className="card ml-2 mt-3 mr-2" key={data} style={{
+                    <div className="card ml-2 mt-3 mr-2 mb-3" key={data} style={{
                       backgroundColor: "#e9ecef", border: "none",
-                      borderRadius: "0%"
+                      borderRadius: "0%",
+                       boxShadow: " 0 0.5rem 1rem rgba(0, 0, 0, 0.1)"
                     }} >
                     <div className="card-body">
                        <h3> {data?.tripName}</h3>
@@ -149,7 +224,10 @@ const Header = () => {
                           
                           <p style={{ fontWeight: "600" }} className=" mt-2">
                             <i class="fa fa-user" aria-hidden="true"></i><span className="ml-2">
-                               {data?.crewMembers?.crewType ? data.crewMembers.crewType:""}
+                               {
+                                  // data?.crewMembers[0]?.crewType ? data?.crewMembers[0]?.crewType:""
+                                }
+                                 {data?.clientName}
                             </span>
                          </p>
                         </Col>
@@ -157,14 +235,18 @@ const Header = () => {
 
                         <Row>
                           <Col xl={5}>
-                            <button type="button" className="btn pr-5 mt-3 pl-5" style={{
+                            <button type="button" className="btn pr-5 mt-3 pl-5"
+                            onClick={()=>updateApprovedStatus(data._id)}
+                            style={{
                               backgroundColor: "white",
                               color: "#adad85",
                               borderRadius: "0%"
                             }}>Accept</button>
                           </Col>
                           <Col xl={5}>
-                            <button type="button" className="btn mt-3  pr-5 pl-5" style={{
+                            <button type="button" className="btn mt-3  pr-5 pl-5"
+                               onClick={() => updateRejectededStatus(data._id)}
+                            style={{
                               backgroundColor: "white",
                               color: "#adad85",
                               borderRadius: "0%"
@@ -174,8 +256,9 @@ const Header = () => {
                      
                     </div>
                       </div>
+                  ))
                  
-                 ))
+                 
                  :
                  <p className="ml-2">No trip requests available!</p>
                           }

@@ -15,6 +15,9 @@ import Dashboard from "client/components/dashboard/Dashboard";
 import ClientTrip from "client/components/trip/Trip";
 import Clientdocument from "client/components/Document/Document";
 import Clientaircraft from "client/components/aircraft/Aircraft";
+import Profile from "views/examples/Profile";
+import UpdatePassword from "views/examples/updatePassword";
+
 
 
 
@@ -27,7 +30,7 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/icons",
+    path: "/clients",
     name: "Client",
     icon: "fa fa-user",
     component: Clients,
@@ -48,26 +51,42 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/maps",
+    path: "/documents",
     name: "Document",
     icon: "fa fa-file",
     component: Document,
     layout: "/admin"
   },
   {
-    path: "/user-profile",
+    path: "/aircraft",
     name: "Aircraft",
     icon: "fa fa-fighter-jet",
     component: Aircraft,
     layout: "/admin"
   },
+ 
   {
-    path: "/tables",
+    path: "/bankDetails",
     name: "Bank detail",
     icon: "fa fa-university",
     component: BankDetails,
     layout: "/admin"
   },
+  {
+    path: "/profile",
+    name: "Profile",
+    icon: "fa fa-user",
+    component: Profile,
+    layout: "/admin"
+  },
+  {
+    path: "/updatePassword",
+    name: "updatePassowrd",
+    icon: "ni ni-circle-08 text-pink",
+    component: UpdatePassword,
+    layout: "/admin"
+  },
+  
   
   
 ];

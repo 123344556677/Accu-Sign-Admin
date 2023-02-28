@@ -38,7 +38,7 @@ const Aircraft = () => {
 
                                 <Table className="mt-3" >
                                     <thead>
-                                        <tr>
+                                        <tr className='text-center'>
                                             
                                             
                                             <th style={{ color: "black" }}>Owner</th>
@@ -52,9 +52,9 @@ const Aircraft = () => {
                                     <tbody>
 
                                         {
-                                            aircraftData?.lenght?
+                                            aircraftData?.length?
                                             aircraftData?.map((data, index) => (
-                                                <tr>
+                                                <tr className='text-center'>
                                                 {
                                                     // <td>
                                                     //     <span className="avatar avatar-sm rounded-circle">

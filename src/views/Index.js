@@ -41,6 +41,7 @@ import { getAllClient } from "Api/api";
 import { getAllTrips } from "Api/api";
 import AircraftViewModal from "components/ViewModals/AircraftViewModals";
 import ClientViewModal from "components/ViewModals/ClientViewModal";
+import { getClientByKey } from "Api/api";
 
 
 const Index = (props) => {
@@ -63,15 +64,16 @@ const Index = (props) => {
     getAllAircraft()
       .then((res) => {
         console.log(res, "======>clientData")
-        setAircratData(res.data)
+        setAircratData(res?.data)
       })
 
   }, [])
   useEffect(() => {
-    getAllClient()
+    getClientByKey()
       .then((res) => {
         console.log(res, "======>clientData")
-        setClientData(res.data)
+        setClientData(res?.data?.data)
+
       })
 
   }, [])
@@ -128,9 +130,9 @@ const Index = (props) => {
 
 
                               </Col>
-                              <Col xl={5} className="">
-                                <h5>{data.aircraftOwner}</h5>
-                                <span className="text-nowrap" style={{ fontSize: "13px" }}>{data?.aircraftType ? data?.aircraftType : ""}</span>
+                              <Col xl={6} className="">
+                                <h7 style={{fontWeight:"700"}}>{data.aircraftOwner}</h7>
+                                <p className="text-nowrap" style={{ fontSize: "13px", fontWeight: "600" }}>{data?.aircraftOperator ? data?.aircraftOperator : ""}</p>
                               </Col>
 
                             </Row>
@@ -176,6 +178,8 @@ const Index = (props) => {
                 {
                   clientData.length ?
                 clientData?.map((data,index)=>(
+                  index<=4&&
+                    
                       <Row key={index} className="mt-3">
                         
                     <Col xl={5} className="ml-1">
@@ -184,6 +188,7 @@ const Index = (props) => {
                         </Col>
 
                       </Row>
+                  
                       
                 ))
               

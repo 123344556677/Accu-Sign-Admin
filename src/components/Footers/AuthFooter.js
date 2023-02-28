@@ -42,7 +42,7 @@ const LoginFooter = () => {
                   rel="noopener noreferrer"
                   target="_blank"
                   style={{ fontSize: "12px" }}
-                >15/2/2023 12:30pm
+                >23/2/2023 5:20 pm
                 </NavLink>
               </NavItem>
 

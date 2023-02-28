@@ -205,16 +205,18 @@ const history=useHistory();
               
              
             </Form>
-            <a
-              className="text-light mt-5 "
-              href=""
+            {
+            // <a
+            //   className="text-light mt-5 "
+            //   href=""
 
 
 
-            >
-              <small style={{ color: "black" }}>Not registered?
-                <a className='ml-2' style={{ color: "blue" }} onClick={() => history.push('/register')}>Register</a></small>
-            </a>
+            // >
+            //   <small style={{ color: "black" }}>Not registered?
+            //     <a className='ml-2' style={{ color: "blue" }} onClick={() => history.push('/register')}>Register</a></small>
+            // </a>
+            }
             
           </CardBody>
 

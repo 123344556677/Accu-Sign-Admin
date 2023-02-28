@@ -4,7 +4,7 @@
 }
 
 
-    @media screen and (max-width: 1200px) {
+    /* @media screen and (max-width: 1200px) {
             .navbar-name {
             margin-left:740px
             }
@@ -34,5 +34,13 @@
                                 @media screen and (max-width: 810px) {
                                     .navbar-name {
                                         margin-left: 340px
+                                    }
+                                } */
+                                @media screen and (max-width: 770px) {
+                                    .user-role {
+                                        display:none;
+                                    }
+                                    .inner-password {
+                                        display: none;
                                     }
                                 }

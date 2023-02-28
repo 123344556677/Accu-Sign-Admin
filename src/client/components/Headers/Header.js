@@ -23,7 +23,7 @@ const Header = () => {
     TripsByclientId(Values)
       .then((res) => {
         console.log(res, "======>Trips data")
-        setTripsData(res.data)
+        setTripsData(res?.data)
       })
 
   }, [])
@@ -33,7 +33,7 @@ const Header = () => {
     getPaymentByClientId(Values)
       .then((res) => {
         console.log(res, "======>paymentData")
-        setPaymentData(res.data)
+        setPaymentData(res?.data)
       })
 
   }, [])
@@ -59,7 +59,7 @@ const Header = () => {
                         </CardTitle>
 
                         <p className="h2 font-weight-bold mt-4" >
-                          {paymentData?.length}
+                          {paymentData?.data?.length ? paymentData?.data?.length:"0"}
                         </p>
                       </div>
                       <Col className="col-auto">

@@ -42,6 +42,7 @@ import InvoiceModal from "components/ViewModals/InvoiceModal.js";
 import TripViewModal from "components/ViewModals/TripViewModal.js";
 import { TripsByclientId } from "Api/api.js";
 import AircraftViewModal from "components/ViewModals/AircraftViewModals.js";
+import Moment from 'react-moment';
 
 
 const Dashboard = () => {
@@ -76,7 +77,7 @@ const Dashboard = () => {
         TripsByclientId(Values)
             .then((res) => {
                 console.log(res, "======>TripsData")
-                setTripsData(res?.data)
+                setTripsData(res?.data?.data)
             })
 
     }, [])
@@ -114,8 +115,8 @@ const Dashboard = () => {
 
                                     <div className="chart">
                                         {
-                                            TripsData.data?.length?
-                                            TripsData?.data?.map((data, index) => (
+                                            TripsData?.length?
+                                            TripsData?.map((data, index) => (
                                                 <>
                                                <h3 className="">{data.tripName}</h3>
                                                <p style={{fontWeight:"600",fontSize:"15px"}}>{data?.destinationFrom} to {data?.destinationTo}</p>
@@ -184,8 +185,8 @@ const Dashboard = () => {
                                     <Row className="align-items-center">
                                         <div className="col">
 
-                                            <h4 className="mb-0" 
-                                            >Pending invoice</h4>
+                                            <h2 className="mb-0" 
+                                            >Pending invoice</h2>
                                         </div>
                                         <div className="col" style={{ float: "right" }}>
 
@@ -198,19 +199,27 @@ const Dashboard = () => {
 
                                     <div className="chart">
                                         {
-                                            ["first", "second"].map((data, index) => (
-                                               
-                                                    
-                                                    
-                                                    <>
-                                                        <h3 className="">USD 20,4000</h3>
-                                                        <p style={{ fontWeight: "600", fontSize: "15px" }}>Trip name</p>
-                                                        <span style={{ fontWeight: "600", fontSize: "15px" }}>Generated:30 Jan 2022</span>
-                                                        <hr/>
-                                                    </>
+                                            TripsData.length ?
+                                                TripsData?.map((data, index) => (
 
-                                                
-                                            ))}
+                                                    data?.payment === "pending" &&
+
+                                                    <Row className="mt-3">
+                                                        <Col xl={12} >
+
+
+                                                            <h3 className="">{data?.fee ? data?.fee : "0 USD"}</h3>
+                                                            <p style={{ fontWeight: "600", fontSize: "15px" }}>{data?.tripName}</p>
+                                                                <span style={{ fontWeight: "600", fontSize: "15px" }}>Generated: <Moment format="MM/DD/YYYY">{data?.date}</Moment></span>
+                                                            <hr />
+                                                        </Col>
+                                                    </Row>
+
+
+                                                ))
+                                                :
+                                                <p className='text-center'>No payment Invoices available!</p>
+                                        }
 
                                     </div>
                                 </CardBody>

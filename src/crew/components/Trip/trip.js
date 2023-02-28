@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { CardBody, Container, Table, Card, Row, Col, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { TripsBycrewId } from 'Api/api';
+import TripExpensesModal from 'components/Modals/TripExpensesModal';
 const CrewTrip = () => {
     const [crewTripData, setCrewTripData] = useState()
     const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
@@ -18,6 +19,9 @@ const CrewTrip = () => {
 
     }, [])
     console.log(crewTripData, "crewDtaat======>")
+    const addingExpensesToTrip=()=>{
+
+    }
   return (
       <div>
           <Container fluid>
@@ -41,12 +45,13 @@ const CrewTrip = () => {
 
                               <Table className="mt-3" >
                                   <thead>
-                                      <tr>
+                                      <tr className='text-center'>
                                           <th style={{ color: "black" }}>#</th>
                                           <th style={{ color: "black" }}> Name</th>
                                           <th style={{ color: "black" }}>Client</th>
                                           <th style={{ color: "black" }}> Location</th>
                                           <th style={{ color: "black" }}> Total crew member</th>
+                                          <th style={{ color: "black" }}> Trip Expenses</th>
                                           <th style={{ color: "black" }}>Stats</th>
                                           {
                                         //   <th style={{ color: "black" }}> Actions</th>
@@ -55,15 +60,32 @@ const CrewTrip = () => {
                                   </thead>
                                   <tbody>
                                   {
-                                    crewTripData.length ?
+                                          crewTripData?.length?
+                                    
+                                                  
+                                    
+                                   
                                     crewTripData?.map((data,index)=>(
-                                        <tr>
-                                            <td>{index}</td>
+                                        
+                                        data?.crewStatus === "approved"&&
+                                        <tr className='text-center'>
+    
+                                            <td>{index+1}</td>
                                             <td>{data?.tripName}</td>
-                                            <td>Otto</td>
+                                            <td>{data?.clientName}</td>
                                             <td>{data?.destinationFrom}</td>
                                             <td>{data?.crewMembers?.length}</td>
+                                                <td>
+                                                {
+                                                    data?.status === "approved"?
+                                                <TripExpensesModal tripId={data._id}/>
+                                                :
+                                                    <h5>pending</h5> 
+                                                }
+                                                </td>
+
                                             <td> {data?.status}
+                                            
                                             {
                                             //  <UncontrolledDropdown setActiveFromChild>
                                             //     <DropdownToggle tag="a" className="nav-link" caret>
@@ -86,7 +108,10 @@ const CrewTrip = () => {
                                             // </td>
                                             }
                                         </tr>
+                                        
                                     ))
+                                    
+                                        
                                     :
                                     <p className='mt-3'>No trips available!</p>
                                   }

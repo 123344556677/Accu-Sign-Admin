@@ -65,9 +65,11 @@ const Aircraft = () => {
 
                               <Table className="mt-3" >
                                   <thead>
-                                      <tr>
+                                      <tr className='text-center'>
                                           <th style={{ color: "black" }}>Photo</th>
-                                          <th style={{ color: "black" }}> client</th>
+                                          {
+                                        //   <th style={{ color: "black" }}> client</th>
+                                          }
                                           <th style={{ color: "black" }}>Owner</th>
                                           <th style={{ color: "black" }}>Operator</th>
                                           <th style={{ color: "black" }}> Phone Number</th>
@@ -81,7 +83,7 @@ const Aircraft = () => {
                                 {
                                           aircraftData.length ?
                                     aircraftData?.map((data,index)=>(
-                                        <tr>
+                                        <tr className='text-center'>
                                             <td>
                                                 <span className="avatar avatar-sm rounded-circle">
                                                     <img
@@ -92,7 +94,9 @@ const Aircraft = () => {
                                                 </span>
                                             </td>
                                             
-                                            <td>{data.aircraftClient ? data.aircraftClient:"empty"}</td>
+                                            {
+                                            // <td>{data.aircraftClient ? data.aircraftClient:"empty"}</td>
+                                            }
                                             <td>{data.aircraftOwner}</td>
                                             <td>{data.aircraftOperator}</td>
                                             <td>{data.registrationNumber}</td>

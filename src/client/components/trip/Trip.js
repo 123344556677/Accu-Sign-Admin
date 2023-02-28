@@ -72,10 +72,12 @@ const values={
 
                                 <Table className="mt-3" >
                                     <thead>
-                                        <tr>
+                                        <tr className='text-center'>
                                             <th style={{ fontSize:"10px", color: "black" }}>#</th>
                                             <th style={{ fontSize: "10px", color: "black" }}> Name</th>
-                                            <th style={{ fontSize: "10px", color: "black" }}>Client</th>
+                                            {
+                                            // <th style={{ fontSize: "10px", color: "black" }}>Client</th>
+                                            }
                                             <th style={{ fontSize: "10px", color: "black" }}> Location</th>
                                             <th style={{ fontSize: "10px", color: "black" }}> Crew member</th>
                                             <th style={{ fontSize: "10px", color: "black" }}>Stats</th>
@@ -91,10 +93,12 @@ const values={
                                         {
                                             TripsData?.length?
                                             TripsData?.map((data, index) => (
-                                                <tr >
-                                                    <td>{index}</td>
+                                                <tr className='text-center' >
+                                                    <td>{index+1}</td>
                                                     <td>{data?.tripName}</td>
-                                                    <td>Otto</td>
+                                                    {
+                                                    // <td>Otto</td>
+                                                    }
                                                     <td>{data?.destinationTo ? data?.destinationTo : "empty"}</td>
                                                     <td>{data?.crewMembers?.length}</td>
                                                     <td> 
@@ -106,18 +110,30 @@ const values={
                                                     <td >
                                                         <TripEditModal tripdata={data} />
                                                     </td>
+                                                    <td >
                                                     {
-                                                        data.status==="approved"?
-                                                            <td >
+                                                        data.status==="approved"&&
+                                                            data.payment === "pending" &&
+                                                           
 
                                                                 <PaymentModal tripdata={data} />
-                                                            </td>
-                                                            :
-                                                            <td >
-
-                                                                pending
-                                                            </td>
+                                                            
                                                     }
+                                                    {
+                                                             data.status==="pending"&&
+                                                            
+
+                                                            <h5>pending</h5> 
+                                                            
+                                                    }
+                                                    {
+                                                        data.payment === "approved" &&
+                                                      
+
+                                                            <h5>paid</h5> 
+                                                       
+                                                    }
+                                                    </td>
                                                     
                                                     <td><i className="fa fa-trash"
                                                         style={{ fontSize: "20px",cursor:"pointer" }} onClick={(e) => deleteTripById(data._id)} aria-hidden="true"></i>

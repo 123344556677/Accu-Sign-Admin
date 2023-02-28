@@ -7,6 +7,8 @@ import ClientModal from 'components/Modals/ClientModal';
 import { getAllClient } from 'Api/api';
 import { deleteClient } from 'Api/api';
 import Swal from "sweetalert2";
+import { getClientByKey } from 'Api/api';
+import { deleteUser } from 'Api/api';
 
 
 
@@ -14,19 +16,20 @@ const Clients = () => {
     const [clientData, setClientData] = useState([])
 
     useEffect(() => {
-        getAllClient()
+        getClientByKey()
             .then((res) => {
                 console.log(res, "======>clientData")
-                setClientData(res.data)
+                setClientData(res?.data?.data)
+
             })
 
     }, [])
 
     const deleteClientById=async(e)=>{
    
-        await deleteClient({e})
+        await deleteUser({e})
         .then((res)=>{
-            if (res.data.message === "client deleted") {
+            if (res.data.message === "user deleted") {
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -72,7 +75,7 @@ const Clients = () => {
                           
                               <Table className="mt-3" >
                                   <thead>
-                                      <tr>
+                                      <tr className='text-center'>
                                           <th style={{color:"black"}}>#</th>
                                           <th style={{ color: "black" }}> Name</th>
                                           <th style={{ color: "black" }}>Company</th>
@@ -86,8 +89,8 @@ const Clients = () => {
                                   {
                                           clientData?.length?
                                     clientData?.map((data,index=1)=>(
-                                        <tr>
-                                            <td>{index}</td>
+                                        <tr className='text-center'>
+                                            <td>{index+1}</td>
                                             <td>{data.firstName}</td>
                                             <td>{data.companyName?data.companyName:"empty"}</td>
                                             <td>{data.companyName ? data.companyNumber: "empty"}</td>

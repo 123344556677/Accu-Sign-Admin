@@ -4,18 +4,20 @@ import { HashRouter, Link } from 'react-router-dom';
 import BankModal from 'components/Modals/BankModal';
 import { getAllPayments } from 'Api/api';
 import bank from './image 25.png'
+import Moment from 'react-moment';
 const BankDetails = () => {
     const [paymentData, setPaymentData] = useState([])
-    let payment;
+    let payment=0;
     useEffect(() => {
         getAllPayments()
             .then((res) => {
-                console.log(res, "======>clientData")
+                console.log(res, "======>allPaymentsData")
                 setPaymentData(res?.data)
             })
         
         paymentData?.map((data) => {
-          payment = payment + data?.payment;
+            payment += parseInt(data?.payment);
+           
         })
 
     }, [])
@@ -35,9 +37,9 @@ const BankDetails = () => {
                       </Link>
                   </Col>
                   <Col xl={6}>
-                  {
-                    //   <BankModal/>
-  }
+                  
+                      <BankModal/>
+  
                   </Col>
               </Row>
               <Row className="mt-4">
@@ -96,7 +98,7 @@ const BankDetails = () => {
                                 className="h2 mt-2 ml-1 mb-0 text-black  d-none d-lg-inline-block"
                                 to="/"
                             >
-                                Transition History
+                                Transaction History
                             </Link>
                                 </Col>
                                 <Col>
@@ -113,7 +115,7 @@ const BankDetails = () => {
                           
                               <table className="table mt-3">
                                   <thead>
-                                      <tr>
+                                              <tr className='text-center'>
                                           <th style={{color:"black"}}>Trip name</th>
                                           <th style={{ color: "black" }}>Amount</th>
                                           <th style={{ color: "black" }}>Date</th>
@@ -121,19 +123,19 @@ const BankDetails = () => {
                                   </thead>
                                   <tbody>
                                   {
-                                    paymentData?.lenght?
+                                    paymentData?.length?
                                     paymentData?.map((data,key)=>(
 
                                   
-                                      <tr>
+                                        <tr className='text-center'>
                                       
                                             <td>{data?.tripDetails[0].tripName ? data?.tripDetails[0].tripName : "empty"}</td>
                                           <td>{data?.payment?data.payment:"empty"}</td>
-                                            <td>{data?.date}</td>
+                                            <td> <Moment format="MM/DD/YYYY">{data?.date}</Moment></td>
                                       </tr>
                                     ))
                                     :
-                                    <p>No transitions Available!</p>
+                                    <p>No transactions Available!</p>
                                               }
                                       
                                   </tbody>

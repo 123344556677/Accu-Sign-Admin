@@ -3,6 +3,8 @@ import Login from "views/examples/Login.js";
 import Profile from "views/examples/Profile";
 import ForgetPassword from "views/examples/forgetPassword";
 import ForgetPasswordLink from "views/examples/forgetPasswordLink";
+import UpdatePassword from "views/examples/updatePassword";
+import ServiceAgreement from "components/Document/ServiceAgreement";
 
 const routes=[
     {
@@ -19,13 +21,7 @@ const routes=[
         component: Register,
         layout: "/"
     },
-    {
-        path: "profile",
-        name: "Profile",
-        icon: "ni ni-circle-08 text-pink",
-        component: Profile,
-        layout: "/"
-    },
+    
      {
          path: "forgetPassword/:email",
          name: "forgetPassword",
@@ -39,6 +35,28 @@ const routes=[
         icon: "ni ni-circle-08 text-pink",
         component: ForgetPasswordLink,
         layout: "/"
+    },
+    {
+        path: "/profile",
+        name: "Profile",
+        icon: "fa fa-user",
+        component: Profile,
+        layout: "/admin"
+    },
+    {
+        path: "/updatePassword",
+        name: "updatePassowrd",
+        icon: "ni ni-circle-08 text-pink",
+        component: UpdatePassword,
+        layout: "/admin"
+    },
+      
+     {
+        // path: "/admin/serviceAgreement",
+        // name: "serviceAgreement",
+        // icon: "ni ni-circle-08 text-pink",
+        // component: ServiceAgreement,
+        // layout: "/admin"
     }
 ]
 export default routes;

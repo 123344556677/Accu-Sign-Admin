@@ -27,7 +27,7 @@ console.log(props,"=============>tripvalues")
                 dailyRateCrew,
                 dailyRateClient,
                 perDiemsCrew,
-                perDiemsClient,crewType } = values;
+                perDiemsClient,crewType,fee,percentage } = values;
             console.log(crewId,
                 dailyRateCrew,
                 dailyRateClient,
@@ -38,11 +38,25 @@ console.log(props,"=============>tripvalues")
                 dailyRateClient &&
                 perDiemsCrew &&
                 crewType &&
-                perDiemsClient) {
-                await addCrewToTrips(values)
+                perDiemsClient&&
+                fee&&
+                percentage) {
+
+                    const Values={
+                        crewId:crewId,
+                        dailyRateCrew: dailyRateCrew,
+                        dailyRateClient: dailyRateClient,
+                        perDiemsCrew: perDiemsCrew,
+                        perDiemsClient: perDiemsClient,
+                        crewType: crewType,
+                        fee:fee,
+                        percentage:percentage,
+                        tripId:props?.tripId
+                    }
+                await addCrewToTrips(Values)
                     .then((res) => {
                         console.log(res, "======>crewtableData")
-                        if (res.data.message === "crew Added") {
+                        if (res?.data?.message === "crew Added") {
                             handleClose();
                             Swal.fire({
                                 position: "center",
@@ -86,14 +100,22 @@ console.log(props,"=============>tripvalues")
             }
         }
         else{
+            
             const { crewId,
                 dailyRateCrew,
                 dailyRateClient,
                 perDiemsCrew,
-                perDiemsClient, crewType } = values;
+                perDiemsClient, crewType, fee, percentage } = values;
+            if (crewId &&
+                dailyRateCrew &&
+                dailyRateClient &&
+                perDiemsCrew &&
+                crewType &&
+                perDiemsClient &&
+                fee &&
+                percentage) {
             const Values={
-                tripName: props?.crewValues?.tripName, client: props?.crewValues?.client, fee: props?.crewValues?.fee,
-                percentage: props?.crewValues?.percentage, description: props?.crewValues?.description,
+                tripName: props?.crewValues?.tripName, client: props?.crewValues?.client, description: props?.crewValues?.description,
                 destinationTo: props?.crewValues?.destinationTo, destinationFrom: props?.crewValues?.destinationFrom,
                 startDate: props?.crewValues?.startDtae, endDate: props?.crewValues?.client, aircraftType: props?.crewValues?.client, selectAircraft: props.crewValues.client,
                 hotelType: props?.crewValues?.client, airlineTravel: props?.crewValues?.client,
@@ -102,7 +124,9 @@ console.log(props,"=============>tripvalues")
                 dailyRateClient:dailyRateClient,
                 perDiemsCrew:perDiemsCrew,
                 perDiemsClient:perDiemsClient,
-                crewType:crewType 
+                crewType:crewType ,
+                fee:fee,
+                percentage:percentage
             }
             addTripWithCrew(Values)
                 .then((res) => {
@@ -138,7 +162,7 @@ console.log(props,"=============>tripvalues")
                 })
 
         }
-        
+    }
         
     }
     console.log(props,"=========>tripid")
@@ -212,6 +236,15 @@ console.log(props,"=============>tripvalues")
                           <Input type="number" name="dailyRateClient" className='' onChange={handleNestedCrewValues}  id="" placeholder="Daily Rate" />
                           <Input type="number" name="perDiemsClient" id="" className=' ml-2' onChange={handleNestedCrewValues} placeholder="Per Diems" />
 
+                      </Form>
+                      <Label for="exampleDate" className='mt-3 ml-2' style={{ fontSize: "15px" }}>Trip Fee</Label>
+                      <Form inline className=''>
+
+                       
+                          <Input type="number" name="fee" onChange={handleNestedCrewValues} id="exampleEmail" placeholder="Fee" />
+
+
+                          <Input type="number" className='ml-2' onChange={handleNestedCrewValues}   name="percentage"  id="examplePassword" placeholder="Percentage" />
                       </Form>
                       
                   </Form>

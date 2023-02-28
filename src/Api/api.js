@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const url = 'http://localhost:5000';
 // const url = 'https://accu-backend-production.up.railway.app';
+// const url='https://gold-agreeable-leopard.cyclic.app'
 
 //auth
 export const register = async (values) => {
@@ -27,6 +28,12 @@ export const sendForgetLink = async (email) => {
 }
 export const getCrewByKey = async () => {
     return await axios.get(`${url}/crewByKey`);
+}
+export const getClientByKey = async () => {
+    return await axios.get(`${url}/clientByKey`);
+}
+export const deleteUser = async (id) => {
+    return await axios.post(`${url}/deleteUserById`, id);
 }
 
 
@@ -100,6 +107,18 @@ export const updateTripStatus = async (values) => {
 }
 export const addTripWithCrew = async (values) => {
     return await axios.post(`${url}/addTripwithCrew`, values);
+}
+export const addTripExpenses = async (values) => {
+    return await axios.post(`${url}/addTripExpenses`, values);
+}
+export const getCrewExpense = async (values) => {
+    return await axios.post(`${url}/getCrewExpense`, values);
+}
+export const updateTripDocumentStatus = async (values) => {
+    return await axios.put(`${url}/updateDocumentStatus`, values);
+}
+export const updateTripClientDocumentStatus = async (values) => {
+    return await axios.put(`${url}/updateClientDocumentStatus`, values);
 }
 
 

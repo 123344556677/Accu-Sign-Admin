@@ -18,15 +18,17 @@
 /*eslint-disable*/
 
 // reactstrap components
-import { Container, Row, Col, Nav, NavItem, NavLink } from "reactstrap";
 
+import { Container, Row, Col, Nav, NavItem, NavLink } from "reactstrap";
+import './foooter.css';
 const Footer = () => {
   const date = new Date().toLocaleString();
   return (
+   
     <footer className="footer">
-      <Row className="align-items-center justify-content-xl-between">
+      <Row className="justify-content-center">
         <Col xl="6">
-          <div className="copyright text-center text-xl-left text-muted ml-4">
+          <div className="copyright text-center text-xl-left text-muted ml-5">
             Powered by:
             <a
               className="font-weight-bold ml-1"
@@ -41,35 +43,39 @@ const Footer = () => {
           </div>
         </Col>
 
-        <Col xl="6" >
-          <Nav className="nav-footer justify-content-center justify-content-xl-end mr-4">
-            <NavItem>
-              <NavLink
-                className="font-weight-bold"
-               
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <i className="fa fa-globe" aria-hidden="true"></i>  1.1.0
-              </NavLink>
-            </NavItem>
+      
+      </Row>
+      <Row className=" justify-content-center">
+      <Col xl="6" >
+          <Nav className="nav-footer justify-content-center earth ml-5" >
+          <NavItem>
+            <NavLink
+              className="font-weight-bold"
+             
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <i className="fa fa-globe" aria-hidden="true"></i>  1.1.0
+            </NavLink>
+          </NavItem>
+ 
+          <NavItem>
+            <NavLink
 
-            <NavItem>
-              <NavLink
-                
-                rel="noopener noreferrer"
-                target="_blank"
-              >15/2/2023 12:30pm
-              </NavLink>
-            </NavItem>
+              rel="noopener noreferrer"
+              target="_blank"
+            >23/2/2023 5:20 pm
+            </NavLink>
+          </NavItem>
 
-            
 
-           
-          </Nav>
-        </Col>
+
+
+        </Nav>
+      </Col>
       </Row>
     </footer>
+  
   );
 };
 

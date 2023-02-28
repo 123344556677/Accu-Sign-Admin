@@ -82,11 +82,11 @@ const BankModal = () => {
                         <option>4</option>
                         <option>5</option>
                         </Input>
-                        <Input type="number" name="accountNumber" className='mt-3'
+                        <Input type="text" name="accountNumber" className='mt-3'
                         onChange={handleBankDetailValues} id="" placeholder="Account Number" />
-                        <Input type="number" name="iban" id="" className='mt-3'
+                        <Input type="text" name="iban" id="" className='mt-3'
                         onChange={handleBankDetailValues} placeholder="IBAN" />
-                        <Input type="number" name="bic" id="" className='mt-3'
+                        <Input type="text" name="bic" id="" className='mt-3'
                         onChange={handleBankDetailValues} placeholder="BIC Code" />
                         <Input type="text" name="address" className='mt-3' id=""
                         onChange={handleBankDetailValues} placeholder="Address" />

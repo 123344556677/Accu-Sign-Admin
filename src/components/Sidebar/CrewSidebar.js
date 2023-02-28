@@ -65,6 +65,11 @@ const CrewSidebar = (props) => {
         return routes.map((prop, key) => {
             return (
                 <NavItem key={key}>
+                    {
+
+                        prop.name !== "updatePassowrd" &&
+                        prop.name !== "Profile" &&
+                        <>
                     <NavLink
                         to={prop.layout + prop.path}
                         tag={NavLinkRRD}
@@ -75,6 +80,8 @@ const CrewSidebar = (props) => {
                         {prop.name}
                     </NavLink>
                     <hr className="my-3" />
+                        </>
+                    }
                 </NavItem>
 
             );
@@ -157,24 +164,80 @@ const CrewSidebar = (props) => {
                     <UncontrolledDropdown nav>
                         <DropdownToggle nav>
                             <Media className="align-items-center">
-                                <span className="avatar avatar-lg rounded-circle name-span "
-                                >
-
-                                    <span className="name">{usersData?.firstName} <i className="fa fa-caret-down"></i></span>
-
+                                <span className="avatar avatar-sm rounded-circle">
+                                    <img
+                                        alt="..."
+                                        src={usersData?.profilePic ? usersData?.profilePic : `${require("../../assets/img/theme/team-4-800x800.jpg")}`}
+                                    
+                                    />
                                 </span>
+                                {
+
+                                    // <span className="avatar avatar-lg rounded-circle name-span " 
+                                    //   >
+
+                                    //   <span className="name">{usersData?.firstName} <i className="fa fa-caret-down"></i></span>
+
+                                    // </span>
+                                }
                             </Media>
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
                             <DropdownItem className="noti-title" header tag="div">
                                 <h6 className="text-overflow m-0">Welcome!</h6>
-                            </DropdownItem>   <DropdownItem to="/profile" tag={Link}>
-                                <i className="ni ni-single-02" />
-                                <span>My profile</span>
                             </DropdownItem>
+                            <DropdownItem tag={Link}>
+                                <i className="fa fa-user" />
+                                <span>{usersData?.role}</span>
+                            </DropdownItem>
+                            {
+                                usersData?.role === "admin" &&
+                                <Link to='/admin/profile'> <DropdownItem to="/admin/profile" tag={Link}>
+                                    <i className="ni ni-single-02" />
+                                    <span>My profile</span>
+                                </DropdownItem>
+                                </Link>
+                            }
+                            {
+                                usersData?.role === "crew" &&
+                                <Link to='/crew/profile'> <DropdownItem to="/crew/profile" tag={Link}>
+                                    <i className="ni ni-single-02" />
+                                    <span>My profile</span>
+                                </DropdownItem>
+                                </Link>
+                            }
+                            {
+                                usersData?.role === "client" &&
+                                <Link to='/client/profile'> <DropdownItem to="/client/profile" tag={Link}>
+                                    <i className="ni ni-single-02" />
+                                    <span>My profile</span>
+                                </DropdownItem>
+                                </Link>
+                            }
+                            {
+                                usersData?.role === "admin" &&
+                                <DropdownItem to="/admin/updatePassword" tag={Link}>
+                                    <i className="ni ni-lock-circle-open" />
+                                    <span>Update password</span>
+                                </DropdownItem>
+                            }
+                            {
+                                usersData?.role === "crew" &&
+                                <DropdownItem to="/crew/updatePassword" tag={Link}>
+                                    <i className="ni ni-lock-circle-open" />
+                                    <span>Update password</span>
+                                </DropdownItem>
+                            }
+                            {
+                                usersData?.role === "client" &&
+                                <DropdownItem to="/client/updatePassword" tag={Link}>
+                                    <i className="ni ni-lock-circle-open" />
+                                    <span>Update password</span>
+                                </DropdownItem>
+                            }
 
                             <DropdownItem divider />
-                            <DropdownItem href="#pablo" onClick={logOut}>
+                            <DropdownItem href="" onClick={logOut}>
                                 <i className="ni ni-user-run" />
                                 <span>Logout</span>
                             </DropdownItem>

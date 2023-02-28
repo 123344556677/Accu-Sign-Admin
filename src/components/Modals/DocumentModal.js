@@ -10,6 +10,7 @@ const DocumentModal = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const[title,setTitle]=useState('');
+    const [role, setRole] = useState(JSON.parse(localStorage.getItem('keys')))
     const [documentPic, setDocumentPic] = useState()
     const handleDocumentPic = (e) => {
         setDocumentPic(e.selectedFile.base64)
@@ -64,9 +65,11 @@ const DocumentModal = () => {
 
   return (
       <div>
+      { role.role==="admin"&&
           <Button color="secondary" size="lg" className="mt-1 mr-3" style={{ float: "right" }}
 
               onClick={handleShow}>UPLOAD</Button>
+      }
 
           <Modal show={show} onHide={handleClose}>
               <div className="modal-header px-4">

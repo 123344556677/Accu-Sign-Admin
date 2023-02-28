@@ -5,22 +5,25 @@ import CrewModal from 'components/Modals/CrewModal';
 import { getAllCrew } from 'Api/api';
 import { deleteCrew } from 'Api/api';
 import Swal from "sweetalert2";
+import { getCrewByKey } from 'Api/api';
+import { deleteUser } from 'Api/api';
 const Crew = () => {
     const [crewData, setCrewData] = useState([])
 
     useEffect(() => {
-        getAllCrew()
+        getCrewByKey()
             .then((res) => {
-                console.log(res, "======>crewtableData")
-                setCrewData(res.data)
+                console.log(res, "======>crewauthData")
+                setCrewData(res?.data?.data)
+
             })
 
     }, [])
     const deleteCrewById = async (e) => {
 
-        await deleteCrew({ e })
+        await deleteUser({ e })
             .then((res) => {
-                if (res.data.message === "crew deleted") {
+                if (res.data.message === "user deleted") {
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -66,10 +69,12 @@ const Crew = () => {
 
                               <Table className="mt-3" >
                                   <thead>
-                                      <tr>
+                                      <tr className='text-center'>
                                           <th style={{ color: "black" }}>#</th>
                                           <th style={{ color: "black" }}> Name</th>
-                                          <th style={{ color: "black" }}>Type</th>
+                                          {
+                                            // <th style={{ color: "black" }}>Type</th>
+                                        }
                                           <th style={{ color: "black" }}> Phone Number</th>
                                           <th style={{ color: "black" }}> Email</th>
                                           <th style={{ color: "black" }}> Actions</th>
@@ -77,12 +82,14 @@ const Crew = () => {
                                   </thead>
                                   <tbody>
                                   {
-                                          crewData?.lenght?
+                                          crewData?.length?
                                     crewData?.map((data,index)=>(
-                                        <tr >
-                                            <td>{index}</td>
+                                        <tr className='text-center'>
+                                            <td>{index+1}</td>
                                             <td>{data.firstName}</td>
-                                            <td>{data.crewType?data.crewType:"empty"}</td>
+                                            { 
+                                            // <td>{data.crewType?data.crewType:"empty"}</td>
+                                        }
                                             <td>{data.phoneNumber}</td>
                                             <td>{data.email}</td>
 

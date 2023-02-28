@@ -20,6 +20,8 @@ import { getUserById } from "Api/api";
 import { updateUser } from "Api/api";
 import Swal from "sweetalert2";
 import { Link, useHistory } from "react-router-dom";
+import './profile.css'
+import profil from './profile.png'
 
 const Profile = () => {
   
@@ -42,8 +44,11 @@ const Profile = () => {
   const [institute, setInstitute] = useState(usersData?.institute)
   const [degree, setDegree] = useState(usersData?.degree)
   const [year, setYear] = useState(usersData?.year)
-  const [passportPic, setPassportPic] = useState(usersData?.year)
-  
+  const [passportPic, setPassportPic] = useState('')
+  const [profilePic, setProfilePic] = useState('')
+  const [companyName, setcomapnyName] = useState(usersData?.companyName);
+  const [companyAdress, setCompanyAdress] = useState(usersData?.companyAdress);
+  const [VatNumber, setVatNumber] = useState(usersData?.companyAdress);
 
   // const handleProfileValues=(e)=>{
   //   setValues({ ...value, [e.target.name]: e.target.value });
@@ -54,6 +59,9 @@ const Profile = () => {
   }
   const handlePassportPic = (e) => {
     setPassportPic(e.selectedFile.base64)
+  }
+  const handleProfilePic = (e) => {
+    setProfilePic(e.selectedFile.base64)
   }
   
   const values = {
@@ -92,7 +100,12 @@ const profileValue={
   institute:institute,
   degree:degree,
   year:year,
-  passportPic:passportPic
+  passportPic:passportPic,
+  profilePic:profilePic,
+  VatNumber:VatNumber,
+  companyAdress:companyAdress,
+  companyName:companyName
+
 
 }
   const profile=()=>{
@@ -109,6 +122,8 @@ const profileValue={
           showConfirmButton: false,
           timer: 2000,
         });
+
+        window.location.reload(false)
       }
       else{
       Swal.fire({
@@ -143,72 +158,67 @@ const profileValue={
   return (
     <>
      
-      <Container className="mt--7" fluid>
+      <Container className="mt-4" fluid>
       {
         role.role==="admin"&&
           <Row className="justify-content-center">
-        {
-          // <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
-          //   <Card className="card-profile shadow">
-          //     <Row className="justify-content-center">
-          //       <Col className="order-lg-2" lg="3">
-          //         <div className="card-profile-image">
-          //           <a href="#pablo" onClick={(e) => e.preventDefault()}>
-          //             <img
-          //               alt="..."
-          //               className="rounded-circle"
-          //               src={require("../../assets/img/theme/team-4-800x800.jpg")}
-          //             />
-          //           </a>
-          //         </div>
-          //       </Col>
-          //     </Row>
-          //     <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          //       <div className="d-flex justify-content-between">
-          //         <Button
-          //           className="mr-4"
-          //           color="info"
-          //           href="#pablo"
-          //           onClick={(e) => e.preventDefault()}
-          //           size="sm"
-          //         >
-          //           Connect
-          //         </Button>
-          //         <Button
-          //           className="float-right"
-          //           color="default"
-          //           href="#pablo"
-          //           onClick={(e) => e.preventDefault()}
-          //           size="sm"
-          //         >
-          //           Message
-          //         </Button>
-          //       </div>
-          //     </CardHeader>
-          //     <CardBody className="pt-0 pt-md-4">
-                
-          //           <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                      
-          //           </div>
-                 
-                
-          //       <div className="text-center">
-          //         <h3>
-          //           Jessica Jones
-          //           <span className="font-weight-light">, 27</span>
-          //         </h3>
-          //         <div className="h5 font-weight-300">
-          //           <i className="ni location_pin mr-2" />
-          //           Bucharest, Romania
-          //         </div>
-                
-          //       </div>
-          //     </CardBody>
-          //   </Card>
-          // </Col>
-        }
+        
+              <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+                <Card className="card-profile shadow mt-5">
+                  <Row className="justify-content-center">
+                    <Col className="order-lg-2" lg="3">
+                      <div className="card-profile-image">
+                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                          <img
+                            alt="..."
+                            className="rounded-circle"
+                            src={usersData?.profilePic ? usersData?.profilePic : {profil}}
+                            style={{ borderRadius: "200%" }}
+                          />
+                        </a>
+
+                      </div>
+
+                    </Col>
+                  </Row>
+
+
+                  <CardBody className="pt-0 pt-md-4">
+
+                    <div className="card-profile-stats d-flex justify-content-center m">
+
+
+
+
+                    </div>
+
+
+                    <div className="text-center mb-2 mt-2">
+                      <h3 >
+                        {usersData?.firstName}
+
+                      </h3>
+                      <div className="mt-3">
+
+                        <FileBase64
+                          type="file"
+                          className="mt-2"
+
+                          onDone={(base64) => handleProfilePic({ selectedFile: base64 })}
+
+
+
+                        />
+                      </div>
+
+
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+      
           <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow">
+            <Card className="bg-secondary shadow mt-5">
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
                   <Col xs="8">
@@ -394,9 +404,62 @@ const profileValue={
                 //   </Card>
                 // </Col>
               }
+              <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+                <Card className="card-profile shadow mt-5">
+                  <Row className="justify-content-center">
+                    <Col className="order-lg-2" lg="3">
+                      <div className="card-profile-image">
+                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                          <img
+                            alt="..."
+                            className="rounded-circle"
+                            src={usersData?.profilePic ? usersData?.profilePic : {profil}}
+                          style={{borderRadius:"200%"}}
+                            />
+                        </a>
+
+                      </div>
+
+                    </Col>
+                  </Row>
+
+
+                  <CardBody className="pt-0 pt-md-4">
+
+                    <div className="card-profile-stats d-flex justify-content-center m">
+
+
+
+
+                    </div>
+
+
+                    <div className="text-center mb-2 mt-2">
+                      <h3 >
+                        {usersData?.firstName}
+
+                      </h3>
+                      <div className="mt-3">
+
+                        <FileBase64
+                          type="file"
+                          className="mt-2"
+
+                          onDone={(base64) => handleProfilePic({ selectedFile: base64 })}
+
+
+
+                        />
+                      </div>
+
+
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
          
           <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow">
+                <Card className="bg-secondary shadow  mt-5">
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
                   <Col xs="8">
@@ -561,6 +624,73 @@ const profileValue={
                   </div>
                     <hr className="my-4" />
                     {/* Description */}
+                      <h6 className="heading-small text-muted mb-4">Comapny Information</h6>
+                      <div className="pl-lg-4">
+                        <FormGroup>
+                          <Row>
+                            <Col md="12">
+                              <FormGroup>
+                                <label
+                                  className="form-control-label"
+                                  htmlFor="input-address"
+                                >
+                                  Company Name
+                                </label>
+                                <Input
+                                  className="form-control-alternative"
+                                  defaultValue={usersData?.companyName ? usersData?.companyName : ""}
+                                  onChange={(e) => setcomapnyName(e.target.value)}
+                                  id="input-address"
+                                  placeholder="Company name"
+                                  type="text"
+                                />
+                              </FormGroup>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md="12">
+                              <FormGroup>
+                                <label
+                                  className="form-control-label"
+                                  htmlFor="input-address"
+                                >
+                                  VAT Number
+                                </label>
+                                <Input
+                                  className="form-control-alternative"
+                                  defaultValue={usersData?.VatNumber ? usersData?.VatNumber : ""}
+                                  onChange={(e) => setVatNumber(e.target.value)}
+                                  id="input-address"
+                                  placeholder="VAT number"
+                                  type="text"
+                                />
+                              </FormGroup>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md="12">
+                              <FormGroup>
+                                <label
+                                  className="form-control-label"
+                                  htmlFor="input-address"
+                                >
+                                   Adress
+                                </label>
+                                <Input
+                                  className="form-control-alternative"
+                                  defaultValue={usersData?.companyAdress ? usersData?.companyAdress : ""}
+                                  onChange={(e) => setCompanyAdress(e.target.value)}
+                                  id="input-address"
+                                  placeholder="Comapny adress"
+                                  type="text"
+                                />
+                              </FormGroup>
+                            </Col>
+                          </Row>
+                         
+                        </FormGroup>
+                      </div>
+                      <hr className="my-4" />
                     <h6 className="heading-small text-muted mb-4">Bank Information</h6>
                     <div className="pl-lg-4">
                       <FormGroup>
@@ -674,7 +804,7 @@ const profileValue={
                     <div className="pl-lg-4">
                       <Row>
                         <Col md="12">
-                            <img src={usersData?.visaPic ? usersData?.visaPic : dummy} style={{width:"600px"}}/>
+                            <img src={usersData?.visaPic ? usersData?.visaPic : dummy} style={{width:"100%"}}/>
                         </Col>
                       {
                         // <Button color="secondary" size="lg" className="mt-1 mr-3 mt-3" 
@@ -707,6 +837,60 @@ const profileValue={
         {
           role.role === "crew" &&
           <Row className="justify-content-center">
+              <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+                <Card className="card-profile shadow mt-5">
+                  <Row className="justify-content-center">
+                    <Col className="order-lg-2" lg="3">
+                      <div className="card-profile-image">
+                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                          <img
+                            alt="..."
+                            className="rounded-circle"
+                            src={usersData?.profilePic ? usersData?.profilePic : { profil }}
+                            style={{ borderRadius: "200%" }}
+                          />
+                        </a>
+
+                      </div>
+
+                    </Col>
+                  </Row>
+
+
+                  <CardBody className="pt-0 pt-md-4">
+
+                    <div className="card-profile-stats d-flex justify-content-center m">
+
+
+
+
+                    </div>
+
+
+                    <div className="text-center mb-2 mt-2">
+                      <h3 >
+                        {usersData?.firstName}
+
+                      </h3>
+                      <div className="mt-3">
+<p className="custom-file-input">
+                        <FileBase64
+                          type="file"
+                          className="mt-2"
+
+                          onDone={(base64) => handleProfilePic({ selectedFile: base64 })}
+
+
+
+                        />
+                        </p>
+                      </div>
+
+
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
               {
                 // <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
                 //   <Card className="card-profile shadow">
@@ -769,7 +953,7 @@ const profileValue={
               }
 
             <Col className="order-xl-1 mt-5" xl="8">
-              <Card className="bg-secondary shadow">
+                <Card className="bg-secondary shadow  mt-5">
                 <CardHeader className="bg-white border-0">
                   <Row className="align-items-center">
                     <Col xs="8">

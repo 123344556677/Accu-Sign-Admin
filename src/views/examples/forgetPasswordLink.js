@@ -14,6 +14,7 @@ import {
   Row,
   Col
 } from "reactstrap";
+import Swal from 'sweetalert2';
 
 const ForgetPasswordLink = () => {
   const [email,setEmail]=useState('')
@@ -24,10 +25,25 @@ const ForgetPasswordLink = () => {
     sendForgetLink(values)
     .then((res)=>{
       if (res.data.message ==="Email Sent"){
-        alert("Link sent to given email")
+       
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          text: "Link sent to given email",
+          color: "black",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
       if (res.data.message === "Email not exist") {
-        alert("Email not exist")
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          text: "Email nor Sent",
+          color: "black",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     })
   }

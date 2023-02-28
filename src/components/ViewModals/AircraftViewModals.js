@@ -46,7 +46,7 @@ const AircraftViewModal = () => {
                             <Col  key={index}>
 
                                 <Row className="mt-3">
-                                    <Col xl={4} >
+                                    <Col xl={2} >
 
 
                                         <span className="avatar avatar-md rounded-circle">
@@ -59,9 +59,9 @@ const AircraftViewModal = () => {
 
 
                                     </Col>
-                                    <Col xl={5} className="">
-                                        <h5>{data.aircraftOwner}</h5>
-                                        <span className="text-nowrap" style={{ fontSize: "13px" }}>{data?.aircraftType ? data?.aircraftType : ""}</span>
+                                    <Col xl={1} className="">
+                                        <h4 style={{fontWeight:"700"}}>{data.aircraftOwner}</h4>
+                                        <p className="text-nowrap" style={{ fontSize: "13px", fontWeight: "600" }}>{data?.aircraftOperator ? data?.aircraftOperator : ""}</p>
                                     </Col>
 
                                 </Row>

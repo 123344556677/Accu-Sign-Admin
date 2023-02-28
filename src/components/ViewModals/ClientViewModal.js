@@ -1,4 +1,5 @@
 import { getAllAircraft } from 'Api/api';
+import { getClientByKey } from 'Api/api';
 import { getAllClient } from 'Api/api';
 import { addBankDetails } from 'Api/api';
 import React, { useEffect, useState } from 'react'
@@ -14,10 +15,11 @@ const ClientViewModal = () => {
     const handleShow = () => setShow(true);
     const [clientData, setClientData] = useState([]);
     useEffect(() => {
-        getAllClient()
+        getClientByKey()
             .then((res) => {
                 console.log(res, "======>clientData")
-                setClientData(res?.data)
+                setClientData(res?.data?.data)
+
             })
 
     }, [])

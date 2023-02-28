@@ -7,6 +7,7 @@ import { Button, Form, Input, FormGroup,Row,Col, Label, Table } from 'reactstrap
 import CrewNestedModal from './CrewNestedModal';
 import Swal from "sweetalert2";
 import { getAllAircraft } from 'Api/api';
+import ExpensesNestedModal from './ExpensesNestedModal';
 
 const TripEditModal = (props) => {
     const [show, setShow] = useState(false);
@@ -165,15 +166,16 @@ console.log(props,"========>tripData");
                               <option>4</option>
                               <option>5</option>
                           </Input>
-                          
-                          <Form inline className='mt-3'>
+                          {
+                        //   <Form inline className='mt-3'>
 
 
-                              <Input type="number" name="Fee" id="exampleEmail" value={props?.tripdata?.Fee} onChange={handleTripValues} placeholder="Fee" />
+                        //       <Input type="number" name="Fee" id="exampleEmail" value={props?.tripdata?.Fee} onChange={handleTripValues} placeholder="Fee" />
 
 
-                              <Input type="text" className='ml-3' name="percentage" value={props?.tripdata?.percentage} onChange={handleTripValues} id="examplePassword" placeholder="Percentage" />
-                          </Form>
+                        //       <Input type="text" className='ml-3' name="percentage" value={props?.tripdata?.percentage} onChange={handleTripValues} id="examplePassword" placeholder="Percentage" />
+                        //   </Form>
+                          }
                           <div className="md-form mt-3">
                               <textarea id="form7" className="md-textarea form-control" value={props?.tripdata?.description} onChange={handleTripValues} name="description" rows="3" placeholder=''></textarea>
 
@@ -321,6 +323,7 @@ console.log(props,"========>tripData");
                                          
                                           <th style={{ fontWeight: "700", color: "black", fontSize: "5px" }}> VAT% </th>
                                           <th style={{ fontWeight: "700",color: "black", fontSize: "5px" }}> Actions</th>
+                                       
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -335,13 +338,15 @@ console.log(props,"========>tripData");
                                         <td>{data?.perDiemsCrew}</td>
                                         <td>10%</td>
 
-                                        <td><i className="fa fa-trash"
-                                            style={{ fontSize: "15px" }} aria-hidden="true"></i>
+                                        <td style={{cursor:"pointer"}}>
+                                            <ExpensesNestedModal crewId={data?.crewId} tripId={props?.tripdata?._id} />
                                             {
                                                 role.role === "client" ?
                                                     <></>
                                                     :
-                                            <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
+                                                    <></>
+                                                    
+                                            // <i className="fa fa-ellipsis-v ml-3" style={{ fontSize: "20px" }} aria-hidden="true"></i>
                                             }
 
                                         </td>
